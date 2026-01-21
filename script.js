@@ -222,4 +222,17 @@ const $$ = (sel, ctx = document) => Array.from(ctx.querySelectorAll(sel));
 
   window.addEventListener('scroll', onScroll, { passive: true });
   applyEffects();
+  const hamburger = document.querySelector(".hamburger");
+const navMenu = document.querySelector("nav ul");
+
+hamburger.addEventListener("click", () => {
+  navMenu.classList.toggle("active");
+});
 })();
+
+const hamburger = document.querySelector(".hamburger");
+const navMenu = document.querySelector("nav ul");
+
+hamburger.addEventListener("click", () => {
+  navMenu.classList.toggle("active");
+});
