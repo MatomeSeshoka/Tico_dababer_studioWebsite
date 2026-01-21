@@ -2270,3 +2270,107 @@ footer .footer-social a:focus-visible {
     gap: 0.8rem;
   }
 }
+
+/* ────────────────────────────────────────────────
+   FIX MOBILE BUTTONS: bigger, more tappable, no click stealing
+──────────────────────────────────────────────── */
+@media (max-width: 768px) {
+
+  /* Force minimum comfortable tap size for ALL buttons & links */
+  a[href],
+  button,
+  .cta a,
+  .book-now,
+  .call,
+  .price-cta,
+  .booking-submit,
+  .footer-btn,
+  .hero-ctas a,
+  .cta-primary,
+  .cta-secondary,
+  nav li a {
+    min-height: 48px !important;           /* Apple & Android recommendation */
+    min-width: 120px !important;
+    padding: 1rem 1.8rem !important;       /* generous padding */
+    font-size: 1.18rem !important;         /* readable + easier to aim */
+    line-height: 1.4 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    touch-action: manipulation !important; /* faster tap response */
+    -webkit-tap-highlight-color: rgba(244, 195, 0, 0.25) !important; /* gold flash feedback */
+  }
+
+  /* Make main call-to-action buttons even bigger & full-width on small screens */
+  .hero-ctas a,
+  .cta .book-now,
+  .cta .call,
+  .footer-btn,
+  .booking-submit {
+    width: 100% !important;
+    max-width: 380px !important;
+    padding: 1.3rem 2rem !important;
+    font-size: 1.28rem !important;
+    min-height: 58px !important;
+    margin: 0.7rem auto !important;        /* better spacing when stacked */
+    border-radius: 999px !important;       /* pill shape = looks modern & big */
+  }
+
+  /* Pricing & service buttons */
+  .price-cta,
+  .service-card a {
+    padding: 1.1rem 2.2rem !important;
+    font-size: 1.22rem !important;
+    min-height: 54px !important;
+  }
+
+  /* Prevent glow/shine layers from stealing clicks */
+  .book-now-glow,
+  .book-now::before,
+  .book-now::after,
+  .footer-btn::before,
+  .footer-btn::after,
+  .cta .book-now::before,
+  .cta .book-now::after {
+    pointer-events: none !important;
+  }
+
+  /* Stop accidental zoom on double-tap */
+  button, a {
+    touch-action: manipulation;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+}
+/* Better spacing when buttons stack vertically */
+@media (max-width: 768px) {
+  .cta,
+  .hero-ctas,
+  .footer-ctas {
+    gap: 1.2rem !important;
+    flex-direction: column !important;
+    align-items: center !important;
+  }
+
+  /* Nav menu items in hamburger menu */
+  nav ul.active li a {
+    padding: 1.2rem 1.5rem !important;
+    font-size: 1.35rem !important;
+    min-height: 60px !important;
+  }
+}
+
+@media (max-width: 768px) {
+  /* Nice subtle scale + color change on tap */
+  a:active,
+  button:active,
+  .book-now:active,
+  .call:active,
+  .price-cta:active,
+  .booking-submit:active,
+  .footer-btn:active {
+    transform: scale(0.96) !important;
+    transition: transform 0.08s ease !important;
+    opacity: 0.92 !important;
+  }
+}
