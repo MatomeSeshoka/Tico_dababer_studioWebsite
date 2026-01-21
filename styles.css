@@ -258,6 +258,8 @@ p {
   .md-m-3  { margin: var(--space-lg) !important; }
   .md-p-3  { padding: var(--space-lg) !important; }
 }
+
+
 /* ===================== ANIMATIONS ===================== */
 
 /* Fade Up */
@@ -1269,6 +1271,7 @@ nav li a.active {
     width: 80vw;
     height: 50vh;
   }
+  
 }/* ===================== BOOKING ===================== */
 #booking {
   text-align: center;

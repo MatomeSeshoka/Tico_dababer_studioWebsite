@@ -28,7 +28,6 @@ const $$ = (sel, ctx = document) => Array.from(ctx.querySelectorAll(sel));
 
 // ===================== REVEAL ON SCROLL =====================
 (() => {
-  // Exclude #lookbook to prevent 3D carousel breakage
   const revealItems = $$('main section:not(#lookbook), .service-card, .price-box, .team-card, .teaser-card');
   if (!revealItems.length) return;
 
@@ -46,7 +45,6 @@ const $$ = (sel, ctx = document) => Array.from(ctx.querySelectorAll(sel));
 
   revealItems.forEach((el) => io.observe(el));
 
-  // Reduced motion fallback
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
     revealItems.forEach((el) => el.classList.add('reveal-visible'));
     io.disconnect();
@@ -165,7 +163,6 @@ const $$ = (sel, ctx = document) => Array.from(ctx.querySelectorAll(sel));
     img.addEventListener('click', () => openLightbox(img));
   });
 })();
-   
 
 // ===================== CTA PULSE ANIMATION =====================
 (() => {
@@ -222,59 +219,34 @@ const $$ = (sel, ctx = document) => Array.from(ctx.querySelectorAll(sel));
 
   window.addEventListener('scroll', onScroll, { passive: true });
   applyEffects();
-  const hamburger = document.querySelector(".hamburger");
-const navMenu = document.querySelector("nav ul");
-
-hamburger.addEventListener("click", () => {
-  navMenu.classList.toggle("active");
-});
 })();
-document.addEventListener('DOMContentLoaded', () => {
-  // Hamburger menu toggle
+
+// ===================== NAVIGATION TOGGLE =====================
+(() => {
   const hamburger = document.querySelector('.hamburger');
   const navMenu = document.querySelector('nav ul');
 
-  if (hamburger && navMenu) {
-    hamburger.addEventListener('click', () => {
-      navMenu.classList.toggle('active');
-      hamburger.classList.toggle('active'); // optional: for X icon animation
+  if (!hamburger || !navMenu) return;
+
+  hamburger.addEventListener('click', () => {
+    navMenu.classList.toggle('active');
+    hamburger.classList.toggle('active');
+    hamburger.setAttribute('aria-expanded', navMenu.classList.contains('active'));
+  });
+
+  navMenu.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      navMenu.classList.remove('active');
+      hamburger.classList.remove('active');
+      hamburger.setAttribute('aria-expanded', 'false');
     });
+  });
 
-    // Close menu when clicking any link
-    navMenu.querySelectorAll('a').forEach(link => {
-      link.addEventListener('click', () => {
-        navMenu.classList.remove('active');
-        hamburger.classList.remove('active');
-      });
-    });
-
-    // Optional: close menu when clicking outside (nice mobile touch)
-    document.addEventListener('click', (e) => {
-      if (!navMenu.contains(e.target) && !hamburger.contains(e.target)) {
-        navMenu.classList.remove('active');
-        hamburger.classList.remove('active');
-      }
-    });
-  }
-
-  // Your scroll effect (shrink header) - keep this if you want it
-  const header = document.querySelector('header');
-  let lastScroll = 0;
-
-  window.addEventListener('scroll', () => {
-    const currentScroll = window.scrollY;
-
-    if (currentScroll > lastScroll && currentScroll > 100) {
-      // scrolling down → shrink
-      header.classList.add('scrolled');
-    } else if (currentScroll < lastScroll || currentScroll < 100) {
-      // scrolling up or near top → normal
-      header.classList.remove('scrolled');
+  document.addEventListener('click', (e) => {
+    if (!navMenu.contains(e.target) && !hamburger.contains(e.target)) {
+      navMenu.classList.remove('active');
+      hamburger.classList.remove('active');
+      hamburger.setAttribute('aria-expanded', 'false');
     }
-
-    lastScroll = currentScroll <= 0 ? 0 : currentScroll;
-  }, { passive: true });
-
-  // If you have applyEffects() function - call it here
-  // applyEffects();
-});
+  });
+})();
