@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book Your Appointment - TicoDaBarber</title>
+  <meta name="description" content="Book your haircut or grooming appointment at Tico Da Barber in Pretoria. Fast response for fades, cuts, kids, and premium services.">
+
+  <!-- Favicon -->
+  <link rel="icon" href="assets/favicon.png" type="image/png">
+
+  <!-- Styles & Fonts -->
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;600;700;800&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <style>
+    /* Quick inline styles for premium highlighting – move to styles.css later if you prefer */
+    #service optgroup[label="Premium"] option {
+      background-color: rgba(244, 195, 0, 0.12);
+      font-weight: 600;
+      color: #ffeb3b;
+    }
+    #service option.premium {
+      font-style: italic;
+    }
+  </style>
+</head>
+<body class="bg-image">
+
+  <!-- Preloader -->
+  <div id="preloader">
+    <div class="scissors-loader">
+      <div class="blade left"></div>
+      <div class="blade right"></div>
+    </div>
+    <p class="loader-text">DaBarber Studios</p>
+  </div>
+
+  <!-- Accessibility Skip Link -->
+  <a href="#main" class="skip-link sr-only">Skip to main content</a>
+
+  <!-- Header -->
+  <header role="banner">
+    <div class="nav-inner container">
+      <!-- Brand -->
+      <div class="brand">
+        <div class="brand-text">
+          <h1>TICO DABARBER</h1>
+          <p class="tagline">THE KINGS OF CRAFT</p>
+        </div>
+      </div>
+
+      <!-- Navigation -->
+      <nav class="main-nav" aria-label="Main Navigation">
+        <ul>
+          <li><a href="index.html"><i class="fas fa-home fa-lg" aria-hidden="true"></i><span>Home</span></a></li>
+          <li><a href="services.html"><i class="fas fa-scissors fa-lg" aria-hidden="true"></i><span>Services</span></a></li>
+          <li><a href="lookbook.html"><i class="fas fa-image fa-lg" aria-hidden="true"></i><span>Lookbook</span></a></li>
+          <li><a href="contact.html"><i class="fas fa-phone-alt fa-lg" aria-hidden="true"></i><span>Contact</span></a></li>
+        </ul>
+      </nav>
+
+      <!-- CTAs -->
+      <div class="cta">
+        <div class="book-now-wrapper">
+          <div class="book-now-glow"></div>
+          <a href="booking.html" class="book-now">Book Now</a>
+        </div>
+        <a href="tel:+27721554536" class="call">Call 072 155 4536</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main id="main" role="main" class="container">
+    <section id="booking" aria-labelledby="booking-heading">
+      <h2 id="booking-heading">Book Your Appointment</h2>
+      <p class="intro">Fill in your details below — we'll confirm your slot quickly via WhatsApp.</p>
+
+      <form id="booking-form" novalidate>
+        <div class="form-row">
+          <label for="name">Full Name <span class="required">*</span></label>
+          <input id="name" name="name" type="text" required placeholder="Your full name" autocomplete="name">
+        </div>
+
+        <div class="form-row">
+          <label for="phone">Phone Number <span class="required">*</span></label>
+          <input id="phone" name="phone" type="tel" required placeholder="e.g. 072 155 4536" autocomplete="tel">
+        </div>
+
+        <div class="form-row">
+          <label for="service">Service <span class="required">*</span></label>
+          <select id="service" name="service" required>
+            <option value="">— Please select a service —</option>
+            
+            <optgroup label="Kids">
+              <option value="kids-fade">Kids fade – R100</option>
+              <option value="kids-cut-dye">Kids cut and dye – R150</option>
+              <option value="kids-brush-cheezkop">Kids brush & cheezkop – R150</option>
+            </optgroup>
+            
+            <optgroup label="Adult">
+              <option value="adult-cut">Adult cut – R150</option>
+              <option value="adult-cut-dye">Adults cut & dye – R250</option>
+              <option value="cheezekop-clipper">Cheezekop (Clipper) – R100</option>
+              <option value="cheezekop-razor">Cheezekop (Razor or powder) – R150</option>
+              <option value="cut-bleach">Cut & bleach – R150</option>
+            </optgroup>
+            
+            <optgroup label="Premium">
+              <option value="ultimate-premium" class="premium" title="Full experience: Premium fade + beard trim + hot towel + deep conditioning treatment + head massage">
+                Ultimate Premium Package – R550
+              </option>
+            </optgroup>
+          </select>
+        </div>
+
+        <div class="form-row form-row-two">
+          <div>
+            <label for="date">Preferred Date <span class="required">*</span></label>
+            <input id="date" name="date" type="date" required min="2026-01-22">
+          </div>
+          <div>
+            <label for="time">Preferred Time <span class="required">*</span></label>
+            <input id="time" name="time" type="time" required>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <label for="notes">Special Requests / Notes</label>
+          <textarea id="notes" name="notes" rows="4" placeholder="Allergies, preferred barber, style reference, etc. (optional)"></textarea>
+        </div>
+
+        <div class="form-row">
+          <button type="submit" id="booking-submit" class="booking-submit">Send Request via WhatsApp</button>
+        </div>
+
+        <p id="booking-note" class="note">We'll get back to you very soon to confirm your booking.</p>
+        <div id="booking-feedback" role="status" aria-live="polite"></div>
+      </form>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-inner">
+      <p>© <span id="year"></span> DaBarber Studios</p>
+      <p><strong>Contact:</strong> Pretoria | <a href="tel:+27721554536">072 155 4536</a> | 
+         <a href="mailto:thatosebatana386@gmail.com">thatosebatana386@gmail.com</a></p>
+
+      <div class="footer-ctas">
+        <a href="booking.html" class="footer-btn" role="button">Book Now</a>
+        <a href="contact.html" class="footer-btn" role="button">Get in Touch</a>
+      </div>
+
+      <nav class="footer-social" aria-label="Social media links">
+        <a href="https://www.facebook.com/share/1STg2X7eLg/" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+        <a href="https://www.instagram.com/dabarber_studios" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+        <a href="https://www.tiktok.com/@ticodabarber" target="_blank" rel="noopener noreferrer" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+        <a href="https://wa.me/27721554536" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+      </nav>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script>
+    // Copyright year
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+
+  <script src="scripts.js" defer></script>
+
+  <!-- Preloader fade-out -->
+  <script>
+    window.addEventListener("load", () => {
+      document.body.classList.add("loaded");
+      document.getElementById("preloader").classList.add("hidden");
+    });
+  </script>
+
+  <!-- Booking Form → WhatsApp -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const form = document.getElementById('booking-form');
+      const feedback = document.getElementById('booking-feedback');
+
+      if (!form || !feedback) return;
+
+      // Service display names with prices
+      const serviceMap = {
+        "kids-fade":                "Kids fade – R100",
+        "kids-cut-dye":             "Kids cut and dye – R150",
+        "kids-brush-cheezkop":      "Kids brush & cheezkop – R150",
+        "adult-cut":                "Adult cut – R150",
+        "adult-cut-dye":            "Adults cut & dye – R250",
+        "cheezekop-clipper":        "Cheezekop (Clipper) – R100",
+        "cheezekop-razor":          "Cheezekop (Razor or powder) – R150",
+        "cut-bleach":               "Cut & bleach – R150",
+        "ultimate-premium":         "Ultimate Premium Package – R550"
+      };
+
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const name    = form.querySelector('#name')?.value.trim()   || '';
+        const phone   = form.querySelector('#phone')?.value.trim()  || '';
+        const service = form.querySelector('#service')?.value      || '';
+        const date    = form.querySelector('#date')?.value         || 'Not specified';
+        const time    = form.querySelector('#time')?.value         || 'Not specified';
+        const notes   = form.querySelector('#notes')?.value.trim() || 'None';
+
+        // Basic validation
+        const errors = [];
+        if (!name)    errors.push('Please enter your name.');
+        if (!phone)   errors.push('Please enter your phone number.');
+        if (!service) errors.push('Please select a service.');
+
+        if (errors.length > 0) {
+          feedback.innerHTML = errors.join('<br>');
+          feedback.className = 'error';
+          return;
+        }
+
+        // Get nice display name with price
+        const serviceText = serviceMap[service] || service;
+
+        const message = 
+          `*New Booking Request* 📅💈\n\n` +
+          `*Client*\n` +
+          `Name: ${name}\n` +
+          `Phone: ${phone}\n\n` +
+          `*Service*\n` +
+          `${serviceText}\n\n` +
+          `*When*\n` +
+          `Date: ${date}\n` +
+          `Time: ${time}\n\n` +
+          `*Notes*\n${notes}\n\n` +
+          `Please confirm or suggest alternative times. Thank you! 🙏`;
+
+        const encoded = encodeURIComponent(message);
+        const waUrl = `https://wa.me/27721554536?text=${encoded}`;
+
+        window.open(waUrl, '_blank');
+
+        // Success message
+        feedback.innerHTML = 'Opening WhatsApp... please tap <strong>Send</strong> to complete your booking!';
+        feedback.className = 'success';
+
+        // Reset after delay
+        setTimeout(() => {
+          form.reset();
+          feedback.innerHTML = '';
+          feedback.className = '';
+        }, 6000);
+      });
+    });
+  </script>
+</body>
+</html>
