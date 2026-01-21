@@ -41,33 +41,22 @@
         </div>
       </div>
 
-      <!-- Navigation -->
-     <nav class="main-nav" aria-label="Main Navigation">
-  <div class="nav-inner">
-    <!-- Hamburger toggle (visible on mobile) -->
-    <button class="hamburger" aria-label="Toggle menu">
-      <span class="bar"></span>
-      <span class="bar"></span>
-      <span class="bar"></span>
-    </button>
+      <!-- Hamburger toggle (visible only on mobile) -->
+      <button class="hamburger" aria-label="Toggle navigation menu" aria-expanded="false">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </button>
 
-    <!-- Navigation links -->
-    <ul>
-      <li><a href="index.html" class="active">
-        <i class="fas fa-home fa-lg" aria-hidden="true"></i><span>Home</span>
-      </a></li>
-      <li><a href="services.html">
-        <i class="fas fa-scissors fa-lg" aria-hidden="true"></i><span>Services</span>
-      </a></li>
-      <li><a href="lookbook.html">
-        <i class="fas fa-image fa-lg" aria-hidden="true"></i><span>Lookbook</span>
-      </a></li>
-      <li><a href="contact.html">
-        <i class="fas fa-phone-alt fa-lg" aria-hidden="true"></i><span>Contact</span>
-      </a></li>
-    </ul>
-  </div>
-</nav>
+      <!-- Navigation -->
+      <nav class="main-nav" aria-label="Main Navigation">
+        <ul>
+          <li><a href="index.html"><i class="fas fa-home fa-lg" aria-hidden="true"></i><span>Home</span></a></li>
+          <li><a href="services.html"><i class="fas fa-scissors fa-lg" aria-hidden="true"></i><span>Services</span></a></li>
+          <li><a href="lookbook.html" class="active"><i class="fas fa-image fa-lg" aria-hidden="true"></i><span>Lookbook</span></a></li>
+          <li><a href="contact.html"><i class="fas fa-phone-alt fa-lg" aria-hidden="true"></i><span>Contact</span></a></li>
+        </ul>
+      </nav>
 
       <!-- CTAs -->
       <div class="cta">
@@ -150,6 +139,30 @@
     window.addEventListener("load", () => {
       document.body.classList.add("loaded");
       document.getElementById("preloader").classList.add("hidden");
+    });
+  </script>
+
+  <!-- Hamburger menu toggle (only for mobile) -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const hamburger = document.querySelector('.hamburger');
+      const navUl = document.querySelector('.main-nav ul');
+
+      if (hamburger && navUl) {
+        hamburger.addEventListener('click', () => {
+          navUl.classList.toggle('active');
+          const expanded = navUl.classList.contains('active');
+          hamburger.setAttribute('aria-expanded', expanded);
+        });
+
+        // Close menu when clicking a link (better mobile UX)
+        navUl.querySelectorAll('a').forEach(link => {
+          link.addEventListener('click', () => {
+            navUl.classList.remove('active');
+            hamburger.setAttribute('aria-expanded', 'false');
+          });
+        });
+      }
     });
   </script>
 </body>

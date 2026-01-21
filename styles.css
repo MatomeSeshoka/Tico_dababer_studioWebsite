@@ -2111,3 +2111,134 @@ footer .footer-social a:focus-visible {
   opacity: 0;
   visibility: hidden;
 }
+
+/* =========================================================
+   MOBILE RESPONSIVE PATCH
+   Keeps desktop design 100% intact
+   ========================================================= */
+@media (max-width: 768px) {
+
+  /* ---------- GLOBAL ---------- */
+  body {
+    background-attachment: scroll;
+  }
+
+  section,
+  .hero,
+  #services,
+  #pricing,
+  #lookbook,
+  #contact {
+    padding: 3rem 1.2rem;
+  }
+
+  /* ---------- TYPOGRAPHY ---------- */
+  h1 {
+    font-size: clamp(2rem, 7vw, 2.6rem);
+    line-height: 1.2;
+  }
+
+  h2 {
+    font-size: clamp(1.6rem, 6vw, 2.1rem);
+  }
+
+  p {
+    font-size: 0.95rem;
+  }
+
+  /* ---------- HEADER / NAV ---------- */
+  header {
+    backdrop-filter: blur(6px);
+  }
+
+  nav ul {
+    gap: 1.2rem;
+    font-size: 0.9rem;
+  }
+
+  /* ---------- HERO ---------- */
+  .hero {
+    min-height: 85vh;
+    background-position: center;
+  }
+
+  .hero-inner,
+  .hero-content {
+    padding: 0 0.5rem;
+  }
+
+  .hero-buttons,
+  .cta-group {
+    flex-direction: column;
+    gap: 0.9rem;
+  }
+
+  .hero-buttons a,
+  .cta-group a {
+    width: 100%;
+    text-align: center;
+  }
+
+  /* ---------- GRIDS ---------- */
+  .grid,
+  .services-grid,
+  .pricing-grid,
+  .lookbook-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* ---------- CARDS ---------- */
+  .service-card,
+  .price-box,
+  .gallery-item,
+  .card {
+    transform: none !important;
+  }
+
+  /* ---------- FORMS ---------- */
+  form {
+    gap: 1rem;
+  }
+
+  input,
+  textarea,
+  button {
+    font-size: 1rem;
+  }
+
+  /* ---------- BUTTONS ---------- */
+  .cta a,
+  .book-now,
+  .booking-submit {
+    padding: 0.9rem 1.2rem;
+  }
+
+  /* ---------- HEAVY EFFECTS (MOBILE SAFE) ---------- */
+  .carousel {
+    animation-duration: 45s;
+  }
+
+  .pulse,
+  .pulseGlow {
+    animation-duration: 4s;
+  }
+}
+
+@media (max-width: 480px) {
+
+  h1 {
+    font-size: 1.9rem;
+  }
+
+  h2 {
+    font-size: 1.4rem;
+  }
+
+  .brand h1 {
+    font-size: 1.5rem;
+  }
+
+  nav ul {
+    gap: 0.8rem;
+  }
+}
