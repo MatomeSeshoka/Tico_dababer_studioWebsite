@@ -52,7 +52,7 @@ html {
 /* Fluid font scaling for better readability */
 @media (max-width: 768px) {
   html {
-    font-size: clamp(14px, 2.5vw, 15px);
+    font-size: clamp(15.5px, 3.2vw, 17px);
   }
 }
 
@@ -73,19 +73,6 @@ body {
 
 body.loaded {
   opacity: 1;
-}
-
-/* Subtle background movement - desktop only */
-@keyframes bgShift {
-  0%   { background-position: 0% 50%; }
-  100% { background-position: 100% 50%; }
-}
-
-@media (min-width: 769px) {
-  body {
-    animation: bgShift 12s ease-in-out infinite alternate;
-    background-attachment: fixed; /* smooth parallax effect only on desktop */
-  }
 }
 
 /* ===================== TYPOGRAPHY ===================== */
@@ -138,11 +125,7 @@ p {
   color: var(--color-accent);
   font-weight: 600;
 }
-/* Subtle background movement */
-@keyframes bgShift {
-  from { background-position: center; }
-  to { background-position: top; }
-}
+
 
 /* ===================== LINKS ===================== */
 a {
@@ -236,6 +219,7 @@ h4 {
     transform: translateY(0);
   }
 }
+
 /* ===================== PARAGRAPHS ===================== */
 p {
   margin: 0 0 var(--space-md) 0;
@@ -348,22 +332,110 @@ p {
   line-height: 1.6;
 }
 
-/* Extra breakpoint for very small phones */
-@media (max-width: 480px) {
-  .type-fluid h1 { font-size: 1.6rem; }
-  .type-fluid h2 { font-size: 1.3rem; }
-  .type-fluid h3 { font-size: 1.1rem; }
-  .type-fluid h4 { font-size: 1rem; }
-  .type-fluid p  { font-size: 0.9rem; }
+/* Mobile text size increases — ONLY changes in this section and below */
+@media (max-width: 768px) {
+  .type-fluid h1 { font-size: clamp(2.1rem, 7.5vw, 2.9rem); }
+  .type-fluid h2 { font-size: clamp(1.8rem, 6.5vw, 2.5rem); }
+  .type-fluid h3 { font-size: clamp(1.5rem, 5vw, 2.1rem); }
+  .type-fluid h4 { font-size: clamp(1.25rem, 4.2vw, 1.7rem); }
+
+  .type-fluid p,
+  p,
+  .card-desc,
+  .note,
+  .price,
+  .price-value,
+  .big-price {
+    font-size: clamp(1.05rem, 3.3vw, 1.25rem);
+    line-height: 1.65;
+  }
+
+  .text-muted,
+  .cart-price,
+  #booking-feedback {
+    font-size: clamp(0.95rem, 3vw, 1.1rem);
+  }
+
+  nav li a {
+    font-size: 1.15rem;
+  }
+
+  .hero h2 {
+    font-size: clamp(2.2rem, 8vw, 3.2rem);
+  }
+
+  .hero p {
+    font-size: clamp(1.1rem, 3.8vw, 1.3rem);
+  }
+
+  #services h2,
+  #pricing h2,
+  #lookbook h2,
+  .contact-section h2,
+  .teasers h3 {
+    font-size: clamp(2.2rem, 7.2vw, 3rem);
+  }
+
+  .card-title,
+  .price-box h3 {
+    font-size: 1.3rem;
+  }
+
+  #booking label {
+    font-size: 1.05rem;
+  }
+
+  #booking input,
+  #booking select,
+  #booking textarea {
+    font-size: 1.1rem;
+  }
+
+  .booking-submit {
+    font-size: 1.12rem;
+  }
+
+  footer {
+    font-size: clamp(0.98rem, 3.1vw, 1.12rem);
+  }
 }
+
+@media (max-width: 480px) {
+  .type-fluid h1 { font-size: clamp(2.2rem, 8.5vw, 2.9rem); }
+  .type-fluid h2 { font-size: clamp(1.9rem, 7.2vw, 2.5rem); }
+  .type-fluid h3 { font-size: clamp(1.55rem, 5.8vw, 2.1rem); }
+  .type-fluid h4 { font-size: clamp(1.3rem, 4.8vw, 1.7rem); }
+
+  .type-fluid p,
+  p {
+    font-size: clamp(1.1rem, 3.8vw, 1.3rem);
+  }
+
+  .hero h2 {
+    font-size: clamp(2.3rem, 9vw, 3.1rem);
+  }
+
+  nav li a {
+    font-size: 1.22rem;
+  }
+
+  .card-title,
+  .price-box h3 {
+    font-size: 1.35rem;
+  }
+
+  h1 { font-size: clamp(2.1rem, 8.2vw, 2.7rem); }
+  h2 { font-size: clamp(1.8rem, 7vw, 2.3rem); }
+}
+
 /* ===================== HEADER ===================== */
 header {
   position: sticky;
   top: 0;
   z-index: 999;
-  padding: 0.75rem 0; /* slightly tighter base padding */
-  background: rgba(18, 18, 18, 0.65); /* lighter overlay for visibility */
-  backdrop-filter: blur(6px); /* softer glassy effect */
+  padding: 0.75rem 0;
+  background: rgba(18, 18, 18, 0.65);
+  backdrop-filter: blur(6px);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
   transition: all 0.3s ease;
 }
@@ -371,7 +443,7 @@ header {
 /* Shrink effect when scrolling */
 header.shrink,
 header.scrolled {
-  padding: 0.5rem 0; /* smaller height on scroll */
+  padding: 0.5rem 0;
   background: rgba(18,18,18,0.9);
   box-shadow: 0 2px 6px rgba(0,0,0,0.5);
 }
@@ -384,58 +456,30 @@ header.scrolled {
   max-width: 1200px;
   margin: auto;
   padding: 0 1rem;
-  min-height: 56px; /* reduced row height for mobile */
-}
-
-/* Logo scaling on shrink */
-header img.logo {
-  transition: transform 0.3s ease, opacity 0.3s ease;
-  max-height: 48px; /* prevent oversized logos */
-}
-
-header.shrink img.logo,
-header.scrolled img.logo {
-  transform: scale(0.9);
-  opacity: 0.9; /* subtle fade for polish */
-}
-
-/* Mobile adjustments */
-@media (max-width: 768px) {
-  header {
-    padding: 0.5rem 0;
-    backdrop-filter: blur(4px);
-  }
-  .nav-inner {
-    flex-direction: row;
-    min-height: 48px;
-  }
-  header img.logo {
-    max-height: 40px;
-  }
+  min-height: 56px;
 }
 
 /* ===================== BRAND ===================== */
 .brand {
   display: flex;
   align-items: center;
-  gap: 0.6rem; /* breathing space */
+  gap: 0.6rem;
   transition: transform 0.3s ease;
-  cursor: pointer; /* makes brand feel clickable */
+  cursor: pointer;
 }
 
 .brand:hover,
 .brand:focus-within {
-  transform: scale(1.03); /* slightly softer lift */
+  transform: scale(1.03);
 }
 
-/* Brand Name */
 .brand h1 {
   font-size: clamp(1.6rem, 4vw, 2.2rem);
   color: var(--color-accent);
-  text-shadow: 0 0 6px rgba(244,195,0,0.5); /* softer glow */
+  text-shadow: 0 0 6px rgba(244,195,0,0.5);
   position: relative;
   transition: color 0.3s ease, text-shadow 0.3s ease;
-  font-weight: 700; /* stronger presence */
+  font-weight: 700;
 }
 
 .brand h1::after {
@@ -460,13 +504,12 @@ header.scrolled img.logo {
   width: 100%;
 }
 
-/* Tagline */
 .brand .tagline {
   font-size: clamp(0.85rem, 2.5vw, 0.95rem);
   color: var(--color-muted);
   letter-spacing: 0.06em;
   transition: color 0.3s ease;
-  font-weight: 500; /* improves readability */
+  font-weight: 500;
 }
 
 .brand:hover .tagline,
@@ -474,14 +517,12 @@ header.scrolled img.logo {
   color: var(--color-accent);
 }
 
-/* Accessibility - focus visible */
 .brand:focus-within {
   outline: 2px solid var(--color-accent);
   outline-offset: 4px;
   border-radius: 4px;
 }
 
-/* Responsive adjustments */
 @media (max-width: 768px) {
   .brand {
     gap: 0.4rem;
@@ -504,7 +545,7 @@ nav ul {
 }
 
 nav li a {
-  display: flex;              /* align icon + text */
+  display: flex;
   align-items: center;
   gap: 0.5rem;
   font-family: var(--font-heading);
@@ -518,7 +559,6 @@ nav li a {
   transition: color 0.3s ease, transform 0.2s ease, text-shadow 0.3s ease;
 }
 
-/* Normalize icon sizes */
 nav li a i {
   font-size: 1.25rem;
   width: 28px;
@@ -528,7 +568,6 @@ nav li a i {
   justify-content: center;
 }
 
-/* Hover + Focus */
 nav li a:hover,
 nav li a:focus {
   color: var(--color-accent);
@@ -536,13 +575,11 @@ nav li a:focus {
   text-shadow: 0 0 6px rgba(244,195,0,0.6);
 }
 
-/* Accessible focus-visible */
 nav li a:focus-visible {
   outline: 2px solid var(--color-accent);
   outline-offset: 4px;
 }
 
-/* Animated underline */
 nav li a::after {
   content: '';
   position: absolute;
@@ -559,64 +596,68 @@ nav li a:focus::after {
   width: 100%;
 }
 
-/* Active link */
 nav li a.active {
   color: var(--color-accent);
   text-shadow: 0 0 8px rgba(244,195,0,0.8);
 }
 
-/* ===================== RESPONSIVE ===================== */
+/* ===================== RESPONSIVE (TOP DROPDOWN MENU) ===================== */
 .hamburger {
   display: none;
   flex-direction: column;
-  gap: 5px;
+  gap: 6px;
   background: none;
   border: none;
   cursor: pointer;
+  padding: 12px;
+  margin-right: -12px;
 }
 
 .hamburger .bar {
-  width: 25px;
+  width: 28px;
   height: 3px;
-  background-color: var(--color-text);
+  background: var(--color-text);
   border-radius: 2px;
+  transition: all 0.3s ease;
 }
 
 @media (max-width: 768px) {
-  .nav-inner {
-    flex-direction: row;
-    justify-content: space-between;
-    padding: 0.5rem;
+  .hamburger {
+    display: flex;
   }
 
-  /* Hide nav by default on mobile */
   nav ul {
     display: none;
     flex-direction: column;
-    gap: 1rem;
     background: rgba(18,18,18,0.95);
-    padding: 1rem;
-    border-radius: var(--radius-md);
-    box-shadow: var(--shadow-soft);
+    backdrop-filter: blur(8px);
+    padding: 1.5rem 1rem;
+    margin: 0;
+    gap: 1.2rem;
     position: absolute;
-    top: 100%; /* drop below header */
-    right: 1rem;
-    width: 200px;
+    top: 100%;
+    left: 0;
+    right: 0;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    z-index: 998;
   }
 
   nav ul.active {
     display: flex;
+    opacity: 1;
+    transform: translateY(0);
   }
 
   nav li a {
-    margin: 0.25rem 0;
-    justify-content: flex-start;
-  }
-
-  .hamburger {
-    display: flex;
+    justify-content: center;
+    font-size: 1.2rem;
+    padding: 1rem;
   }
 }
+
 /* ===================== CTA BUTTONS ===================== */
 .cta {
   display: flex;
@@ -624,21 +665,19 @@ nav li a.active {
   gap: 1.2rem;
   flex-wrap: wrap;
   justify-content: center;
-  margin-top: var(--space-md); /* add breathing space above */
+  margin-top: var(--space-md);
 }
 
-/* Glow wrapper */
 .book-now-wrapper {
   position: relative;
   display: inline-block;
 }
 
-/* Spinning glow layer */
 .book-now-glow {
   position: absolute;
   inset: -20px;
-  filter: blur(28px); /* slightly lighter blur */
-  opacity: 0.65;      /* softer glow for readability */
+  filter: blur(28px);
+  opacity: 0.65;
   border-radius: 999px;
   pointer-events: none;
   z-index: -1;
@@ -657,7 +696,7 @@ nav li a.active {
     transparent 320deg,
     transparent 360deg
   );
-  animation: spin-glow 4s linear infinite; /* slightly slower for elegance */
+  animation: spin-glow 4s linear infinite;
   border-radius: 50%;
 }
 
@@ -665,7 +704,6 @@ nav li a.active {
   to { transform: rotate(360deg); }
 }
 
-/* Book Now button */
 .cta .book-now {
   position: relative;
   z-index: 1;
@@ -684,7 +722,6 @@ nav li a.active {
   backdrop-filter: blur(6px);
 }
 
-/* Hover & focus */
 .cta .book-now:hover,
 .cta .book-now:focus-visible {
   transform: translateY(-4px) scale(1.05);
@@ -694,7 +731,6 @@ nav li a.active {
   border-color: #ffcc33;
 }
 
-/* Inner shine */
 .cta .book-now::before {
   content: '';
   position: absolute;
@@ -708,7 +744,6 @@ nav li a.active {
   transform: translateX(100%);
 }
 
-/* Call button */
 .cta .call {
   padding: 0.9rem 1.8rem;
   border-radius: 50px;
@@ -726,27 +761,37 @@ nav li a.active {
   box-shadow: 0 6px 20px rgba(244, 195, 0, 0.4);
 }
 
-/* Responsive adjustments */
+/* Responsive CTA */
 @media (max-width: 768px) {
   .cta {
     gap: 1rem;
     flex-direction: column;
+    width: 100%;
   }
 
   .cta .book-now,
   .cta .call {
     width: 100%;
-    max-width: 280px;
-    padding: 1rem 2rem;
+    max-width: none;
+    padding: 1rem 1.5rem;
+    text-align: center;
   }
 
   .book-now-glow {
     inset: -16px;
     filter: blur(22px);
-    opacity: 0.55; /* softer glow for mobile readability */
+    opacity: 0.55;
   }
 }
-
+.hamburger.active .bar:nth-child(1) {
+  transform: rotate(45deg) translate(8px, 8px);
+}
+.hamburger.active .bar:nth-child(2) {
+  opacity: 0;
+}
+.hamburger.active .bar:nth-child(3) {
+  transform: rotate(-45deg) translate(6px, -6px);
+}
 /* ===================== HERO ===================== */
 .hero {
   display: flex;
@@ -880,8 +925,8 @@ nav li a.active {
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .hero { padding: 2.5rem 1rem; }
-  .hero h2 { font-size: 1.8rem; }
-  .hero p { font-size: 1rem; }
+  .hero h2 { font-size: clamp(2.2rem, 8vw, 3.2rem); }
+  .hero p { font-size: clamp(1.1rem, 3.8vw, 1.3rem); }
 }
 
 
@@ -1048,17 +1093,17 @@ nav li a.active {
 
   .card-title,
   .price-box h3 {
-    font-size: 1rem;
+    font-size: 1.3rem;
   }
 
   .card-desc {
-    font-size: 0.9rem;
+    font-size: clamp(1.05rem, 3.3vw, 1.25rem);
   }
 
   .price,
   .price-value,
   .big-price {
-    font-size: 1.5rem;
+    font-size: clamp(1.6rem, 5.5vw, 2rem);
   }
 
   .service-card,
@@ -1395,7 +1440,7 @@ textarea.error {
   #booking select,
   #booking textarea {
     padding: 1.1rem 1.2rem;               /* bigger touch targets */
-    font-size: 1.05rem;
+    font-size: 1.1rem;
   }
 
   .booking-submit {
@@ -1527,7 +1572,7 @@ textarea.error {
   }
 
   .contact-card p {
-    font-size: 0.9rem;
+    font-size: clamp(1.05rem, 3.3vw, 1.25rem);
   }
 
   .map-card iframe {
@@ -2044,7 +2089,7 @@ footer .footer-social a:focus-visible {
 
 @media (max-width: 600px) {
   #contact { padding: 3rem 1rem; }
-  footer { padding: 1.5rem 0.5rem; font-size: 0.85rem; }
+  footer { padding: 1.5rem 0.5rem; font-size: clamp(0.98rem, 3.1vw, 1.12rem); }
 }
 
 /* ===================== PRELOADER ===================== */
@@ -2133,18 +2178,7 @@ footer .footer-social a:focus-visible {
   }
 
   /* ---------- TYPOGRAPHY ---------- */
-  h1 {
-    font-size: clamp(2rem, 7vw, 2.6rem);
-    line-height: 1.2;
-  }
-
-  h2 {
-    font-size: clamp(1.6rem, 6vw, 2.1rem);
-  }
-
-  p {
-    font-size: 0.95rem;
-  }
+  /* (already handled in the typography media queries above) */
 
   /* ---------- HEADER / NAV ---------- */
   header {
@@ -2153,7 +2187,6 @@ footer .footer-social a:focus-visible {
 
   nav ul {
     gap: 1.2rem;
-    font-size: 0.9rem;
   }
 
   /* ---------- HERO ---------- */
@@ -2203,7 +2236,7 @@ footer .footer-social a:focus-visible {
   input,
   textarea,
   button {
-    font-size: 1rem;
+    font-size: 1.1rem;
   }
 
   /* ---------- BUTTONS ---------- */
@@ -2226,16 +2259,8 @@ footer .footer-social a:focus-visible {
 
 @media (max-width: 480px) {
 
-  h1 {
-    font-size: 1.9rem;
-  }
-
-  h2 {
-    font-size: 1.4rem;
-  }
-
   .brand h1 {
-    font-size: 1.5rem;
+    font-size: clamp(1.5rem, 6vw, 1.9rem);
   }
 
   nav ul {
