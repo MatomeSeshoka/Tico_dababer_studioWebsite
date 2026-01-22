@@ -1,17 +1,18 @@
-/* ===================== ROOT VARIABLES ===================== */
 :root {
-  /* Core colors */
-  --color-bg: #1e1e1e;          /* dark background */
-  --color-text: #f5f5f5;        /* bright text for contrast */
-  --color-accent: #f4c300;      /* gold accent */
-  --color-muted: #bdbdbd;       /* muted gray for secondary text */
+  font-size: 100%;  /* ← added */
 
-  /* Extended palette for flexibility */
-  --color-bg-light: #2a2a2a;    /* lighter section background */
-  --color-bg-dark: #121212;     /* deeper black for footer/header */
-  --color-accent-hover: #ffd633;/* brighter gold for hover states */
-  --color-error: #e63946;       /* red for alerts/errors */
-  --color-success: #4caf50;     /* green for confirmations */
+  /* Core colors */
+  --color-bg: #1e1e1e;
+  --color-text: #f5f5f5;
+  --color-accent: #f4c300;
+  --color-muted: #bdbdbd;
+
+  /* Extended palette */
+  --color-bg-light: #2a2a2a;
+  --color-bg-dark: #121212;
+  --color-accent-hover: #ffd633;
+  --color-error: #e63946;
+  --color-success: #4caf50;
 
   /* Typography */
   --font-heading: 'Bebas Neue', sans-serif;
@@ -19,7 +20,7 @@
 
   /* Font sizes (responsive scaling) */
   --fs-base: 16px;
-  --fs-small: 0.875rem;
+  --fs-small: 0.9375rem;     /* ← slightly increased */
   --fs-large: 1.25rem;
   --fs-xlarge: 2rem;
 
@@ -37,6 +38,17 @@
   --radius-lg: 12px;
 }
 
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+@media (max-width: 768px) {
+  html {
+    font-size: clamp(16px, 3.5vw, 17.5px);  /* ← added */
+  }
+}
+
 /* ===================== GLOBAL RESET & BASE ===================== */
 *, *::before, *::after {
   box-sizing: border-box;
@@ -49,16 +61,16 @@ html {
   scroll-behavior: smooth;
 }
 
-/* Fluid font scaling for better readability */
+/* Fluid font scaling for better readability – safer minimum */
 @media (max-width: 768px) {
   html {
-    font-size: clamp(15.5px, 3.2vw, 17px);
+    font-size: clamp(16px, 3.5vw, 18px);   /* ← updated: never below 16px */
   }
 }
 
 body {
   font-family: var(--font-body);
-  background: linear-gradient(rgba(30, 30, 30, 0.75), rgba(30, 30, 30, 0.75)), /* lighter overlay for visibility */
+  background: linear-gradient(rgba(30, 30, 30, 0.75), rgba(30, 30, 30, 0.75)),
               url('assets/Team 2.jpg') no-repeat center center;
   background-size: cover;
   color: var(--color-text);
@@ -69,6 +81,8 @@ body {
   /* === Fade-in on page load === */
   opacity: 0;
   transition: opacity 0.8s ease;
+
+  min-font-size: 16px;  /* ← tiny safeguard */
 }
 
 body.loaded {
@@ -105,9 +119,9 @@ h4 {
   line-height: 1.3;
 }
 
-/* Body text */
+/* Body text – slightly safer min size */
 p {
-  font-size: clamp(0.95rem, 2.2vw, 1.1rem);
+  font-size: clamp(1rem, 2.4vw, 1.15rem);   /* ← updated min to 16px */
   font-family: var(--font-body);
   color: var(--color-text);
   margin: 0 0 var(--space-md) 0;
@@ -120,13 +134,18 @@ p {
   font-size: var(--fs-small);
 }
 
+/* Mobile override for muted text readability */
+@media (max-width: 768px) {
+  .text-muted {
+    font-size: clamp(0.95rem, 3vw, 1.05rem);   /* ← added */
+  }
+}
+
 /* Optional: emphasize important text */
 .text-highlight {
   color: var(--color-accent);
   font-weight: 600;
 }
-
-
 /* ===================== LINKS ===================== */
 a {
   color: inherit;
@@ -153,6 +172,7 @@ a::after {
   height: 2px;
   background: var(--color-accent);
   transition: width 0.3s ease;
+  pointer-events: none;                /* ← added: prevents tap stealing */
 }
 
 /* Expand underline smoothly */
@@ -170,10 +190,21 @@ a:focus-visible {
 /* Mobile optimization: larger tap targets */
 @media (max-width: 768px) {
   a {
-    padding: 0.25rem 0.5rem; /* extra touch area */
+    padding: 0.4rem 0.8rem;           /* ← increased */
+    min-height: 44px;
+    min-width: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
   }
 }
 
+/* Active/tap feedback (mobile-friendly) */
+a:active {
+  transform: scale(0.96);
+  opacity: 0.9;
+  transition: transform 0.08s ease, opacity 0.08s ease;
+}
 /* ===================== HEADINGS ===================== */
 h1, h2, h3, h4 {
   font-family: var(--font-heading);
@@ -220,8 +251,17 @@ h4 {
   }
 }
 
+/* Mobile animation tweak */
+@media (max-width: 768px) {
+  h1, h2, h3, h4 {
+    transform: translateY(15px);          /* shorter distance */
+    animation: fadeUp 0.7s forwards;      /* slightly faster */
+  }
+}
+
 /* ===================== PARAGRAPHS ===================== */
 p {
+  font-size: clamp(1rem, 2.4vw, 1.15rem);   /* ← safer min size */
   margin: 0 0 var(--space-md) 0;
   color: var(--color-text);           /* default readable text */
   line-height: 1.7;
@@ -258,8 +298,6 @@ p {
   .md-m-3  { margin: var(--space-lg) !important; }
   .md-p-3  { padding: var(--space-lg) !important; }
 }
-
-
 /* ===================== ANIMATIONS ===================== */
 
 /* Fade Up */
@@ -304,6 +342,39 @@ p {
   .animate-floatUp { animation: floatUp 1.5s ease-in-out infinite alternate; }
 }
 
+/* Mobile animation tweak – snappier on phones */
+@media (max-width: 768px) {
+  h1, h2, h3, h4 {
+    transform: translateY(15px);          /* shorter distance */
+    animation-duration: 0.7s !important;  /* slightly faster */
+  }
+
+  .animate-fadeUp {
+    animation-duration: 0.7s !important;
+  }
+
+  .animate-revealTop {
+    animation-duration: 0.9s !important;
+  }
+}
+
+/* Respect reduced motion preference (accessibility) */
+@media (prefers-reduced-motion: reduce) {
+  .animate-fadeUp,
+  .animate-fadeIn,
+  .animate-revealTop,
+  h1, h2, h3, h4 {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .animate-pulse,
+  .animate-floatUp {
+    animation: none !important;
+  }
+}
+
 /* ===================== RESPONSIVE TYPOGRAPHY (SCOPED) ===================== */
 .type-fluid h1 {
   font-size: clamp(1.9rem, 5vw, 2.6rem);
@@ -330,16 +401,16 @@ p {
 }
 
 .type-fluid p {
-  font-size: clamp(0.95rem, 2vw, 1.1rem);
+  font-size: clamp(1rem, 2.4vw, 1.15rem);   /* safer min size */
   line-height: 1.6;
 }
 
-/* Mobile text size increases — ONLY changes in this section and below */
+/* Mobile text size increases – higher minimums for consistency */
 @media (max-width: 768px) {
-  .type-fluid h1 { font-size: clamp(2.1rem, 7.5vw, 2.9rem); }
-  .type-fluid h2 { font-size: clamp(1.8rem, 6.5vw, 2.5rem); }
-  .type-fluid h3 { font-size: clamp(1.5rem, 5vw, 2.1rem); }
-  .type-fluid h4 { font-size: clamp(1.25rem, 4.2vw, 1.7rem); }
+  .type-fluid h1 { font-size: clamp(2.3rem, 8vw, 3.4rem); }
+  .type-fluid h2 { font-size: clamp(2rem, 7vw, 3rem); }
+  .type-fluid h3 { font-size: clamp(1.6rem, 5.8vw, 2.4rem); }
+  .type-fluid h4 { font-size: clamp(1.35rem, 4.8vw, 2rem); }
 
   .type-fluid p,
   p,
@@ -348,26 +419,26 @@ p {
   .price,
   .price-value,
   .big-price {
-    font-size: clamp(1.05rem, 3.3vw, 1.25rem);
-    line-height: 1.65;
+    font-size: clamp(1.1rem, 3.6vw, 1.35rem);   /* min ~17.6px – more readable */
+    line-height: 1.7;
   }
 
   .text-muted,
   .cart-price,
   #booking-feedback {
-    font-size: clamp(0.95rem, 3vw, 1.1rem);
+    font-size: clamp(1rem, 3.2vw, 1.15rem);     /* min 16px */
   }
 
   nav li a {
-    font-size: 1.15rem;
+    font-size: 1.2rem;
   }
 
   .hero h2 {
-    font-size: clamp(2.2rem, 8vw, 3.2rem);
+    font-size: clamp(2.4rem, 9vw, 3.6rem);
   }
 
   .hero p {
-    font-size: clamp(1.1rem, 3.8vw, 1.3rem);
+    font-size: clamp(1.15rem, 4vw, 1.4rem);
   }
 
   #services h2,
@@ -375,59 +446,59 @@ p {
   #lookbook h2,
   .contact-section h2,
   .teasers h3 {
-    font-size: clamp(2.2rem, 7.2vw, 3rem);
+    font-size: clamp(2.4rem, 8vw, 3.4rem);
   }
 
   .card-title,
   .price-box h3 {
-    font-size: 1.3rem;
+    font-size: 1.4rem;
   }
 
   #booking label {
-    font-size: 1.05rem;
+    font-size: 1.1rem;
   }
 
   #booking input,
   #booking select,
   #booking textarea {
-    font-size: 1.1rem;
+    font-size: 1.18rem;
   }
 
   .booking-submit {
-    font-size: 1.12rem;
+    font-size: 1.25rem;
   }
 
   footer {
-    font-size: clamp(0.98rem, 3.1vw, 1.12rem);
+    font-size: clamp(1rem, 3.4vw, 1.2rem);
   }
 }
 
 @media (max-width: 480px) {
-  .type-fluid h1 { font-size: clamp(2.2rem, 8.5vw, 2.9rem); }
-  .type-fluid h2 { font-size: clamp(1.9rem, 7.2vw, 2.5rem); }
-  .type-fluid h3 { font-size: clamp(1.55rem, 5.8vw, 2.1rem); }
-  .type-fluid h4 { font-size: clamp(1.3rem, 4.8vw, 1.7rem); }
+  .type-fluid h1 { font-size: clamp(2.4rem, 9vw, 3.5rem); }
+  .type-fluid h2 { font-size: clamp(2.1rem, 8vw, 3.1rem); }
+  .type-fluid h3 { font-size: clamp(1.65rem, 6.5vw, 2.5rem); }
+  .type-fluid h4 { font-size: clamp(1.4rem, 5.2vw, 2.1rem); }
 
   .type-fluid p,
   p {
-    font-size: clamp(1.1rem, 3.8vw, 1.3rem);
+    font-size: clamp(1.15rem, 4vw, 1.4rem);
   }
 
   .hero h2 {
-    font-size: clamp(2.3rem, 9vw, 3.1rem);
+    font-size: clamp(2.5rem, 10vw, 3.8rem);
   }
 
   nav li a {
-    font-size: 1.22rem;
+    font-size: 1.28rem;
   }
 
   .card-title,
   .price-box h3 {
-    font-size: 1.35rem;
+    font-size: 1.45rem;
   }
 
-  h1 { font-size: clamp(2.1rem, 8.2vw, 2.7rem); }
-  h2 { font-size: clamp(1.8rem, 7vw, 2.3rem); }
+  h1 { font-size: clamp(2.3rem, 9vw, 3.4rem); }
+  h2 { font-size: clamp(2rem, 7.5vw, 3rem); }
 }
 
 /* ===================== HEADER ===================== */
@@ -440,6 +511,7 @@ header {
   backdrop-filter: blur(6px);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
   transition: all 0.3s ease;
+  will-change: padding, background, box-shadow;   /* ← added: smoother transitions */
 }
 
 /* Shrink effect when scrolling */
@@ -461,6 +533,39 @@ header.scrolled {
   min-height: 56px;
 }
 
+/* Mobile header tweaks – better thumb reach */
+@media (max-width: 768px) {
+  header {
+    padding: 0.9rem 0;
+  }
+
+  header.shrink,
+  header.scrolled {
+    padding: 0.6rem 0;
+  }
+
+  .nav-inner {
+    min-height: 60px;
+  }
+
+  /* Lighter blur on mobile for performance */
+  header {
+    backdrop-filter: blur(4px) !important;
+  }
+
+  @supports not (backdrop-filter: blur(4px)) {
+    header {
+      background: rgba(18, 18, 18, 0.85) !important;
+    }
+  }
+}
+
+/* Keyboard focus in nav (accessibility) */
+.nav-inner a:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
 /* ===================== BRAND ===================== */
 .brand {
   display: flex;
@@ -468,6 +573,7 @@ header.scrolled {
   gap: 0.6rem;
   transition: transform 0.3s ease;
   cursor: pointer;
+  will-change: transform;   /* ← added: smoother hover */
 }
 
 .brand:hover,
@@ -493,6 +599,7 @@ header.scrolled {
   height: 2px;
   background: var(--color-accent);
   transition: width 0.4s ease;
+  pointer-events: none;   /* ← added: prevents tap stealing */
 }
 
 .brand h1:hover,
@@ -525,18 +632,25 @@ header.scrolled {
   border-radius: 4px;
 }
 
+/* Mobile adjustments – slightly larger & more comfortable */
 @media (max-width: 768px) {
   .brand {
-    gap: 0.4rem;
+    gap: 0.5rem;
   }
   .brand h1 {
-    font-size: clamp(1.3rem, 5vw, 1.7rem);
+    font-size: clamp(1.5rem, 5.5vw, 2rem);   /* safer min size */
   }
   .brand .tagline {
-    font-size: clamp(0.75rem, 2vw, 0.85rem);
+    font-size: clamp(0.9rem, 3vw, 1.05rem);
   }
 }
 
+/* Tap feedback on mobile */
+.brand:active,
+.brand:focus:active {
+  transform: scale(0.97);
+  transition: transform 0.08s ease;
+}
 /* ===================== NAVIGATION ===================== */
 nav ul {
   list-style: none;
@@ -559,6 +673,7 @@ nav li a {
   border-radius: var(--radius-sm);
   position: relative;
   transition: color 0.3s ease, transform 0.2s ease, text-shadow 0.3s ease;
+  will-change: transform, color, text-shadow;   /* smoother */
 }
 
 nav li a i {
@@ -580,6 +695,7 @@ nav li a:focus {
 nav li a:focus-visible {
   outline: 2px solid var(--color-accent);
   outline-offset: 4px;
+  background: rgba(244,195,0,0.15);
 }
 
 nav li a::after {
@@ -591,6 +707,7 @@ nav li a::after {
   height: 2px;
   background: var(--color-accent);
   transition: width 0.3s ease;
+  pointer-events: none;   /* ← prevents tap stealing */
 }
 
 nav li a:hover::after,
@@ -626,6 +743,7 @@ nav li a.active {
 @media (max-width: 768px) {
   .hamburger {
     display: flex;
+    padding: 16px;   /* larger tap target */
   }
 
   nav ul {
@@ -633,9 +751,9 @@ nav li a.active {
     flex-direction: column;
     background: rgba(18,18,18,0.95);
     backdrop-filter: blur(8px);
-    padding: 1.5rem 1rem;
+    padding: 1.8rem 1.2rem;
     margin: 0;
-    gap: 1.2rem;
+    gap: 1.4rem;
     position: absolute;
     top: 100%;
     left: 0;
@@ -655,8 +773,9 @@ nav li a.active {
 
   nav li a {
     justify-content: center;
-    font-size: 1.2rem;
-    padding: 1rem;
+    font-size: 1.25rem;
+    padding: 1.2rem 1.5rem;
+    min-height: 54px;
   }
 }
 
@@ -675,13 +794,19 @@ nav li a.active {
   display: inline-block;
 }
 
+.book-now-glow,
+.book-now-glow::after,
+.cta .book-now::before,
+.cta .book-now::after {
+  pointer-events: none !important;   /* ← prevents tap stealing */
+}
+
 .book-now-glow {
   position: absolute;
   inset: -20px;
   filter: blur(28px);
   opacity: 0.65;
   border-radius: 999px;
-  pointer-events: none;
   z-index: -1;
 }
 
@@ -722,6 +847,7 @@ nav li a.active {
   transition: all 0.4s ease;
   overflow: hidden;
   backdrop-filter: blur(6px);
+  will-change: transform, box-shadow, background, color;
 }
 
 .cta .book-now:hover,
@@ -754,6 +880,7 @@ nav li a.active {
   background: transparent;
   font-weight: 700;
   transition: all 0.3s ease;
+  will-change: transform, box-shadow, background;
 }
 
 .cta .call:hover,
@@ -763,10 +890,10 @@ nav li a.active {
   box-shadow: 0 6px 20px rgba(244, 195, 0, 0.4);
 }
 
-/* Responsive CTA */
+/* Responsive CTA – bigger on mobile */
 @media (max-width: 768px) {
   .cta {
-    gap: 1rem;
+    gap: 1.2rem;
     flex-direction: column;
     width: 100%;
   }
@@ -775,16 +902,20 @@ nav li a.active {
   .cta .call {
     width: 100%;
     max-width: none;
-    padding: 1rem 1.5rem;
+    padding: 1.3rem 2rem;
+    font-size: 1.25rem !important;
+    min-height: 58px;
     text-align: center;
   }
 
   .book-now-glow {
-    inset: -16px;
-    filter: blur(22px);
-    opacity: 0.55;
+    inset: -20px;
+    filter: blur(24px);
+    opacity: 0.6;
   }
 }
+
+/* Hamburger cross animation */
 .hamburger.active .bar:nth-child(1) {
   transform: rotate(45deg) translate(8px, 8px);
 }
@@ -794,13 +925,24 @@ nav li a.active {
 .hamburger.active .bar:nth-child(3) {
   transform: rotate(-45deg) translate(6px, -6px);
 }
+
+/* Tap feedback for nav + CTAs */
+nav li a:active,
+.cta a:active,
+.cta button:active,
+.book-now:active,
+.call:active {
+  transform: scale(0.96) !important;
+  opacity: 0.92 !important;
+  transition: transform 0.08s ease, opacity 0.08s ease;
+}
 /* ===================== HERO ===================== */
 .hero {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  padding: 4rem 1rem; /* slightly reduced padding */
+  padding: 4rem 1rem;
   gap: 2rem;
   background: none;
   text-align: center;
@@ -824,6 +966,7 @@ nav li a.active {
   opacity: 0;
   transform: translateY(30px);
   animation: revealTop 1s ease forwards;
+  will-change: opacity, transform;   /* smoother animation */
 }
 
 .hero-inner.active {
@@ -836,12 +979,13 @@ nav li a.active {
   font-size: clamp(2rem, 6vw, 3rem);
   margin-bottom: 1rem;
   color: var(--color-accent);
-  text-shadow: 0 2px 8px rgba(0,0,0,0.4); /* softer shadow */
-  animation: fadeUp 1.2s ease forwards; /* one-time entrance animation */
+  text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+  animation: fadeUp 1.2s ease forwards;
+  will-change: opacity, transform;
 }
 
 .hero h2.glow {
-  animation: pulseGlow 3s ease-in-out infinite alternate; /* optional glow pulse */
+  animation: pulseGlow 3s ease-in-out infinite alternate;
 }
 
 /* Subtext */
@@ -849,8 +993,9 @@ nav li a.active {
   font-size: 1.125rem;
   color: var(--color-text);
   margin-bottom: 2rem;
-  animation: fadeIn 1.5s ease forwards; /* one-time fade-in */
+  animation: fadeIn 1.5s ease forwards;
   text-shadow: 0 1px 4px rgba(0,0,0,0.25);
+  will-change: opacity;
 }
 
 /* CTA container */
@@ -870,6 +1015,13 @@ nav li a.active {
   transition: transform 0.3s ease, box-shadow 0.3s ease, border 0.3s ease;
   position: relative;
   overflow: hidden;
+  will-change: transform, box-shadow, border;
+}
+
+.hero-ctas a:focus-visible {
+  outline: 3px solid var(--color-accent);
+  outline-offset: 4px;
+  border-radius: 8px;
 }
 
 /* Primary CTA */
@@ -896,6 +1048,7 @@ nav li a.active {
   transform-origin: left;
   transition: transform 0.5s ease;
   z-index: -1;
+  pointer-events: none;   /* ← prevents tap stealing */
 }
 
 .hero-ctas .cta-secondary:hover::after {
@@ -917,6 +1070,13 @@ nav li a.active {
   to   { transform: scale(2); opacity: 0; }
 }
 
+/* Tap feedback */
+.hero-ctas a:active {
+  transform: scale(0.96) !important;
+  opacity: 0.92 !important;
+  transition: transform 0.08s ease, opacity 0.08s ease;
+}
+
 /* Accessibility */
 @media (prefers-reduced-motion: reduce) {
   .hero h2, .hero p, .hero-ctas .cta-primary {
@@ -924,21 +1084,42 @@ nav li a.active {
   }
 }
 
-/* Responsive adjustments */
+/* Responsive adjustments – bigger CTAs on mobile */
 @media (max-width: 768px) {
-  .hero { padding: 2.5rem 1rem; }
-  .hero h2 { font-size: clamp(2.2rem, 8vw, 3.2rem); }
-  .hero p { font-size: clamp(1.1rem, 3.8vw, 1.3rem); }
+  .hero {
+    padding: 3rem 1rem;
+  }
+
+  .hero h2 {
+    font-size: clamp(2.4rem, 9vw, 3.6rem);
+  }
+
+  .hero p {
+    font-size: clamp(1.15rem, 4vw, 1.4rem);
+  }
+
+  .hero-ctas {
+    gap: 1rem;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .hero-ctas a {
+    padding: 1.1rem 2rem !important;
+    font-size: 1.2rem !important;
+    min-height: 54px !important;
+    width: 100%;
+    max-width: 360px;
+    margin: 0.5rem auto;
+  }
 }
-
-
 /* ===================== SERVICES & PRICING ===================== */
 #services,
 #pricing {
   text-align: center;
   padding: 4rem 1rem;
   color: var(--color-text);
-  background: inherit;          /* unified background */
+  background: inherit;
   position: relative;
   z-index: 1;
   border-top: 1px solid rgba(244,195,0,0.2);
@@ -995,6 +1176,15 @@ nav li a.active {
   opacity: 0;
   transform: translateY(20px);
   animation: fadeUp 0.8s ease forwards;
+  will-change: transform, box-shadow, border;   /* smoother hover */
+}
+
+/* Disable pointer events on overlays/pseudo to prevent tap stealing */
+.service-card::before,
+.price-box::before,
+.service-card::after,
+.price-box::after {
+  pointer-events: none !important;
 }
 
 /* Hover effect */
@@ -1076,6 +1266,15 @@ nav li a.active {
   box-shadow: 0 0 15px var(--color-accent);
   background: linear-gradient(45deg, var(--color-accent), #ffcc33);
   color: #000;
+  outline: 3px solid var(--color-accent);
+  outline-offset: 4px;
+}
+
+/* Tap feedback on mobile */
+.price-cta:active {
+  transform: scale(0.96) !important;
+  opacity: 0.92 !important;
+  transition: transform 0.08s ease, opacity 0.08s ease;
 }
 
 /* ===================== RESPONSIVE TWEAKS ===================== */
@@ -1086,16 +1285,32 @@ nav li a.active {
   }
 }
 
+@media (max-width: 768px) {
+  .price-cta {
+    padding: 1rem 1.8rem !important;
+    font-size: 1.18rem !important;
+    min-height: 52px !important;
+    min-width: 140px !important;
+  }
+
+  .service-card,
+  .price-box {
+    max-width: 100%;
+    padding: 1.8rem !important;
+    margin: 0 auto 2rem;
+  }
+}
+
 @media (max-width: 600px) {
   #services,
   #pricing {
-    background-attachment: scroll; /* disable fixed bg for mobile */
+    background-attachment: scroll;
     padding: 3rem 1rem;
   }
 
   .card-title,
   .price-box h3 {
-    font-size: 1.3rem;
+    font-size: 1.4rem;   /* slightly larger for mobile */
   }
 
   .card-desc {
@@ -1115,14 +1330,12 @@ nav li a.active {
     padding: 1.5rem;
   }
 }
-
-
 /* ===================== LOOKBOOK ===================== */
 #lookbook {
   padding: 5rem 1.5rem 6rem;
   text-align: center;
-  background: inherit;          /* share body/footer background */
-  animation: inherit;           /* subtle bgShift movement */
+  background: inherit;
+  animation: inherit;
   position: relative;
   color: var(--color-text);
   overflow: hidden;
@@ -1162,10 +1375,10 @@ nav li a.active {
 /* ===================== 3D Carousel Scene ===================== */
 .scene {
   width: 100%;
-  height: 45vh;          /* refined size */
+  height: 45vh;
   min-height: 340px;
   max-height: 500px;
-  perspective: 1000px;   /* balanced perspective */
+  perspective: 1000px;
   margin: 0 auto 4rem;
   position: relative;
   z-index: 1;
@@ -1183,7 +1396,7 @@ nav li a.active {
   height: 100%;
   position: absolute;
   transform-style: preserve-3d;
-  animation: rotateCarousel var(--carousel-speed, 25s) linear infinite; /* faster rotation */
+  animation: rotateCarousel var(--carousel-speed, 25s) linear infinite;
 }
 
 /* Continuous rotation */
@@ -1201,21 +1414,29 @@ nav li a.active {
   backface-visibility: visible;
   border-radius: 16px;
   overflow: hidden;
-  background: rgba(255,255,255,0.05); /* lighter overlay */
+  background: rgba(255,255,255,0.05);
   border: 1px solid rgba(244,195,0,0.2);
   box-shadow: 0 0 25px rgba(244, 195, 0, 0.25);
   transition: box-shadow 0.6s ease, transform 0.6s ease, border 0.3s ease;
   opacity: 0.95;
+  will-change: transform, box-shadow, opacity, border;   /* smoother */
+}
+
+/* Disable pointer events on pseudo to prevent tap stealing */
+.carousel-item::before,
+.carousel-item::after,
+.carousel-item img {
+  pointer-events: none !important;
 }
 
 .carousel-item img {
   width: 100%;
   height: 100%;
-  object-fit: contain;   /* show full image without cropping */
+  object-fit: contain;
   object-position: center;
   display: block;
   border-radius: 12px;
-  background: rgba(0,0,0,0.3); /* fallback for transparent areas */
+  background: rgba(0,0,0,0.3);
 }
 
 /* Hover effects */
@@ -1224,6 +1445,14 @@ nav li a.active {
   transform: scale(1.03);
   border: 2px solid var(--color-accent);
   opacity: 1;
+}
+
+/* Tap/active feedback on mobile */
+.carousel-item:active {
+  transform: scale(1.02) !important;
+  box-shadow: 0 0 40px rgba(244, 195, 0, 0.5) !important;
+  transition: transform 0.08s ease, box-shadow 0.08s ease;
+  opacity: 0.95 !important;
 }
 
 /* ===================== 3D positioning for 6 items ===================== */
@@ -1254,25 +1483,48 @@ nav li a.active {
   .carousel-item { width: 95%; height: 95%; top: 2.5%; left: 2.5%; }
 }
 
-/* Very small screens: horizontal scroll fallback */
+/* Very small screens: horizontal scroll fallback – improved */
 @media (max-width: 480px) {
-  .scene { perspective: none; height: auto; min-height: auto; }
+  .scene {
+    perspective: none;
+    height: auto;
+    min-height: auto;
+    margin: 0 auto 3rem;
+  }
+
   .carousel {
     animation: none;
     display: flex;
     overflow-x: auto;
     scroll-snap-type: x mandatory;
-    gap: 1rem;
+    gap: 1.2rem;
+    padding: 0 1rem;
+    -webkit-overflow-scrolling: touch;
   }
+
   .carousel-item {
-    flex: 0 0 80%;
+    flex: 0 0 85%;
     scroll-snap-align: center;
     transform: none !important;
-    width: 80vw;
-    height: 50vh;
+    width: 85vw;
+    height: 55vh;
+    margin: 0.5rem 0;
   }
-  
-}/* ===================== BOOKING ===================== */
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .carousel {
+    animation: none !important;
+  }
+
+  .carousel-item {
+    transition: none !important;
+    transform: none !important;
+  }
+}
+
+/* ===================== BOOKING ===================== */
 #booking {
   text-align: center;
   padding: 4rem 1rem;
@@ -1306,17 +1558,18 @@ nav li a.active {
   width: 100%;
   padding: 0.9rem 1rem;
   border-radius: 8px;
-  border: 1px solid rgba(189, 189, 189, 0.3); /* softer muted border */
+  border: 1px solid rgba(189, 189, 189, 0.3);
   outline: none;
   box-sizing: border-box;
-  background: rgba(30, 30, 40, 0.45);        /* subtle dark tint */
+  background: rgba(30, 30, 40, 0.45);
   color: var(--color-text);
   font-size: 1rem;
   transition: all 0.25s ease;
+  will-change: border-color, box-shadow, background;
 }
 
 #booking select {
-  padding-right: 2.5rem;                     /* space for custom arrow */
+  padding-right: 2.5rem;
   appearance: none;
   background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='10' viewBox='0 0 14 10'><path fill='%23f4c300' d='M7 10L0 0h14z'/></svg>");
   background-repeat: no-repeat;
@@ -1326,26 +1579,24 @@ nav li a.active {
 }
 
 #booking select option {
-  background: #1e1e2e;                       /* solid dark – reliable readability */
+  background: #1e1e2e;
   color: #f5f5f5;
   padding: 0.7rem 1rem;
 }
 
-/* Hover / selected state inside dropdown (works in most modern browsers) */
 #booking select option:hover {
   background: rgba(244, 195, 0, 0.22);
   color: white;
 }
 
-/* Premium service highlighting */
+/* Premium highlighting */
 #service optgroup[label="Premium"] option,
 #service option.premium {
   background: rgba(244, 195, 0, 0.15);
   font-weight: 700;
-  color: #ffeb3b;                            /* brighter gold/yellow */
+  color: #ffeb3b;
 }
 
-/* Note: :checked on <option> is unreliable in Firefox → limited support */
 #service option:checked {
   background: rgba(244, 195, 0, 0.3) !important;
 }
@@ -1378,7 +1629,7 @@ nav li a.active {
 /* Submit Button */
 .booking-submit {
   background: var(--color-accent);
-  color: #0f0f0f;                           /* dark text = better contrast on gold */
+  color: #0f0f0f;
   border: none;
   padding: 1rem 1.8rem;
   font-weight: 700;
@@ -1389,6 +1640,7 @@ nav li a.active {
   transition: all 0.35s ease;
   box-shadow: 0 6px 20px rgba(244, 195, 0, 0.4);
   animation: pulseGlow 3s ease-in-out infinite;
+  will-change: transform, box-shadow, background;
 }
 
 .booking-submit:hover,
@@ -1396,6 +1648,15 @@ nav li a.active {
   transform: translateY(-3px) scale(1.04);
   box-shadow: 0 12px 35px rgba(244, 195, 0, 0.7);
   background: linear-gradient(135deg, #f4c300, #ffcc33);
+  outline: 3px solid var(--color-accent);
+  outline-offset: 4px;
+}
+
+/* Tap feedback */
+.booking-submit:active {
+  transform: scale(0.96) !important;
+  opacity: 0.92 !important;
+  transition: transform 0.08s ease, opacity 0.08s ease;
 }
 
 /* Feedback messages */
@@ -1423,7 +1684,7 @@ nav li a.active {
   border-color: rgba(40, 167, 69, 0.4);
 }
 
-/* Error field highlighting */
+/* Error highlighting */
 input.error,
 select.error,
 textarea.error {
@@ -1432,7 +1693,36 @@ textarea.error {
   background: rgba(40, 30, 30, 0.6);
 }
 
-/* Responsive */
+/* Responsive – bigger fields on mobile */
+@media (max-width: 768px) {
+  #booking {
+    padding: 3rem 1.2rem;
+  }
+
+  #booking input,
+  #booking select,
+  #booking textarea {
+    padding: 1.2rem 1.4rem !important;
+    font-size: 1.18rem !important;
+    min-height: 54px !important;
+    border-radius: 12px !important;
+  }
+
+  #booking label {
+    font-size: 1.08rem !important;
+  }
+
+  .booking-submit {
+    padding: 1.3rem 2.2rem !important;
+    font-size: 1.28rem !important;
+    min-height: 60px !important;
+  }
+
+  .form-row-two {
+    gap: 1.5rem !important;
+  }
+}
+
 @media (max-width: 600px) {
   .form-row-two {
     flex-direction: column;
@@ -1442,7 +1732,7 @@ textarea.error {
   #booking input,
   #booking select,
   #booking textarea {
-    padding: 1.1rem 1.2rem;               /* bigger touch targets */
+    padding: 1.1rem 1.2rem;
     font-size: 1.1rem;
   }
 
@@ -1453,21 +1743,21 @@ textarea.error {
 /* ===================== CONTACT SECTION ===================== */
 .contact-section {
   padding: 5rem 1.5rem 4rem;
-  background: inherit; 
+  background: inherit;
   background-size: cover;
-  background-attachment: fixed;     /* keeps image pinned */
+  background-attachment: fixed;
   position: relative;
   color: var(--color-text);
   text-align: center;
-  overflow: hidden;                 /* prevents gradient bleed */
+  overflow: hidden;
 }
 
-/* Subtle background movement (same as other pages) */
+/* Subtle background movement */
 .contact-section {
   animation: bgShift 12s ease-in-out infinite alternate;
 }
 
-/* Disable animation on mobile for performance (consistent with other pages) */
+/* Disable animation on mobile for performance */
 @media (max-width: 768px) {
   .contact-section {
     background-attachment: scroll;
@@ -1475,13 +1765,33 @@ textarea.error {
   }
 }
 
-/* Overlay (optional extra darkness if needed) */
+/* Overlay */
 .contact-section::after {
   content: "";
   position: absolute;
   inset: 0;
   pointer-events: none;
   z-index: 0;
+}
+
+/* Prevent overlays from blocking interaction */
+.contact-section::after,
+.contact-section::before,
+.contact-card::before,
+.contact-card::after,
+.map-card::before,
+.map-card::after {
+  pointer-events: none !important;
+}
+
+.contact-card,
+.map-card,
+.contact-card a,
+.contact-card p,
+.contact-card h3 {
+  pointer-events: auto !important;
+  position: relative;
+  z-index: 2 !important;
 }
 
 /* Heading + Intro */
@@ -1526,11 +1836,18 @@ textarea.error {
   box-shadow: 0 8px 30px rgba(0,0,0,0.45);
   transition: transform 0.4s ease, box-shadow 0.4s ease;
   text-align: left;
+  will-change: transform, box-shadow;
 }
 
 .contact-card:hover {
   transform: translateY(-8px);
   box-shadow: 0 16px 50px rgba(244, 195, 0, 0.25);
+}
+
+.contact-card a:focus-visible {
+  outline: 3px solid var(--color-accent);
+  outline-offset: 4px;
+  border-radius: 6px;
 }
 
 /* Google Map Card */
@@ -1547,6 +1864,7 @@ textarea.error {
   height: 100%;
   min-height: 320px;
   border: none;
+  touch-action: pan-y pan-x pinch-zoom;
 }
 
 /* Mobile-first responsive adjustments */
@@ -1562,6 +1880,37 @@ textarea.error {
 
   .map-card iframe {
     min-height: 280px;
+  }
+}
+
+@media (max-width: 768px) {
+  .contact-card {
+    padding: 2.2rem 1.6rem !important;
+  }
+
+  .contact-card h3 {
+    font-size: clamp(1.7rem, 5.5vw, 2.1rem) !important;
+  }
+
+  .contact-card p,
+  .contact-card a {
+    font-size: clamp(1.05rem, 3.5vw, 1.25rem) !important;
+    line-height: 1.65 !important;
+  }
+
+  .contact-card a {
+    padding: 0.4rem 0.8rem !important;
+    display: inline-flex;
+    min-height: 44px;
+    align-items: center;
+  }
+
+  .map-card {
+    aspect-ratio: 4 / 3.5 !important;
+  }
+
+  .map-card iframe {
+    min-height: 300px !important;
   }
 }
 
@@ -1583,21 +1932,19 @@ textarea.error {
   }
 }
 /* ===================== SCROLLBAR HIDE FOR GALLERY ===================== */
-/* Hide scrollbars only on horizontal gallery containers */
 .gallery-grid {
-  -ms-overflow-style: none;   /* IE/Edge legacy */
-  scrollbar-width: none;      /* Firefox */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
   overflow-x: auto;
   overflow-y: hidden;
-  -webkit-overflow-scrolling: touch; /* iOS momentum scroll */
+  -webkit-overflow-scrolling: touch;
 }
 
 .gallery-grid::-webkit-scrollbar {
-  display: none; /* WebKit */
+  display: none;
 }
 
 /* ===================== PERFORMANCE HINTS ===================== */
-/* Use translateZ(0) to trigger GPU compositing without overusing will-change */
 .reveal-visible,
 .hero-inner,
 .cta-primary,
@@ -1605,8 +1952,12 @@ textarea.error {
 .service-card,
 .price-box,
 .gallery-item,
-.team-card {
+.team-card,
+.teaser-card,
+.cta-final .cta-primary,
+.footer-btn {
   transform: translateZ(0);
+  will-change: transform, opacity, box-shadow;   /* expanded safely */
 }
 
 /* Add will-change only when needed (via JS class before animation) */
@@ -1616,7 +1967,6 @@ textarea.error {
 
 /* ===================== REDUCED MOTION ACCESSIBILITY ===================== */
 @media (prefers-reduced-motion: reduce) {
-  /* Disable nonessential animations and transitions */
   .hero h2,
   .hero p,
   .cta-primary,
@@ -1625,25 +1975,28 @@ textarea.error {
   .gallery-item,
   .team-card,
   .brand h1,
-  .nav-inner a {
+  .nav-inner a,
+  .teaser-card,
+  .cta-final .cta-primary,
+  .footer-btn {
     animation: none !important;
     transition: none !important;
     transform: none !important;
   }
 
-  /* Keep overlays and layout intact */
   .hero::after,
   #services::after,
   #lookbook::before {
     animation: none !important;
   }
 }
+
 /* ===================== MOBILE FIXED BACKGROUND FALLBACK ===================== */
 @media (max-width: 768px) {
   .hero,
   #services,
   #lookbook {
-    background-attachment: scroll; /* better performance on mobile */
+    background-attachment: scroll;
     background-size: cover;
     background-position: center;
   }
@@ -1689,6 +2042,17 @@ textarea.error {
   outline-offset: 2px;
 }
 
+/* Mobile carousel dots – bigger tap area */
+@media (max-width: 768px) {
+  .carousel-dot {
+    width: 12px !important;
+    height: 12px !important;
+    min-width: 44px;
+    min-height: 44px;
+    margin: 0 0.4rem;
+  }
+}
+
 #service-cart {
   position: fixed;
   bottom: 1rem;
@@ -1703,6 +2067,19 @@ textarea.error {
   max-height: 60vh;
   overflow-y: auto;
 }
+
+/* Mobile cart – wider & easier to read */
+@media (max-width: 768px) {
+  #service-cart {
+    max-width: 90vw !important;
+    bottom: 1rem;
+    right: 1rem;
+    left: 1rem;
+    margin: 0 auto;
+    max-height: 50vh !important;
+  }
+}
+
 #service-cart.collapsed .items {
   display: none;
 }
@@ -1734,10 +2111,10 @@ textarea.error {
   font-size: 0.9rem;
 }
 #booking-feedback.error {
-  color: #d9534f; /* red */
+  color: #d9534f;
 }
 #booking-feedback.success {
-  color: #28a745; /* green */
+  color: #28a745;
 }
 
 #lightbox {
@@ -1749,6 +2126,7 @@ textarea.error {
   justify-content: center;
   z-index: 999;
   cursor: zoom-out;
+  padding: 1rem;   /* added padding for mobile */
 }
 #lightbox.visible {
   display: flex;
@@ -1780,30 +2158,52 @@ textarea.error {
   cursor: pointer;
 }
 
+/* Prevent close button tap stealing */
+.lightbox-content .close,
+.lightbox-content .close::before,
+.lightbox-content .close::after {
+  pointer-events: auto !important;
+}
+
+/* Social links */
 .social-links {
   display: flex;
-  gap: 1.2rem; /* slightly wider spacing */
-  justify-content: center; /* or flex-start if in header */
+  gap: 1.2rem;
+  justify-content: center;
   margin-top: 1rem;
 }
 
 .social-links a {
   color: var(--color-muted, #666);
-  font-size: 1.6rem; /* bigger icons */
-  padding: 0.3rem;   /* extra click area */
+  font-size: 1.6rem;
+  padding: 0.3rem;
   transition: color 0.3s ease, transform 0.3s ease;
+}
+
+/* Mobile social icons – bigger tap area */
+@media (max-width: 768px) {
+  .social-links a {
+    font-size: 1.8rem !important;
+    padding: 0.5rem !important;
+    min-width: 48px;
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 }
 
 .social-links a:hover,
 .social-links a:focus {
-  color: var(--color-accent, hsl(59, 100%, 50%)); /* highlight color */
-  transform: scale(1.15);        /* slightly stronger hover zoom */
+  color: var(--color-accent, hsl(59, 100%, 50%));
+  transform: scale(1.15);
 }
 
 .social-links i {
-  pointer-events: none; /* ensures click is on the <a> */
+  pointer-events: none;
 }
 
+/* Main nav ul (seems duplicated – but kept as-is) */
 .main-nav ul {
   display: flex;
   gap: 2rem;
@@ -1817,25 +2217,25 @@ textarea.error {
   flex-direction: column;
   align-items: center;
   text-decoration: none;
-  color: #fff; /* brighter text for dark backgrounds */
-  font-size: 1rem; /* slightly larger text */
+  color: #fff;
+  font-size: 1rem;
   transition: color 0.3s ease, transform 0.3s ease;
 }
 
 .main-nav a i {
-  font-size: 1.6rem; /* larger icons */
+  font-size: 1.6rem;
   margin-bottom: 0.3rem;
-  color: #ffd700; /* gold to match yellow buttons */
+  color: #ffd700;
 }
 
 .main-nav a:hover,
 .main-nav a:focus {
-  color: #ffcc00; /* bright yellow hover */
+  color: #ffcc00;
   transform: scale(1.05);
 }
 
 .main-nav a span {
-  text-shadow: 0 1px 2px rgba(0,0,0,0.6); /* improves visibility on busy backgrounds */
+  text-shadow: 0 1px 2px rgba(0,0,0,0.6);
 }
 
 /* ===================== TEASERS SECTION (on Home) ===================== */
@@ -1921,6 +2321,13 @@ textarea.error {
   }
 }
 
+/* Tap feedback on teasers */
+.teaser-card:active {
+  transform: scale(0.96) !important;
+  opacity: 0.92 !important;
+  transition: transform 0.08s ease, opacity 0.08s ease;
+}
+
 /* Divider between Services and Pricing */
 .section-divider {
   border: 0;
@@ -1940,12 +2347,26 @@ textarea.error {
   font-size: 1.3rem;
   box-shadow: 0 8px 25px rgba(244, 195, 0, 0.4);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  will-change: transform, box-shadow;
 }
 
 .cta-final .cta-primary.large:hover,
 .cta-final .cta-primary.large:focus-visible {
   transform: translateY(-5px) scale(1.06);
   box-shadow: 0 12px 40px rgba(244, 195, 0, 0.7);
+}
+
+.cta-final .cta-primary.large:focus-visible {
+  outline: 3px solid var(--color-accent);
+  outline-offset: 4px;
+  border-radius: 999px;
+}
+
+/* Tap feedback on final CTA */
+.cta-final .cta-primary:active {
+  transform: scale(0.96) !important;
+  opacity: 0.92 !important;
+  transition: transform 0.08s ease, opacity 0.08s ease;
 }
 
 /* Highlight premium box */
@@ -1962,9 +2383,14 @@ textarea.error {
   margin: 0.5rem auto;
 }
 
+/* Tap feedback on footer buttons */
+.footer-btn:active {
+  transform: scale(0.96) !important;
+  opacity: 0.92 !important;
+  transition: transform 0.08s ease, opacity 0.08s ease;
+}
 /* ===================== FOOTER ===================== */
 footer {
-  /* remove background here */
   padding: 2rem 1rem;
   text-align: center;
   color: var(--color-text);
@@ -2004,7 +2430,7 @@ footer {
   box-shadow: 0 6px 20px rgba(244,195,0,0.35);
   overflow: hidden;
   transition: all 0.4s ease;
-  will-change: transform, box-shadow;
+  will-change: transform, box-shadow, background, color, border-color;
   text-align: center;
 }
 
@@ -2027,6 +2453,7 @@ footer {
   opacity: 0.6;
   z-index: -1;
   animation: spin-glow 6s linear infinite;
+  pointer-events: none !important;   /* ← prevents tap stealing */
 }
 
 /* Shine effect */
@@ -2037,6 +2464,7 @@ footer {
   background: linear-gradient(90deg, transparent, rgba(255,255,255,0.18), transparent);
   transform: translateX(-100%);
   transition: transform 0.8s ease;
+  pointer-events: none !important;   /* ← added */
 }
 
 .footer-btn:hover::after {
@@ -2052,6 +2480,13 @@ footer {
   border-color: #ffcc33;
   box-shadow: 0 12px 40px rgba(244,195,0,0.85);
   outline: none;
+}
+
+/* Tap feedback */
+.footer-btn:active {
+  transform: scale(0.96) !important;
+  opacity: 0.92 !important;
+  transition: transform 0.08s ease, opacity 0.08s ease;
 }
 
 /* ===================== FOOTER SOCIAL ICONS ===================== */
@@ -2072,8 +2507,9 @@ footer .footer-social a:hover,
 footer .footer-social a:focus-visible {
   color: var(--color-text);
   transform: scale(1.2);
-  outline: 2px solid var(--color-accent);
-  outline-offset: 3px;
+  outline: 3px solid var(--color-accent);
+  outline-offset: 4px;
+  border-radius: 50%;
 }
 
 /* ===================== RESPONSIVE ===================== */
@@ -2081,31 +2517,45 @@ footer .footer-social a:focus-visible {
   .footer-ctas {
     flex-direction: column;
     align-items: center;
+    gap: 1.2rem !important;
   }
 
   .footer-btn {
-    width: 100%;
-    max-width: 280px;
-    margin: 0.5rem auto;
+    width: 100% !important;
+    max-width: none !important;
+    padding: 1.2rem 2rem !important;
+    font-size: 1.18rem !important;
+    min-height: 58px !important;
+  }
+
+  .footer-social a {
+    font-size: 1.6rem !important;
+    padding: 0.6rem !important;
+    min-width: 48px;
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 }
 
 @media (max-width: 600px) {
   #contact { padding: 3rem 1rem; }
-  footer { padding: 1.5rem 0.5rem; font-size: clamp(0.98rem, 3.1vw, 1.12rem); }
+  footer { padding: 1.5rem 0.5rem; font-size: clamp(1rem, 3.5vw, 1.2rem); }
 }
-
 /* ===================== PRELOADER ===================== */
 #preloader {
   position: fixed;
   inset: 0;
   background: var(--color-bg);
+  background-color: #1e1e1e;           /* ← solid fallback */
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   z-index: 9999;
   transition: opacity 0.6s ease, visibility 0.6s ease;
+  will-change: opacity;
 }
 
 .loader-text {
@@ -2155,18 +2605,54 @@ footer .footer-social a:focus-visible {
   to   { transform: rotate(0deg); }
 }
 
+/* Mobile – larger & clearer */
+@media (max-width: 768px) {
+  .scissors-loader {
+    width: 80px;
+    height: 80px;
+  }
+
+  .scissors-loader .blade {
+    width: 40px;
+    height: 8px;
+  }
+
+  .loader-text {
+    font-size: clamp(1.2rem, 5vw, 1.5rem);
+    letter-spacing: 3px;
+  }
+
+  #preloader {
+    padding: 1rem;
+  }
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .scissors-loader .blade.left,
+  .scissors-loader .blade.right {
+    animation: none !important;
+    transform: rotate(0deg) !important;
+  }
+
+  #preloader {
+    transition: none !important;
+  }
+}
+
 #preloader.hidden {
   opacity: 0;
   visibility: hidden;
 }
 
 /* =========================================================
-   MOBILE RESPONSIVE PATCH
+   MOBILE RESPONSIVE PATCH – FINAL VERSION
    Keeps desktop design 100% intact
    ========================================================= */
+
+/* Core mobile adjustments (layout, padding, grids) */
 @media (max-width: 768px) {
 
-  /* ---------- GLOBAL ---------- */
   body {
     background-attachment: scroll;
   }
@@ -2176,14 +2662,11 @@ footer .footer-social a:focus-visible {
   #services,
   #pricing,
   #lookbook,
-  #contact {
+  #contact,
+  #booking {
     padding: 3rem 1.2rem;
   }
 
-  /* ---------- TYPOGRAPHY ---------- */
-  /* (already handled in the typography media queries above) */
-
-  /* ---------- HEADER / NAV ---------- */
   header {
     backdrop-filter: blur(6px);
   }
@@ -2192,7 +2675,6 @@ footer .footer-social a:focus-visible {
     gap: 1.2rem;
   }
 
-  /* ---------- HERO ---------- */
   .hero {
     min-height: 85vh;
     background-position: center;
@@ -2203,80 +2685,61 @@ footer .footer-social a:focus-visible {
     padding: 0 0.5rem;
   }
 
-  .hero-buttons,
-  .cta-group {
+  .hero-ctas,
+  .cta-group,
+  .cta,
+  .footer-ctas {
     flex-direction: column;
-    gap: 0.9rem;
+    gap: 1.2rem;
+    width: 100%;
+    align-items: center;
   }
 
   .hero-buttons a,
-  .cta-group a {
+  .cta-group a,
+  .cta a,
+  .book-now,
+  .call,
+  .footer-btn,
+  .booking-submit {
     width: 100%;
+    max-width: none;
     text-align: center;
   }
 
-  /* ---------- GRIDS ---------- */
   .grid,
   .services-grid,
   .pricing-grid,
-  .lookbook-grid {
+  .lookbook-grid,
+  .service-grid,
+  .pricing-columns,
+  .teaser-grid,
+  .contact-container {
     grid-template-columns: 1fr;
+    gap: 1.5rem;
   }
 
-  /* ---------- CARDS ---------- */
   .service-card,
   .price-box,
   .gallery-item,
-  .card {
+  .card,
+  .teaser-card {
     transform: none !important;
+    max-width: 100%;
+    margin: 0 auto 2rem;
   }
 
-  /* ---------- FORMS ---------- */
-  form {
-    gap: 1rem;
-  }
-
-  input,
-  textarea,
-  button {
-    font-size: 1.1rem;
-  }
-
-  /* ---------- BUTTONS ---------- */
-  .cta a,
-  .book-now,
-  .booking-submit {
-    padding: 0.9rem 1.2rem;
-  }
-
-  /* ---------- HEAVY EFFECTS (MOBILE SAFE) ---------- */
-  .carousel {
-    animation-duration: 45s;
-  }
-
-  .pulse,
-  .pulseGlow {
-    animation-duration: 4s;
+  form,
+  #booking form {
+    gap: 1.2rem;
   }
 }
 
-@media (max-width: 480px) {
+/* Typography & small text already handled in earlier media queries */
 
-  .brand h1 {
-    font-size: clamp(1.5rem, 6vw, 1.9rem);
-  }
-
-  nav ul {
-    gap: 0.8rem;
-  }
-}
-
-/* ────────────────────────────────────────────────
-   FIX MOBILE BUTTONS: bigger, more tappable, no click stealing
-──────────────────────────────────────────────── */
+/* Make ALL buttons & links huge/tappable on mobile */
 @media (max-width: 768px) {
 
-  /* Force minimum comfortable tap size for ALL buttons & links */
   a[href],
   button,
   .cta a,
@@ -2288,89 +2751,159 @@ footer .footer-social a:focus-visible {
   .hero-ctas a,
   .cta-primary,
   .cta-secondary,
-  nav li a {
-    min-height: 48px !important;           /* Apple & Android recommendation */
+  nav li a,
+  .footer-social a,
+  .teaser-card,
+  .remove-item {
+    min-height: 48px !important;
     min-width: 120px !important;
-    padding: 1rem 1.8rem !important;       /* generous padding */
-    font-size: 1.18rem !important;         /* readable + easier to aim */
+    padding: 1rem 1.8rem !important;
+    font-size: 1.18rem !important;
     line-height: 1.4 !important;
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
-    touch-action: manipulation !important; /* faster tap response */
-    -webkit-tap-highlight-color: rgba(244, 195, 0, 0.25) !important; /* gold flash feedback */
+    touch-action: manipulation !important;
+    -webkit-tap-highlight-color: rgba(244, 195, 0, 0.25) !important;
   }
 
-  /* Make main call-to-action buttons even bigger & full-width on small screens */
+  /* Extra big for main CTAs & submit */
   .hero-ctas a,
   .cta .book-now,
   .cta .call,
   .footer-btn,
-  .booking-submit {
-    width: 100% !important;
-    max-width: 380px !important;
+  .booking-submit,
+  .price-cta {
     padding: 1.3rem 2rem !important;
     font-size: 1.28rem !important;
     min-height: 58px !important;
-    margin: 0.7rem auto !important;        /* better spacing when stacked */
-    border-radius: 999px !important;       /* pill shape = looks modern & big */
+    border-radius: 999px !important;
   }
 
-  /* Pricing & service buttons */
-  .price-cta,
-  .service-card a {
-    padding: 1.1rem 2.2rem !important;
-    font-size: 1.22rem !important;
-    min-height: 54px !important;
-  }
-
-  /* Prevent glow/shine layers from stealing clicks */
-  .book-now-glow,
-  .book-now::before,
-  .book-now::after,
-  .footer-btn::before,
-  .footer-btn::after,
-  .cta .book-now::before,
-  .cta .book-now::after {
-    pointer-events: none !important;
-  }
-
-  /* Stop accidental zoom on double-tap */
-  button, a {
-    touch-action: manipulation;
-    -webkit-user-select: none;
-    user-select: none;
-  }
-}
-/* Better spacing when buttons stack vertically */
-@media (max-width: 768px) {
-  .cta,
-  .hero-ctas,
-  .footer-ctas {
-    gap: 1.2rem !important;
-    flex-direction: column !important;
-    align-items: center !important;
-  }
-
-  /* Nav menu items in hamburger menu */
+  /* Nav menu items */
   nav ul.active li a {
     padding: 1.2rem 1.5rem !important;
     font-size: 1.35rem !important;
     min-height: 60px !important;
   }
+
+  /* Social icons & carousel dots */
+  .social-links a,
+  .carousel-dot {
+    min-width: 48px !important;
+    min-height: 48px !important;
+  }
 }
 
+/* Prevent glow/shine/overlay layers from stealing clicks everywhere */
 @media (max-width: 768px) {
-  /* Nice subtle scale + color change on tap */
+  .book-now-glow,
+  .book-now-glow::after,
+  .book-now::before,
+  .book-now::after,
+  .footer-btn::before,
+  .footer-btn::after,
+  .cta .book-now::before,
+  .cta .book-now::after,
+  .price-cta::before,
+  .price-cta::after,
+  [class*="glow"],
+  [class*="::before"],
+  [class*="::after"],
+  #booking::before,
+  #booking::after,
+  .contact-section::before,
+  .contact-section::after,
+  .lookbook::before,
+  .services::before,
+  .pricing::before {
+    pointer-events: none !important;
+  }
+}
+
+/* Form protection – make sure inputs are always tappable */
+@media (max-width: 768px) {
+  #booking input,
+  #booking select,
+  #booking textarea,
+  #booking label,
+  #booking button,
+  #booking .form-row,
+  #booking .form-row > div {
+    pointer-events: auto !important;
+    touch-action: manipulation !important;
+    user-select: text !important;
+    -webkit-user-select: text !important;
+    z-index: 10 !important;
+  }
+
+  #booking input:focus,
+  #booking select:focus,
+  #booking textarea:focus {
+    z-index: 20 !important;
+    outline: 3px solid var(--color-accent) !important;
+    outline-offset: 2px !important;
+    font-size: 16px !important; /* prevents iOS zoom */
+  }
+
+  #booking .form-row {
+    margin-bottom: 1.5rem !important;
+  }
+
+  #booking input,
+  #booking select,
+  #booking textarea {
+    padding: 1.2rem 1.4rem !important;
+    font-size: 1.25rem !important;
+    min-height: 54px !important;
+  }
+
+  .booking-submit {
+    min-height: 60px !important;
+    font-size: 1.3rem !important;
+    padding: 1.3rem 2rem !important;
+  }
+}
+
+/* Tap/active feedback on ALL interactive elements */
+@media (max-width: 768px) {
   a:active,
   button:active,
   .book-now:active,
   .call:active,
   .price-cta:active,
   .booking-submit:active,
-  .footer-btn:active {
+  .footer-btn:active,
+  .teaser-card:active,
+  .carousel-item:active,
+  .social-links a:active,
+  .footer-social a:active,
+  .remove-item:active {
     transform: scale(0.96) !important;
-    transition: transform 0.08s ease !important;
     opacity: 0.92 !important;
+    transition: transform 0.08s ease, opacity 0.08s ease;
+  }
+}
+
+/* Very small screens (480px and below) */
+@media (max-width: 480px) {
+  .brand h1 {
+    font-size: clamp(1.5rem, 6vw, 1.9rem);
+  }
+
+  nav ul {
+    gap: 0.8rem;
+  }
+
+  /* Optional extra boost for tiny phones */
+  .hero h2 {
+    font-size: clamp(2.5rem, 10vw, 3.8rem);
+  }
+
+  .booking-submit,
+  .footer-btn,
+  .price-cta {
+    font-size: 1.3rem !important;
+    padding: 1.4rem 2.2rem !important;
   }
 }
