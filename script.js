@@ -257,3 +257,13 @@ window.addEventListener('load', () => {
     el.style.touchAction = 'manipulation';
   });
 });
+
+window.addEventListener("load", () => {
+  document.body.classList.add("loaded");
+});
+
+// Add class to body or .scene if 3D likely to fail
+if (/Mobi|Android/i.test(navigator.userAgent) || !CSS.supports('transform-style', 'preserve-3d')) {
+  document.querySelector('.scene')?.classList.add('no-3d-fallback');
+  // Or set style: document.querySelector('.scene').style.perspective = 'none';
+}
