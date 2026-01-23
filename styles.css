@@ -88,7 +88,6 @@ body {
 body.loaded {
   opacity: 1;
 }
-
 /* ===================== TYPOGRAPHY ===================== */
 h1, h2, h3, h4 {
   font-family: var(--font-heading);
@@ -119,13 +118,13 @@ h4 {
   line-height: 1.3;
 }
 
-/* Body text – slightly safer min size */
+/* Body text – slightly safer min size + dynamic line-height */
 p {
-  font-size: clamp(1rem, 2.4vw, 1.15rem);   /* ← updated min to 16px */
+  font-size: clamp(1rem, 2.4vw, 1.15rem);   /* min 16px */
   font-family: var(--font-body);
   color: var(--color-text);
   margin: 0 0 var(--space-md) 0;
-  line-height: 1.7;
+  line-height: clamp(1.5, 4vw, 1.7);        /* ← added: tighter min, still comfortable */
 }
 
 /* Muted text (secondary info, captions) */
@@ -134,10 +133,14 @@ p {
   font-size: var(--fs-small);
 }
 
-/* Mobile override for muted text readability */
+/* Mobile override for muted text readability + tighter headings spacing */
 @media (max-width: 768px) {
   .text-muted {
-    font-size: clamp(0.95rem, 3vw, 1.05rem);   /* ← added */
+    font-size: clamp(0.95rem, 3vw, 1.05rem);   /* already good */
+  }
+
+  h1, h2, h3, h4 {
+    letter-spacing: 0.03em;   /* ← added: subtle tightening on small screens – optional */
   }
 }
 
@@ -172,7 +175,7 @@ a::after {
   height: 2px;
   background: var(--color-accent);
   transition: width 0.3s ease;
-  pointer-events: none;                /* ← added: prevents tap stealing */
+  pointer-events: none;                /* prevents tap stealing */
 }
 
 /* Expand underline smoothly */
@@ -181,21 +184,22 @@ a:focus::after {
   width: 100%;
 }
 
-/* Accessibility: ensure keyboard users see focus */
+/* Accessibility: ensure keyboard users see focus – thicker outline */
 a:focus-visible {
-  outline: 2px solid var(--color-accent);
+  outline: 3px solid var(--color-accent);
   outline-offset: 4px;
 }
 
 /* Mobile optimization: larger tap targets */
 @media (max-width: 768px) {
   a {
-    padding: 0.4rem 0.8rem;           /* ← increased */
-    min-height: 44px;
-    min-width: 44px;
+    padding: 0.5rem 1rem;           /* more generous */
+    min-height: 48px;
+    min-width: 48px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    touch-action: manipulation !important; /* prevents double-tap zoom */
   }
 }
 
@@ -205,6 +209,7 @@ a:active {
   opacity: 0.9;
   transition: transform 0.08s ease, opacity 0.08s ease;
 }
+
 /* ===================== HEADINGS ===================== */
 h1, h2, h3, h4 {
   font-family: var(--font-heading);
@@ -214,6 +219,7 @@ h1, h2, h3, h4 {
   transform: translateY(20px);
   animation: fadeUp 0.8s forwards;
   color: var(--color-accent);      /* ensure gold accent is consistent */
+  will-change: opacity, transform;   /* ← added: smoother animation */
 }
 
 /* Fluid scaling for responsiveness */
@@ -257,6 +263,20 @@ h4 {
     transform: translateY(15px);          /* shorter distance */
     animation: fadeUp 0.7s forwards;      /* slightly faster */
   }
+
+  h1 { font-size: clamp(2.2rem, 7.5vw, 3.4rem); }
+  h2 { font-size: clamp(1.9rem, 6.5vw, 3rem); }
+  h3 { font-size: clamp(1.6rem, 5.5vw, 2.4rem); }
+  h4 { font-size: clamp(1.35rem, 4.5vw, 2rem); }
+}
+
+/* Respect reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  h1, h2, h3, h4 {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
 }
 
 /* ===================== PARAGRAPHS ===================== */
@@ -298,6 +318,8 @@ p {
   .md-m-3  { margin: var(--space-lg) !important; }
   .md-p-3  { padding: var(--space-lg) !important; }
 }
+
+
 /* ===================== ANIMATIONS ===================== */
 
 /* Fade Up */
@@ -566,6 +588,7 @@ header.scrolled {
   outline-offset: 4px;
   border-radius: 4px;
 }
+
 /* ===================== BRAND ===================== */
 .brand {
   display: flex;
@@ -651,6 +674,7 @@ header.scrolled {
   transform: scale(0.97);
   transition: transform 0.08s ease;
 }
+
 /* ===================== NAVIGATION ===================== */
 nav ul {
   list-style: none;
@@ -778,7 +802,6 @@ nav li a.active {
     min-height: 54px;
   }
 }
-
 /* ===================== CTA BUTTONS ===================== */
 .cta {
   display: flex;
@@ -798,7 +821,7 @@ nav li a.active {
 .book-now-glow::after,
 .cta .book-now::before,
 .cta .book-now::after {
-  pointer-events: none !important;   /* ← prevents tap stealing */
+  pointer-events: none !important;   /* prevents tap stealing */
 }
 
 .book-now-glow {
@@ -890,10 +913,10 @@ nav li a.active {
   box-shadow: 0 6px 20px rgba(244, 195, 0, 0.4);
 }
 
-/* Responsive CTA – bigger on mobile */
+/* Responsive CTA – medium size on mobile (not too big) */
 @media (max-width: 768px) {
   .cta {
-    gap: 1.2rem;
+    gap: 1rem;                    /* tighter spacing between stacked buttons */
     flex-direction: column;
     width: 100%;
   }
@@ -901,16 +924,18 @@ nav li a.active {
   .cta .book-now,
   .cta .call {
     width: 100%;
-    max-width: none;
-    padding: 1.3rem 2rem;
-    font-size: 1.25rem !important;
-    min-height: 58px;
+    max-width: 320px;             /* ← prevents stretching too wide */
+    padding: 1rem 1.8rem !important;   /* medium height + good width */
+    font-size: 1.15rem !important;     /* clear but not oversized */
+    min-height: 52px !important;       /* comfortable tap target */
+    line-height: 1.4 !important;
     text-align: center;
+    border-radius: 999px !important;
   }
 
   .book-now-glow {
-    inset: -20px;
-    filter: blur(24px);
+    inset: -18px;
+    filter: blur(22px);
     opacity: 0.6;
   }
 }
@@ -2644,15 +2669,13 @@ footer .footer-social a:focus-visible {
   opacity: 0;
   visibility: hidden;
 }
-
 /* =========================================================
-   MOBILE RESPONSIVE PATCH – FINAL VERSION
+   MOBILE RESPONSIVE PATCH – FINAL CLEANED VERSION
    Keeps desktop design 100% intact
    ========================================================= */
 
-/* Core mobile adjustments (layout, padding, grids) */
+/* Core layout, padding, grids */
 @media (max-width: 768px) {
-
   body {
     background-attachment: scroll;
   }
@@ -2695,22 +2718,7 @@ footer .footer-social a:focus-visible {
     align-items: center;
   }
 
-  .hero-buttons a,
-  .cta-group a,
-  .cta a,
-  .book-now,
-  .call,
-  .footer-btn,
-  .booking-submit {
-    width: 100%;
-    max-width: none;
-    text-align: center;
-  }
-
   .grid,
-  .services-grid,
-  .pricing-grid,
-  .lookbook-grid,
   .service-grid,
   .pricing-columns,
   .teaser-grid,
@@ -2721,10 +2729,7 @@ footer .footer-social a:focus-visible {
 
   .service-card,
   .price-box,
-  .gallery-item,
-  .card,
   .teaser-card {
-    transform: none !important;
     max-width: 100%;
     margin: 0 auto 2rem;
   }
@@ -2733,69 +2738,50 @@ footer .footer-social a:focus-visible {
   #booking form {
     gap: 1.2rem;
   }
+
+  /* Social icons visibility fix */
+  .social-links,
+  .footer-social {
+    position: relative !important;
+    z-index: 999 !important;
+    opacity: 1 !important;
+    transform: none !important;
+    display: flex !important;
+  }
+
+  .social-links a,
+  .footer-social a {
+    opacity: 1 !important;
+    visibility: visible !important;
+    min-width: 52px !important;
+    min-height: 52px !important;
+    font-size: 1.8rem !important;
+    padding: 0.6rem !important;
+  }
 }
 
-/* Typography & small text already handled in earlier media queries */
-
-/* Make ALL buttons & links huge/tappable on mobile */
+/* Gentle global button/link protection */
 @media (max-width: 768px) {
-
-  a[href],
   button,
-  .cta a,
+  a[href],
+  [role="button"],
   .book-now,
   .call,
   .price-cta,
   .booking-submit,
   .footer-btn,
-  .hero-ctas a,
-  .cta-primary,
-  .cta-secondary,
   nav li a,
-  .footer-social a,
   .teaser-card,
-  .remove-item {
-    min-height: 48px !important;
-    min-width: 120px !important;
-    padding: 1rem 1.8rem !important;
-    font-size: 1.18rem !important;
-    line-height: 1.4 !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    touch-action: manipulation !important;
-    -webkit-tap-highlight-color: rgba(244, 195, 0, 0.25) !important;
-  }
-
-  /* Extra big for main CTAs & submit */
-  .hero-ctas a,
-  .cta .book-now,
-  .cta .call,
-  .footer-btn,
-  .booking-submit,
-  .price-cta {
-    padding: 1.3rem 2rem !important;
-    font-size: 1.28rem !important;
-    min-height: 58px !important;
-    border-radius: 999px !important;
-  }
-
-  /* Nav menu items */
-  nav ul.active li a {
-    padding: 1.2rem 1.5rem !important;
-    font-size: 1.35rem !important;
-    min-height: 60px !important;
-  }
-
-  /* Social icons & carousel dots */
   .social-links a,
-  .carousel-dot {
-    min-width: 48px !important;
-    min-height: 48px !important;
+  .remove-item {
+    pointer-events: auto !important;
+    touch-action: manipulation !important;
+    cursor: pointer !important;
+    -webkit-tap-highlight-color: rgba(244, 195, 0, 0.25) !important;
   }
 }
 
-/* Prevent glow/shine/overlay layers from stealing clicks everywhere */
+/* Prevent glow/shine/overlay stealing clicks */
 @media (max-width: 768px) {
   .book-now-glow,
   .book-now-glow::after,
@@ -2821,51 +2807,45 @@ footer .footer-social a:focus-visible {
   }
 }
 
-/* Form protection – make sure inputs are always tappable */
+/* Form protection – specific & gentle */
 @media (max-width: 768px) {
+  #booking,
+  #booking form,
+  #booking .form-row,
+  #booking label,
   #booking input,
   #booking select,
   #booking textarea,
-  #booking label,
   #booking button,
-  #booking .form-row,
-  #booking .form-row > div {
+  #booking .booking-submit {
     pointer-events: auto !important;
-    touch-action: manipulation !important;
+    touch-action: auto !important;
     user-select: text !important;
     -webkit-user-select: text !important;
-    z-index: 10 !important;
-  }
-
-  #booking input:focus,
-  #booking select:focus,
-  #booking textarea:focus {
-    z-index: 20 !important;
-    outline: 3px solid var(--color-accent) !important;
-    outline-offset: 2px !important;
-    font-size: 16px !important; /* prevents iOS zoom */
-  }
-
-  #booking .form-row {
-    margin-bottom: 1.5rem !important;
+    position: relative !important;
+    z-index: 5 !important;
   }
 
   #booking input,
   #booking select,
   #booking textarea {
-    padding: 1.2rem 1.4rem !important;
-    font-size: 1.25rem !important;
-    min-height: 54px !important;
+    font-size: 16px !important;
+    padding: 1.1rem 1.3rem !important;
+    min-height: 52px !important;
+  }
+
+  #booking select {
+    appearance: menulist-button !important;
   }
 
   .booking-submit {
-    min-height: 60px !important;
-    font-size: 1.3rem !important;
-    padding: 1.3rem 2rem !important;
+    min-height: 56px !important;
+    font-size: 1.2rem !important;
+    padding: 1.1rem 1.8rem !important;
   }
 }
 
-/* Tap/active feedback on ALL interactive elements */
+/* Tap/active feedback */
 @media (max-width: 768px) {
   a:active,
   button:active,
@@ -2876,9 +2856,7 @@ footer .footer-social a:focus-visible {
   .footer-btn:active,
   .teaser-card:active,
   .carousel-item:active,
-  .social-links a:active,
-  .footer-social a:active,
-  .remove-item:active {
+  .social-links a:active {
     transform: scale(0.96) !important;
     opacity: 0.92 !important;
     transition: transform 0.08s ease, opacity 0.08s ease;
@@ -2893,17 +2871,5 @@ footer .footer-social a:focus-visible {
 
   nav ul {
     gap: 0.8rem;
-  }
-
-  /* Optional extra boost for tiny phones */
-  .hero h2 {
-    font-size: clamp(2.5rem, 10vw, 3.8rem);
-  }
-
-  .booking-submit,
-  .footer-btn,
-  .price-cta {
-    font-size: 1.3rem !important;
-    padding: 1.4rem 2.2rem !important;
   }
 }

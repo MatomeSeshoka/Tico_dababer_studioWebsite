@@ -250,3 +250,10 @@ const $$ = (sel, ctx = document) => Array.from(ctx.querySelectorAll(sel));
     }
   });
 })();
+
+window.addEventListener('load', () => {
+  document.querySelectorAll('button, a[href], .book-now, .call, .price-cta, .booking-submit, .footer-btn, nav li a').forEach(el => {
+    el.style.pointerEvents = 'auto';
+    el.style.touchAction = 'manipulation';
+  });
+});
