@@ -2423,7 +2423,6 @@ footer .footer-social a:focus-visible {
   opacity: 0;
   visibility: hidden;
 }
-
 /* =========================================================
    MOBILE RESPONSIVE PATCH – FINAL CLEANED VERSION
    Keeps desktop design 100% intact
@@ -2514,7 +2513,7 @@ footer .footer-social a:focus-visible {
   }
 }
 
-/* Gentle global button/link protection */
+/* Gentle global button/link protection – strengthened for reliability */
 @media (max-width: 768px) {
   button,
   a[href],
@@ -2527,15 +2526,19 @@ footer .footer-social a:focus-visible {
   nav li a,
   .teaser-card,
   .social-links a,
-  .remove-item {
+  .remove-item,
+  .cta a,
+  .cta button {
     pointer-events: auto !important;
     touch-action: manipulation !important;
     cursor: pointer !important;
     -webkit-tap-highlight-color: rgba(244, 195, 0, 0.25) !important;
+    position: relative !important;
+    z-index: 10 !important; /* higher priority on mobile */
   }
 }
 
-/* Prevent glow/shine/overlay stealing clicks */
+/* Prevent glow/shine/overlay stealing clicks – comprehensive list */
 @media (max-width: 768px) {
   .book-now-glow,
   .book-now-glow::after,
@@ -2553,12 +2556,15 @@ footer .footer-social a:focus-visible {
   #booking::before,
   #booking::after,
   .contact-section::before,
-  .contact-section::after {
+  .contact-section::after,
+  .hero::after,
+  #services::before,
+  #pricing::before {
     pointer-events: none !important;
   }
 }
 
-/* Form protection – specific & gentle */
+/* Form protection – fix input focus & typing redirect */
 @media (max-width: 768px) {
   #booking,
   #booking form,
@@ -2574,7 +2580,7 @@ footer .footer-social a:focus-visible {
     user-select: text !important;
     -webkit-user-select: text !important;
     position: relative !important;
-    z-index: 5 !important;
+    z-index: 15 !important; /* highest priority to beat any overlap */
   }
 
   #booking input,
@@ -2596,7 +2602,7 @@ footer .footer-social a:focus-visible {
   }
 }
 
-/* Tap/active feedback */
+/* Tap/active feedback – consistent visual confirmation */
 @media (max-width: 768px) {
   a:active,
   button:active,
@@ -2606,11 +2612,20 @@ footer .footer-social a:focus-visible {
   .booking-submit:active,
   .footer-btn:active,
   .teaser-card:active,
-  .social-links a:active {
+  .social-links a:active,
+  nav li a:active {
     transform: scale(0.96) !important;
     opacity: 0.92 !important;
     transition: transform 0.08s ease, opacity 0.08s ease;
   }
+}
+
+/* Google Maps iframe fix – prevent tap propagation */
+.map-card iframe {
+  pointer-events: auto !important;
+  touch-action: pan-x pan-y pinch-zoom !important;
+  position: relative;
+  z-index: 2 !important;
 }
 
 /* Very small screens (480px and below) */
