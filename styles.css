@@ -79,7 +79,6 @@ body.loaded {
   opacity: 1;
 }
 
-
 /* ===================== TYPOGRAPHY ===================== */
 h1, h2, h3, h4 {
   font-family: var(--font-heading);
@@ -138,6 +137,7 @@ p {
   color: var(--color-accent);
   font-weight: 600;
 }
+
 /* ===================== LINKS ===================== */
 a {
   color: inherit;
@@ -201,7 +201,6 @@ a:active {
   filter: brightness(0.95);
   transition: transform 0.08s ease, filter 0.08s ease;
 }
-
 
 /* ===================== HEADINGS ===================== */
 h1, h2, h3, h4 {
@@ -408,6 +407,7 @@ p {
     transform: none !important;
   }
 }
+
 /* ===================== RESPONSIVE TYPOGRAPHY (SCOPED) ===================== */
 .type-fluid h1 {
   font-size: var(--fs-h1);
@@ -472,6 +472,7 @@ p {
   nav li a { font-size: 1.28rem; }
   .hero h2 { font-size: clamp(2.5rem, 10vw, 3.8rem); }
 }
+
 /* ===================== HEADER ===================== */
 header {
   position: sticky;
@@ -534,6 +535,7 @@ header.scrolled {
   border-radius: 4px;
   transition: none; /* instant focus feedback */
 }
+
 /* ===================== BRAND ===================== */
 .brand {
   display: flex;
@@ -616,7 +618,6 @@ header.scrolled {
   filter: brightness(0.95);
   transition: transform 0.08s ease, filter 0.08s ease;
 }
-
 
 /* ===================== NAVIGATION ===================== */
 nav ul {
@@ -745,7 +746,6 @@ nav li a.active {
     min-height: 54px;
   }
 }
-
 
 /* ===================== CTA BUTTONS ===================== */
 .cta {
@@ -906,7 +906,6 @@ nav li a:active,
   opacity: 0.92 !important;
   transition: transform 0.08s ease, opacity 0.08s ease;
 }
-
 
 /* ===================== HERO ===================== */
 .hero {
@@ -1085,6 +1084,7 @@ nav li a:active,
     margin: 0.5rem auto;
   }
 }
+
 /* ===================== SERVICES & PRICING ===================== */
 #services,
 #pricing {
@@ -1300,201 +1300,6 @@ nav li a:active,
     width: 100%;
     max-width: 100%;
     padding: 1.5rem;
-  }
-
-
-
-/* ===================== LOOKBOOK ===================== */
-#lookbook {
-  padding: 5rem 1.5rem 6rem;
-  text-align: center;
-  background: inherit;
-  animation: inherit;
-  position: relative;
-  color: var(--color-text);
-  overflow: hidden;
-  z-index: 1;
-}
-
-/* Readability overlay */
-#lookbook::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-}
-
-#lookbook h2,
-#lookbook p {
-  position: relative;
-  z-index: 1;
-}
-
-#lookbook h2 {
-  color: var(--color-accent);
-  margin-bottom: 1rem;
-  font-size: clamp(2.4rem, 6vw, 3.5rem);
-  text-shadow: 0 2px 8px rgba(0,0,0,0.4);
-  animation: fadeUp 1s ease forwards;
-}
-
-#lookbook p {
-  font-size: 1.1rem;
-  max-width: 680px;
-  margin: 0 auto 3rem;
-  color: var(--color-muted);
-}
-
-/* ===================== 3D Carousel Scene ===================== */
-.scene {
-  width: 100%;
-  height: 45vh;
-  min-height: 340px;
-  max-height: 500px;
-  perspective: 1000px;
-  margin: 0 auto 4rem;
-  position: relative;
-  z-index: 1;
-}
-
-.carousel-container {
-  width: 100%;
-  height: 100%;
-  position: relative;
-  transform-style: preserve-3d;
-}
-
-.carousel {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  transform-style: preserve-3d;
-  animation: rotateCarousel var(--carousel-speed, 25s) linear infinite;
-}
-
-/* Continuous rotation */
-.carousel-container:hover .carousel {
-  animation-play-state: running;
-}
-
-/* ===================== Items ===================== */
-.carousel-item {
-  position: absolute;
-  width: 85%;
-  height: 85%;
-  top: 7.5%;
-  left: 7.5%;
-  backface-visibility: visible;
-  border-radius: 16px;
-  overflow: hidden;
-  background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(244,195,0,0.2);
-  box-shadow: 0 0 25px rgba(244, 195, 0, 0.25);
-  transition: box-shadow 0.6s ease, transform 0.6s ease, border 0.3s ease;
-  opacity: 0.95;
-  will-change: transform, box-shadow, opacity, border;   /* smoother */
-}
-
-/* Disable pointer events on pseudo to prevent tap stealing */
-.carousel-item::before,
-.carousel-item::after,
-.carousel-item img {
-  pointer-events: none !important;
-}
-
-.carousel-item img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  object-position: center;
-  display: block;
-  border-radius: 12px;
-  background: rgba(0,0,0,0.3);
-}
-
-/* Hover effects */
-.carousel-item:hover {
-  box-shadow: 0 0 90px rgba(244, 195, 0, 0.65);
-  transform: scale(1.03);
-  border: 2px solid var(--color-accent);
-  opacity: 1;
-}
-
-/* Tap/active feedback on mobile */
-.carousel-item:active {
-  transform: scale(1.02) !important;
-  box-shadow: 0 0 40px rgba(244, 195, 0, 0.5) !important;
-  transition: transform 0.08s ease, box-shadow 0.08s ease;
-  opacity: 0.95 !important;
-}
-
-/* ===================== 3D positioning for 6 items ===================== */
-:root { --carousel-depth: 200px; }
-
-.carousel-item:nth-child(1) { transform: rotateY(0deg)   translateZ(var(--carousel-depth)); }
-.carousel-item:nth-child(2) { transform: rotateY(60deg)  translateZ(var(--carousel-depth)); }
-.carousel-item:nth-child(3) { transform: rotateY(120deg) translateZ(var(--carousel-depth)); }
-.carousel-item:nth-child(4) { transform: rotateY(180deg) translateZ(var(--carousel-depth)); }
-.carousel-item:nth-child(5) { transform: rotateY(240deg) translateZ(var(--carousel-depth)); }
-.carousel-item:nth-child(6) { transform: rotateY(300deg) translateZ(var(--carousel-depth)); }
-
-@keyframes rotateCarousel {
-  from { transform: rotateY(0deg); }
-  to   { transform: rotateY(360deg); }
-}
-
-/* ===================== Responsive ===================== */
-@media (max-width: 992px) {
-  .scene { height: 40vh; min-height: 300px; }
-  :root { --carousel-depth: 160px; }
-}
-
-@media (max-width: 576px) {
-  #lookbook { padding: 4rem 1rem 5rem; }
-  .scene { height: 35vh; min-height: 240px; }
-  :root { --carousel-depth: 130px; }
-  .carousel-item { width: 95%; height: 95%; top: 2.5%; left: 2.5%; }
-}
-
-/* Very small screens: horizontal scroll fallback – improved */
-@media (max-width: 480px) {
-  .scene {
-    perspective: none;
-    height: auto;
-    min-height: auto;
-    margin: 0 auto 3rem;
-  }
-
-  .carousel {
-    animation: none;
-    display: flex;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    gap: 1.2rem;
-    padding: 0 1rem;
-    -webkit-overflow-scrolling: touch;
-  }
-
-  .carousel-item {
-    flex: 0 0 85%;
-    scroll-snap-align: center;
-    transform: none !important;
-    width: 85vw;
-    height: 55vh;
-    margin: 0.5rem 0;
-  }
-}
-
-/* Respect reduced motion */
-@media (prefers-reduced-motion: reduce) {
-  .carousel {
-    animation: none !important;
-  }
-
-  .carousel-item {
-    transition: none !important;
-    transform: none !important;
   }
 }
 
@@ -1714,6 +1519,7 @@ textarea.error {
     padding: 1.1rem 2rem;
   }
 }
+
 /* ===================== CONTACT SECTION ===================== */
 .contact-section {
   padding: 5rem 1.5rem 4rem;
@@ -1905,6 +1711,7 @@ textarea.error {
     min-height: 240px;
   }
 }
+
 /* ===================== SCROLLBAR HIDE FOR GALLERY ===================== */
 .gallery-grid {
   -ms-overflow-style: none;
@@ -1957,19 +1764,15 @@ textarea.error {
     transition: none !important;
     transform: none !important;
   }
-
-  .hero::after,
-  #services::after,
-  #lookbook::before {
-    animation: none !important;
-  }
 }
 
 /* ===================== MOBILE FIXED BACKGROUND FALLBACK ===================== */
 @media (max-width: 768px) {
   .hero,
   #services,
-  #lookbook {
+  #pricing,
+  #contact,
+  #booking {
     background-attachment: scroll;
     background-size: cover;
     background-position: center;
@@ -2363,6 +2166,7 @@ textarea.error {
   opacity: 0.92 !important;
   transition: transform 0.08s ease, opacity 0.08s ease;
 }
+
 /* ===================== FOOTER ===================== */
 footer {
   padding: 2rem 1rem;
@@ -2517,6 +2321,7 @@ footer .footer-social a:focus-visible {
   #contact { padding: 3rem 1rem; }
   footer { padding: 1.5rem 0.5rem; font-size: clamp(1rem, 3.5vw, 1.2rem); }
 }
+
 /* ===================== PRELOADER ===================== */
 #preloader {
   position: fixed;
@@ -2618,6 +2423,7 @@ footer .footer-social a:focus-visible {
   opacity: 0;
   visibility: hidden;
 }
+
 /* =========================================================
    MOBILE RESPONSIVE PATCH – FINAL CLEANED VERSION
    Keeps desktop design 100% intact
@@ -2633,7 +2439,6 @@ footer .footer-social a:focus-visible {
   .hero,
   #services,
   #pricing,
-  #lookbook,
   #contact,
   #booking {
     padding: 3rem 1.2rem;
@@ -2748,10 +2553,7 @@ footer .footer-social a:focus-visible {
   #booking::before,
   #booking::after,
   .contact-section::before,
-  .contact-section::after,
-  .lookbook::before,
-  .services::before,
-  .pricing::before {
+  .contact-section::after {
     pointer-events: none !important;
   }
 }
@@ -2804,7 +2606,6 @@ footer .footer-social a:focus-visible {
   .booking-submit:active,
   .footer-btn:active,
   .teaser-card:active,
-  .carousel-item:active,
   .social-links a:active {
     transform: scale(0.96) !important;
     opacity: 0.92 !important;
