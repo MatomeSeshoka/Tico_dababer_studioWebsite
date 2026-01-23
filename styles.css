@@ -472,7 +472,6 @@ p {
   nav li a { font-size: 1.28rem; }
   .hero h2 { font-size: clamp(2.5rem, 10vw, 3.8rem); }
 }
-
 /* ===================== HEADER ===================== */
 header {
   position: sticky;
@@ -486,7 +485,7 @@ header {
   will-change: padding, background, box-shadow;
 }
 
-/* Shrink effect when scrolling – unchanged */
+/* Shrink effect when scrolling */
 header.shrink,
 header.scrolled {
   padding: 0.5rem 0;
@@ -494,7 +493,7 @@ header.scrolled {
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
 }
 
-/* Inner wrapper – unchanged */
+/* Inner wrapper */
 .nav-inner {
   display: flex;
   justify-content: space-between;
@@ -503,7 +502,6 @@ header.scrolled {
   margin: auto;
   padding: 0 1rem;
   min-height: 56px;
-  contain: paint; /* helps mobile repaint consistency – no visual change */
 }
 
 /* Mobile header tweaks – better thumb reach */
@@ -519,7 +517,7 @@ header.scrolled {
   }
 
   .nav-inner {
-    min-height: 64px; /* slightly taller for easier taps */
+    min-height: 60px;
   }
 
   @supports not (backdrop-filter: blur(4px)) {
@@ -529,13 +527,13 @@ header.scrolled {
   }
 }
 
-/* Keyboard focus in nav (accessibility) – kept, minor cleanup */
+/* Keyboard focus in nav (accessibility) */
 .nav-inner a:focus-visible {
   outline: 2px solid var(--color-accent);
   outline-offset: 4px;
   border-radius: 4px;
+  transition: none; /* instant focus feedback */
 }
-
 /* ===================== BRAND ===================== */
 .brand {
   display: flex;
@@ -544,9 +542,6 @@ header.scrolled {
   cursor: pointer;
   transition: transform 0.3s ease;
   will-change: transform;
-  touch-action: manipulation; /* improves tap response */
-  min-height: 44px;           /* safe tap target size */
-  min-width: 44px;
 }
 
 .brand:hover,
@@ -567,7 +562,7 @@ header.scrolled {
   content: '';
   position: absolute;
   left: 0;
-  bottom: -0.25em;
+  bottom: -0.25em; /* relative to font size */
   width: 0;
   height: 2px;
   background: var(--color-accent);
@@ -607,32 +602,19 @@ header.scrolled {
   border-radius: 4px;
 }
 
-/* Mobile adjustments – unchanged */
+/* Mobile adjustments */
 @media (max-width: 768px) {
   .brand { gap: 0.5rem; }
   .brand h1 { font-size: clamp(1.5rem, 5.5vw, 2rem); }
   .brand .tagline { font-size: clamp(0.9rem, 3vw, 1.05rem); line-height: 1.4; }
 }
 
-/* Tap feedback on mobile – unchanged */
+/* Tap feedback on mobile */
 .brand:active,
 .brand:focus:active {
   transform: scale(0.97);
   filter: brightness(0.95);
   transition: transform 0.08s ease, filter 0.08s ease;
-}
-
-/* If social icons are in header (common spot), force visibility */
-.nav-inner [class*="social"],
-.nav-inner a[href*="instagram"],
-.nav-inner a[href*="facebook"],
-.nav-inner a[href*="tiktok"] {
-  loading: eager; /* if they are images */
-  min-width: 44px;
-  min-height: 44px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
 }
 
 
@@ -940,7 +922,6 @@ nav li a:active,
   position: relative;
   overflow: hidden;
   perspective: 1000px;
-  contain: paint; /* helps mobile repaint consistency – no visual impact */
 }
 
 .hero::after {
@@ -957,7 +938,7 @@ nav li a:active,
   opacity: 0;
   transform: translateY(30px);
   animation: revealTop 1s ease forwards;
-  will-change: opacity, transform;
+  will-change: opacity, transform;   /* smoother animation */
 }
 
 .hero-inner.active {
@@ -965,7 +946,7 @@ nav li a:active,
   transform: translateY(0);
 }
 
-/* Headline – unchanged */
+/* Headline */
 .hero h2 {
   font-size: clamp(2rem, 6vw, 3rem);
   margin-bottom: 1rem;
@@ -979,7 +960,7 @@ nav li a:active,
   animation: pulseGlow 3s ease-in-out infinite alternate;
 }
 
-/* Subtext – unchanged */
+/* Subtext */
 .hero p {
   font-size: 1.125rem;
   color: var(--color-text);
@@ -989,17 +970,16 @@ nav li a:active,
   will-change: opacity;
 }
 
-/* CTA container – added paint containment */
+/* CTA container */
 .hero-ctas {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: 0.75rem;
   z-index: 2;
-  contain: paint;
 }
 
-/* CTA buttons base – added touch helpers */
+/* CTA buttons */
 .hero-ctas a {
   padding: 0.75rem 1.75rem;
   border-radius: var(--radius-md);
@@ -1008,11 +988,6 @@ nav li a:active,
   position: relative;
   overflow: hidden;
   will-change: transform, box-shadow, border;
-  touch-action: manipulation; /* faster, more reliable mobile taps */
-  min-height: 48px;           /* safe tap target size */
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
 }
 
 .hero-ctas a:focus-visible {
@@ -1021,7 +996,7 @@ nav li a:active,
   border-radius: 8px;
 }
 
-/* Primary CTA – unchanged */
+/* Primary CTA */
 .hero-ctas .cta-primary {
   background: linear-gradient(45deg, var(--color-accent), #ffcc33);
   color: var(--color-bg);
@@ -1029,7 +1004,7 @@ nav li a:active,
   transition: background 0.4s ease, box-shadow 0.4s ease;
 }
 
-/* Secondary CTA – unchanged */
+/* Secondary CTA */
 .hero-ctas .cta-secondary {
   border: 2px solid var(--color-accent);
   color: var(--color-accent);
@@ -1045,7 +1020,7 @@ nav li a:active,
   transform-origin: left;
   transition: transform 0.5s ease;
   z-index: -1;
-  pointer-events: none;
+  pointer-events: none;   /* ← prevents tap stealing */
 }
 
 .hero-ctas .cta-secondary:hover::after {
@@ -1057,7 +1032,7 @@ nav li a:active,
   box-shadow: 0 0 20px var(--color-accent), 0 6px 16px rgba(244,195,0,0.35);
 }
 
-/* Ripple effect – unchanged */
+/* Ripple effect */
 .hero-ctas a:active::after {
   animation: ripple 0.6s ease;
 }
@@ -1067,21 +1042,21 @@ nav li a:active,
   to   { transform: scale(2); opacity: 0; }
 }
 
-/* Tap feedback – unchanged */
+/* Tap feedback */
 .hero-ctas a:active {
   transform: scale(0.96) !important;
   opacity: 0.92 !important;
   transition: transform 0.08s ease, opacity 0.08s ease;
 }
 
-/* Accessibility – unchanged */
+/* Accessibility */
 @media (prefers-reduced-motion: reduce) {
   .hero h2, .hero p, .hero-ctas .cta-primary {
     animation: none;
   }
 }
 
-/* Responsive adjustments – unchanged, already good for mobile */
+/* Responsive adjustments – bigger CTAs on mobile */
 @media (max-width: 768px) {
   .hero {
     padding: 3rem 1rem;
@@ -1121,10 +1096,9 @@ nav li a:active,
   z-index: 1;
   border-top: 1px solid rgba(244,195,0,0.2);
   border-bottom: 1px solid rgba(244,195,0,0.2);
-  contain: paint; /* helps repaint consistency on mobile – no visual change */
 }
 
-/* Overlay for readability – unchanged */
+/* Overlay for readability */
 #services::before,
 #pricing::before {
   content: "";
@@ -1134,7 +1108,7 @@ nav li a:active,
   z-index: 0;
 }
 
-/* Section Headings – unchanged */
+/* Section Headings */
 #services h2,
 #pricing h2 {
   color: var(--color-accent);
@@ -1156,7 +1130,6 @@ nav li a:active,
   margin-top: 2rem;
   position: relative;
   z-index: 1;
-  contain: paint;
 }
 
 /* ===================== CARD BASE ===================== */
@@ -1175,12 +1148,10 @@ nav li a:active,
   opacity: 0;
   transform: translateY(20px);
   animation: fadeUp 0.8s ease forwards;
-  will-change: transform, box-shadow, border;
-  touch-action: manipulation; /* key for reliable taps on cards/buttons inside */
-  contain: paint;
+  will-change: transform, box-shadow, border;   /* smoother hover */
 }
 
-/* Disable pointer events on overlays/pseudo – unchanged */
+/* Disable pointer events on overlays/pseudo to prevent tap stealing */
 .service-card::before,
 .price-box::before,
 .service-card::after,
@@ -1188,7 +1159,7 @@ nav li a:active,
   pointer-events: none !important;
 }
 
-/* Hover effect – unchanged */
+/* Hover effect */
 .service-card:hover,
 .price-box:hover {
   transform: translateY(-6px);
@@ -1196,7 +1167,7 @@ nav li a:active,
   border: 2px solid var(--color-accent);
 }
 
-/* Featured Pricing Plan – unchanged */
+/* Featured Pricing Plan */
 .price-box.featured {
   background: linear-gradient(135deg, rgba(244,195,0,0.15), rgba(255,204,51,0.1));
   border: 2px solid var(--color-accent);
@@ -1208,7 +1179,6 @@ nav li a:active,
 .service-card img {
   width: 100%;
   display: block;
-  loading: eager; /* if icons/images in cards, load immediately */
 }
 
 .card-body {
@@ -1260,9 +1230,6 @@ nav li a:active,
   transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
   color: var(--color-bg);
   animation: pulseGlow 2.5s ease-in-out infinite;
-  touch-action: manipulation;
-  min-height: 48px;
-  min-width: 120px;
 }
 
 .price-cta:hover,
@@ -1275,7 +1242,7 @@ nav li a:active,
   outline-offset: 4px;
 }
 
-/* Tap feedback on mobile – unchanged */
+/* Tap feedback on mobile */
 .price-cta:active {
   transform: scale(0.96) !important;
   opacity: 0.92 !important;
@@ -1315,7 +1282,7 @@ nav li a:active,
 
   .card-title,
   .price-box h3 {
-    font-size: 1.4rem;
+    font-size: 1.4rem;   /* slightly larger for mobile */
   }
 
   .card-desc {
@@ -1335,14 +1302,58 @@ nav li a:active,
     padding: 1.5rem;
   }
 
-  /* ===================== 2D Scroll-Snap Carousel ===================== */
+
+
+/* ===================== LOOKBOOK ===================== */
+#lookbook {
+  padding: 5rem 1.5rem 6rem;
+  text-align: center;
+  background: inherit;
+  animation: inherit;
+  position: relative;
+  color: var(--color-text);
+  overflow: hidden;
+  z-index: 1;
+}
+
+/* Readability overlay */
+#lookbook::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+#lookbook h2,
+#lookbook p {
+  position: relative;
+  z-index: 1;
+}
+
+#lookbook h2 {
+  color: var(--color-accent);
+  margin-bottom: 1rem;
+  font-size: clamp(2.4rem, 6vw, 3.5rem);
+  text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+  animation: fadeUp 1s ease forwards;
+}
+
+#lookbook p {
+  font-size: 1.1rem;
+  max-width: 680px;
+  margin: 0 auto 3rem;
+  color: var(--color-muted);
+}
+
+/* ===================== 3D Carousel Scene ===================== */
 .scene {
   width: 100%;
   height: 45vh;
   min-height: 340px;
   max-height: 500px;
+  perspective: 1000px;
   margin: 0 auto 4rem;
-  overflow: hidden;
   position: relative;
   z-index: 1;
 }
@@ -1350,38 +1361,46 @@ nav li a:active,
 .carousel-container {
   width: 100%;
   height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
 }
 
 .carousel {
-  display: flex;
+  width: 100%;
   height: 100%;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch;           /* smooth iOS momentum scrolling */
-  gap: 1.5rem;
-  padding: 0 20vw;                             /* creates peek of next/prev items */
-  scroll-padding: 20vw;                        /* snap considers the padding so center works */
-  scrollbar-width: none;                       /* hide scrollbar in Firefox */
-  -ms-overflow-style: none;                    /* hide in Edge/IE */
+  position: absolute;
+  transform-style: preserve-3d;
+  animation: rotateCarousel var(--carousel-speed, 25s) linear infinite;
 }
 
-.carousel::-webkit-scrollbar {
-  display: none;                               /* hide in Chrome/Safari */
+/* Continuous rotation */
+.carousel-container:hover .carousel {
+  animation-play-state: running;
 }
 
+/* ===================== Items ===================== */
 .carousel-item {
-  flex: 0 0 60%;                               /* 60% width → good peek of sides on desktop */
+  position: absolute;
+  width: 85%;
   height: 85%;
-  max-height: 100%;
-  scroll-snap-align: center;
+  top: 7.5%;
+  left: 7.5%;
+  backface-visibility: visible;
   border-radius: 16px;
   overflow: hidden;
   background: rgba(255,255,255,0.05);
   border: 1px solid rgba(244,195,0,0.2);
   box-shadow: 0 0 25px rgba(244, 195, 0, 0.25);
   transition: box-shadow 0.6s ease, transform 0.6s ease, border 0.3s ease;
-  opacity: 0.92;
-  will-change: transform, box-shadow, opacity;
+  opacity: 0.95;
+  will-change: transform, box-shadow, opacity, border;   /* smoother */
+}
+
+/* Disable pointer events on pseudo to prevent tap stealing */
+.carousel-item::before,
+.carousel-item::after,
+.carousel-item img {
+  pointer-events: none !important;
 }
 
 .carousel-item img {
@@ -1392,10 +1411,9 @@ nav li a:active,
   display: block;
   border-radius: 12px;
   background: rgba(0,0,0,0.3);
-  pointer-events: none;
 }
 
-/* Hover/active feedback (kept your gold theme) */
+/* Hover effects */
 .carousel-item:hover {
   box-shadow: 0 0 90px rgba(244, 195, 0, 0.65);
   transform: scale(1.03);
@@ -1403,6 +1421,7 @@ nav li a:active,
   opacity: 1;
 }
 
+/* Tap/active feedback on mobile */
 .carousel-item:active {
   transform: scale(1.02) !important;
   box-shadow: 0 0 40px rgba(244, 195, 0, 0.5) !important;
@@ -1410,37 +1429,80 @@ nav li a:active,
   opacity: 0.95 !important;
 }
 
-/* Responsive tweaks */
+/* ===================== 3D positioning for 6 items ===================== */
+:root { --carousel-depth: 200px; }
+
+.carousel-item:nth-child(1) { transform: rotateY(0deg)   translateZ(var(--carousel-depth)); }
+.carousel-item:nth-child(2) { transform: rotateY(60deg)  translateZ(var(--carousel-depth)); }
+.carousel-item:nth-child(3) { transform: rotateY(120deg) translateZ(var(--carousel-depth)); }
+.carousel-item:nth-child(4) { transform: rotateY(180deg) translateZ(var(--carousel-depth)); }
+.carousel-item:nth-child(5) { transform: rotateY(240deg) translateZ(var(--carousel-depth)); }
+.carousel-item:nth-child(6) { transform: rotateY(300deg) translateZ(var(--carousel-depth)); }
+
+@keyframes rotateCarousel {
+  from { transform: rotateY(0deg); }
+  to   { transform: rotateY(360deg); }
+}
+
+/* ===================== Responsive ===================== */
 @media (max-width: 992px) {
   .scene { height: 40vh; min-height: 300px; }
-  .carousel { padding: 0 15vw; scroll-padding: 15vw; }
-  .carousel-item { flex: 0 0 70%; }
+  :root { --carousel-depth: 160px; }
 }
 
 @media (max-width: 576px) {
   #lookbook { padding: 4rem 1rem 5rem; }
-  .scene { height: 35vh; min-height: 240px; margin: 0 auto 3rem; }
-  .carousel { 
-    gap: 1rem; 
-    padding: 0 10vw; 
-    scroll-padding: 10vw; 
-  }
-  .carousel-item { flex: 0 0 85%; }  /* more visible on small screens */
+  .scene { height: 35vh; min-height: 240px; }
+  :root { --carousel-depth: 130px; }
+  .carousel-item { width: 95%; height: 95%; top: 2.5%; left: 2.5%; }
 }
 
-/* Respect prefers-reduced-motion */
+/* Very small screens: horizontal scroll fallback – improved */
+@media (max-width: 480px) {
+  .scene {
+    perspective: none;
+    height: auto;
+    min-height: auto;
+    margin: 0 auto 3rem;
+  }
+
+  .carousel {
+    animation: none;
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    gap: 1.2rem;
+    padding: 0 1rem;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .carousel-item {
+    flex: 0 0 85%;
+    scroll-snap-align: center;
+    transform: none !important;
+    width: 85vw;
+    height: 55vh;
+    margin: 0.5rem 0;
+  }
+}
+
+/* Respect reduced motion */
 @media (prefers-reduced-motion: reduce) {
+  .carousel {
+    animation: none !important;
+  }
+
   .carousel-item {
     transition: none !important;
     transform: none !important;
   }
 }
+
 /* ===================== BOOKING ===================== */
 #booking {
   text-align: center;
   padding: 4rem 1rem;
   color: var(--color-text);
-  contain: paint; /* helps mobile repaint for form visibility/response */
 }
 
 #booking form {
@@ -1478,21 +1540,16 @@ nav li a:active,
   font-size: 1rem;
   transition: all 0.25s ease;
   will-change: border-color, box-shadow, background;
-  touch-action: manipulation; /* critical for mobile tap-to-focus/input reliability */
-  pointer-events: auto;
-  user-select: text;
-  -webkit-appearance: none; /* consistent with select */
-  appearance: none;
 }
 
 #booking select {
   padding-right: 2.5rem;
+  appearance: none;
   background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='10' viewBox='0 0 14 10'><path fill='%23f4c300' d='M7 10L0 0h14z'/></svg>");
   background-repeat: no-repeat;
   background-position: right 1rem center;
   background-size: 14px;
   cursor: pointer;
-  touch-action: manipulation;
 }
 
 #booking select option {
@@ -1506,7 +1563,7 @@ nav li a:active,
   color: white;
 }
 
-/* Premium highlighting – unchanged */
+/* Premium highlighting */
 #service optgroup[label="Premium"] option,
 #service option.premium {
   background: rgba(244, 195, 0, 0.15);
@@ -1514,7 +1571,7 @@ nav li a:active,
   color: #ffeb3b;
 }
 
-#booking option:checked {
+#service option:checked {
   background: rgba(244, 195, 0, 0.3) !important;
 }
 
@@ -1529,10 +1586,9 @@ nav li a:active,
 #booking textarea {
   resize: vertical;
   min-height: 110px;
-  touch-action: manipulation;
 }
 
-/* Two-column row – unchanged */
+/* Two-column row */
 .form-row-two {
   display: flex;
   gap: 1.25rem;
@@ -1544,7 +1600,7 @@ nav li a:active,
   min-width: 0;
 }
 
-/* Submit Button – added touch helpers */
+/* Submit Button */
 .booking-submit {
   background: var(--color-accent);
   color: #0f0f0f;
@@ -1559,8 +1615,6 @@ nav li a:active,
   box-shadow: 0 6px 20px rgba(244, 195, 0, 0.4);
   animation: pulseGlow 3s ease-in-out infinite;
   will-change: transform, box-shadow, background;
-  touch-action: manipulation;
-  min-height: 52px;
 }
 
 .booking-submit:hover,
@@ -1572,14 +1626,14 @@ nav li a:active,
   outline-offset: 4px;
 }
 
-/* Tap feedback – unchanged */
+/* Tap feedback */
 .booking-submit:active {
   transform: scale(0.96) !important;
   opacity: 0.92 !important;
   transition: transform 0.08s ease, opacity 0.08s ease;
 }
 
-/* Feedback messages – unchanged */
+/* Feedback messages */
 #booking-feedback {
   margin-top: 1rem;
   padding: 1rem;
@@ -1604,7 +1658,7 @@ nav li a:active,
   border-color: rgba(40, 167, 69, 0.4);
 }
 
-/* Error highlighting – unchanged */
+/* Error highlighting */
 input.error,
 select.error,
 textarea.error {
@@ -1613,7 +1667,7 @@ textarea.error {
   background: rgba(40, 30, 30, 0.6);
 }
 
-/* Responsive – bigger fields on mobile – unchanged, already strong */
+/* Responsive – bigger fields on mobile */
 @media (max-width: 768px) {
   #booking {
     padding: 3rem 1.2rem;
@@ -1670,15 +1724,14 @@ textarea.error {
   color: var(--color-text);
   text-align: center;
   overflow: hidden;
-  contain: paint; /* improves mobile repaint for cards/map/links */
 }
 
-/* Subtle background movement – unchanged */
+/* Subtle background movement */
 .contact-section {
   animation: bgShift 12s ease-in-out infinite alternate;
 }
 
-/* Disable animation on mobile for performance – unchanged */
+/* Disable animation on mobile for performance */
 @media (max-width: 768px) {
   .contact-section {
     background-attachment: scroll;
@@ -1686,7 +1739,7 @@ textarea.error {
   }
 }
 
-/* Overlay – unchanged */
+/* Overlay */
 .contact-section::after {
   content: "";
   position: absolute;
@@ -1695,7 +1748,7 @@ textarea.error {
   z-index: 0;
 }
 
-/* Prevent overlays from blocking interaction – unchanged + reinforced */
+/* Prevent overlays from blocking interaction */
 .contact-section::after,
 .contact-section::before,
 .contact-card::before,
@@ -1709,15 +1762,13 @@ textarea.error {
 .map-card,
 .contact-card a,
 .contact-card p,
-.contact-card h3,
-.map-card a {  /* added for any links inside map card */
+.contact-card h3 {
   pointer-events: auto !important;
   position: relative;
   z-index: 2 !important;
-  touch-action: manipulation; /* better tap response on mobile links/buttons */
 }
 
-/* Heading + Intro – unchanged */
+/* Heading + Intro */
 .contact-section h2 {
   color: var(--color-accent);
   margin-bottom: 1rem;
@@ -1737,7 +1788,7 @@ textarea.error {
   z-index: 1;
 }
 
-/* Container for cards & map – added contain */
+/* Container for cards & map */
 .contact-container {
   position: relative;
   z-index: 1;
@@ -1747,10 +1798,9 @@ textarea.error {
   grid-template-columns: 1fr 1fr;
   gap: 2.5rem;
   align-items: stretch;
-  contain: paint;
 }
 
-/* Contact Info Card – unchanged */
+/* Contact Info Card */
 .contact-card {
   background: rgba(255, 255, 255, 0.06);
   backdrop-filter: blur(10px);
@@ -1774,14 +1824,13 @@ textarea.error {
   border-radius: 6px;
 }
 
-/* Google Map Card – added touch for iframe */
+/* Google Map Card */
 .map-card {
   border-radius: 14px;
   overflow: hidden;
   box-shadow: 0 8px 30px rgba(0,0,0,0.45);
   background: rgba(255, 255, 255, 0.05);
   aspect-ratio: 4 / 3;
-  contain: paint;
 }
 
 .map-card iframe {
@@ -1792,7 +1841,7 @@ textarea.error {
   touch-action: pan-y pan-x pinch-zoom;
 }
 
-/* Mobile-first responsive adjustments – unchanged, already solid */
+/* Mobile-first responsive adjustments */
 @media (max-width: 992px) {
   .contact-container {
     grid-template-columns: 1fr;
@@ -1828,7 +1877,6 @@ textarea.error {
     display: inline-flex;
     min-height: 44px;
     align-items: center;
-    min-width: 44px; /* added for tap safety */
   }
 
   .map-card {
@@ -1882,11 +1930,11 @@ textarea.error {
 .teaser-card,
 .cta-final .cta-primary,
 .footer-btn {
-  transform: translateZ(0); /* GPU acceleration – good for mobile */
-  will-change: transform, opacity, box-shadow;
+  transform: translateZ(0);
+  will-change: transform, opacity, box-shadow;   /* expanded safely */
 }
 
-/* Scoped will-change (add .will-animate via JS right before animation starts) */
+/* Add will-change only when needed (via JS class before animation) */
 .will-animate {
   will-change: transform, opacity;
 }
@@ -1946,15 +1994,12 @@ textarea.error {
   }
 }
 
-/* ===================== CAROUSEL DOTS ===================== */
 .carousel-dots {
   display: flex;
   justify-content: center;
   gap: 0.5rem;
   margin-top: 1rem;
-  contain: paint; /* helps mobile visibility/repaint */
 }
-
 .carousel-dot {
   width: 10px;
   height: 10px;
@@ -1962,21 +2007,16 @@ textarea.error {
   border: none;
   background: #ccc;
   cursor: pointer;
-  touch-action: manipulation;
-  min-width: 44px; /* tap target safety */
-  min-height: 44px;
 }
-
 .carousel-dot.active {
   background: #333;
 }
-
 .carousel-dot:focus-visible {
   outline: 2px solid var(--color-accent, #f4c300);
   outline-offset: 2px;
 }
 
-/* Mobile carousel dots – unchanged, already good */
+/* Mobile carousel dots – bigger tap area */
 @media (max-width: 768px) {
   .carousel-dot {
     width: 12px !important;
@@ -1987,7 +2027,70 @@ textarea.error {
   }
 }
 
-/* ===================== LIGHTBOX ===================== */
+#service-cart {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 1rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  max-width: 320px;
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+/* Mobile cart – wider & easier to read */
+@media (max-width: 768px) {
+  #service-cart {
+    max-width: 90vw !important;
+    bottom: 1rem;
+    right: 1rem;
+    left: 1rem;
+    margin: 0 auto;
+    max-height: 50vh !important;
+  }
+}
+
+#service-cart.collapsed .items {
+  display: none;
+}
+#service-cart.visible {
+  opacity: 1;
+  transform: scale(1.02);
+}
+.cart-item {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  padding: .3rem 0;
+  border-bottom: 1px dashed rgba(0,0,0,0.04);
+}
+.cart-price {
+  font-size: .85rem;
+  color: var(--color-muted, #666);
+}
+.remove-item {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: var(--color-muted, #666);
+  font-weight: 700;
+}
+
+#booking-feedback {
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+}
+#booking-feedback.error {
+  color: #d9534f;
+}
+#booking-feedback.success {
+  color: #28a745;
+}
+
 #lightbox {
   position: fixed;
   inset: 0;
@@ -1997,7 +2100,7 @@ textarea.error {
   justify-content: center;
   z-index: 999;
   cursor: zoom-out;
-  padding: 1rem;
+  padding: 1rem;   /* added padding for mobile */
 }
 #lightbox.visible {
   display: flex;
@@ -2006,13 +2109,11 @@ textarea.error {
   position: relative;
   max-width: 90%;
   max-height: 90%;
-  contain: paint;
 }
 .lightbox-content img {
   max-width: 100%;
   max-height: 100%;
   border-radius: 4px;
-  loading: eager; /* if images, load immediately */
 }
 .lightbox-content .caption {
   margin-top: 0.5rem;
@@ -2029,16 +2130,21 @@ textarea.error {
   font-size: 2rem;
   color: #fff;
   cursor: pointer;
+}
+
+/* Prevent close button tap stealing */
+.lightbox-content .close,
+.lightbox-content .close::before,
+.lightbox-content .close::after {
   pointer-events: auto !important;
 }
 
-/* ===================== SOCIAL LINKS ===================== */
+/* Social links */
 .social-links {
   display: flex;
   gap: 1.2rem;
   justify-content: center;
   margin-top: 1rem;
-  contain: paint; /* critical for mobile visibility without zoom */
 }
 
 .social-links a {
@@ -2046,21 +2152,18 @@ textarea.error {
   font-size: 1.6rem;
   padding: 0.3rem;
   transition: color 0.3s ease, transform 0.3s ease;
-  touch-action: manipulation;
-  min-width: 44px;
-  min-height: 44px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
-/* Mobile social icons – bigger tap area – unchanged + eager hint */
+/* Mobile social icons – bigger tap area */
 @media (max-width: 768px) {
   .social-links a {
     font-size: 1.8rem !important;
     padding: 0.5rem !important;
     min-width: 48px;
     min-height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 }
 
@@ -2070,15 +2173,11 @@ textarea.error {
   transform: scale(1.15);
 }
 
-.social-links i,
-.social-links svg,
-.social-links img { /* covers Font Awesome, SVG, or img icons */
+.social-links i {
   pointer-events: none;
-  loading: eager; /* forces immediate load – fixes "appear after zoom" on mobile */
 }
 
-/* ===================== MAIN NAV UL (if duplicated) ===================== */
-/* If this is duplicate from earlier nav, consider removing one set to slim CSS */
+/* Main nav ul (seems duplicated – but kept as-is) */
 .main-nav ul {
   display: flex;
   gap: 2rem;
@@ -2119,7 +2218,6 @@ textarea.error {
   text-align: center;
   position: relative;
   z-index: 1;
-  contain: paint; /* helps mobile repaint for cards */
 }
 
 .teasers h3 {
@@ -2135,7 +2233,6 @@ textarea.error {
   gap: 2rem;
   max-width: 1200px;
   margin: 0 auto;
-  contain: paint;
 }
 
 .teaser-card {
@@ -2154,8 +2251,6 @@ textarea.error {
   align-items: center;
   min-height: 220px;
   will-change: transform, box-shadow;
-  touch-action: manipulation; /* reliable mobile taps */
-  min-height: 48px; /* baseline tap target – doesn't affect visual height */
 }
 
 .teaser-card:hover,
@@ -2180,7 +2275,7 @@ textarea.error {
   text-align: center;
 }
 
-/* Mobile adjustments – unchanged */
+/* Mobile adjustments */
 @media (max-width: 768px) {
   .teasers {
     padding: 3rem 1rem;
@@ -2200,14 +2295,14 @@ textarea.error {
   }
 }
 
-/* Tap feedback on teasers – unchanged */
+/* Tap feedback on teasers */
 .teaser-card:active {
   transform: scale(0.96) !important;
   opacity: 0.92 !important;
   transition: transform 0.08s ease, opacity 0.08s ease;
 }
 
-/* Divider between Services and Pricing – unchanged */
+/* Divider between Services and Pricing */
 .section-divider {
   border: 0;
   height: 1px;
@@ -2215,7 +2310,7 @@ textarea.error {
   margin: 4rem 0;
 }
 
-/* Final CTA at bottom – added touch */
+/* Final CTA at bottom */
 .cta-final {
   text-align: center;
   margin: 5rem 0 3rem;
@@ -2227,8 +2322,6 @@ textarea.error {
   box-shadow: 0 8px 25px rgba(244, 195, 0, 0.4);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   will-change: transform, box-shadow;
-  touch-action: manipulation;
-  min-height: 56px;
 }
 
 .cta-final .cta-primary.large:hover,
@@ -2243,30 +2336,28 @@ textarea.error {
   border-radius: 999px;
 }
 
-/* Tap feedback on final CTA – unchanged */
+/* Tap feedback on final CTA */
 .cta-final .cta-primary:active {
   transform: scale(0.96) !important;
   opacity: 0.92 !important;
   transition: transform 0.08s ease, opacity 0.08s ease;
 }
 
-/* Highlight premium box – unchanged */
+/* Highlight premium box */
 .price-box.premium {
   border: 2px solid var(--color-accent);
   background: rgba(244, 195, 0, 0.08);
   transform: scale(1.05);
 }
 
-/* Footer button – added touch */
+/* Footer button */
 .footer-btn {
   width: 100%;
   max-width: 280px;
   margin: 0.5rem auto;
-  touch-action: manipulation;
-  min-height: 48px;
 }
 
-/* Tap feedback on footer buttons – unchanged */
+/* Tap feedback on footer buttons */
 .footer-btn:active {
   transform: scale(0.96) !important;
   opacity: 0.92 !important;
@@ -2281,7 +2372,6 @@ footer {
   opacity: 0;
   transform: translateY(20px);
   animation: fadeUp 1s ease forwards 0.3s;
-  contain: paint; /* helps overall footer repaint on mobile */
 }
 
 .footer-inner {
@@ -2296,7 +2386,6 @@ footer {
   gap: 1rem;
   flex-wrap: wrap;
   margin-top: 1rem;
-  contain: paint;
 }
 
 .footer-btn {
@@ -2317,11 +2406,9 @@ footer {
   transition: all 0.4s ease;
   will-change: transform, box-shadow, background, color, border-color;
   text-align: center;
-  touch-action: manipulation;
-  min-height: 52px;
 }
 
-/* Glow layer – unchanged */
+/* Glow layer */
 .footer-btn::before {
   content: '';
   position: absolute;
@@ -2340,10 +2427,10 @@ footer {
   opacity: 0.6;
   z-index: -1;
   animation: spin-glow 6s linear infinite;
-  pointer-events: none !important;
+  pointer-events: none !important;   /* ← prevents tap stealing */
 }
 
-/* Shine effect – unchanged */
+/* Shine effect */
 .footer-btn::after {
   content: '';
   position: absolute;
@@ -2351,14 +2438,14 @@ footer {
   background: linear-gradient(90deg, transparent, rgba(255,255,255,0.18), transparent);
   transform: translateX(-100%);
   transition: transform 0.8s ease;
-  pointer-events: none !important;
+  pointer-events: none !important;   /* ← added */
 }
 
 .footer-btn:hover::after {
   transform: translateX(100%);
 }
 
-/* Hover + focus – unchanged */
+/* Hover + focus */
 .footer-btn:hover,
 .footer-btn:focus-visible {
   transform: translateY(-3px) scale(1.05);
@@ -2369,7 +2456,7 @@ footer {
   outline: none;
 }
 
-/* Tap feedback – unchanged */
+/* Tap feedback */
 .footer-btn:active {
   transform: scale(0.96) !important;
   opacity: 0.92 !important;
@@ -2382,19 +2469,12 @@ footer .footer-social {
   justify-content: center;
   gap: 1rem;
   margin-top: 1rem;
-  contain: paint; /* key fix: isolates repaint so icons appear immediately on mobile */
 }
 
 footer .footer-social a {
   color: var(--color-accent);
   font-size: 1.2rem;
   transition: color 0.3s ease, transform 0.3s ease;
-  touch-action: manipulation;
-  min-width: 44px;
-  min-height: 44px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 footer .footer-social a:hover,
@@ -2404,13 +2484,6 @@ footer .footer-social a:focus-visible {
   outline: 3px solid var(--color-accent);
   outline-offset: 4px;
   border-radius: 50%;
-}
-
-footer .footer-social i,
-footer .footer-social svg,
-footer .footer-social img {
-  pointer-events: none;
-  loading: eager; /* forces icons to load immediately – fixes "appear after zoom" */
 }
 
 /* ===================== RESPONSIVE ===================== */
@@ -2434,6 +2507,9 @@ footer .footer-social img {
     padding: 0.6rem !important;
     min-width: 48px;
     min-height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 }
 
@@ -2441,13 +2517,12 @@ footer .footer-social img {
   #contact { padding: 3rem 1rem; }
   footer { padding: 1.5rem 0.5rem; font-size: clamp(1rem, 3.5vw, 1.2rem); }
 }
-
 /* ===================== PRELOADER ===================== */
 #preloader {
   position: fixed;
   inset: 0;
   background: var(--color-bg);
-  background-color: #1e1e1e;           /* solid fallback */
+  background-color: #1e1e1e;           /* ← solid fallback */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -2455,7 +2530,6 @@ footer .footer-social img {
   z-index: 9999;
   transition: opacity 0.6s ease, visibility 0.6s ease;
   will-change: opacity;
-  pointer-events: none; /* allows clicks through while visible, but usually hidden fast */
 }
 
 .loader-text {
@@ -2465,7 +2539,7 @@ footer .footer-social img {
   letter-spacing: 2px;
 }
 
-/* Scissors Loader – unchanged */
+/* Scissors Loader */
 .scissors-loader {
   position: relative;
   width: 60px;
@@ -2505,7 +2579,7 @@ footer .footer-social img {
   to   { transform: rotate(0deg); }
 }
 
-/* Mobile – larger & clearer – unchanged */
+/* Mobile – larger & clearer */
 @media (max-width: 768px) {
   .scissors-loader {
     width: 80px;
@@ -2527,7 +2601,7 @@ footer .footer-social img {
   }
 }
 
-/* Respect reduced motion – unchanged */
+/* Respect reduced motion */
 @media (prefers-reduced-motion: reduce) {
   .scissors-loader .blade.left,
   .scissors-loader .blade.right {
@@ -2544,10 +2618,9 @@ footer .footer-social img {
   opacity: 0;
   visibility: hidden;
 }
-
 /* =========================================================
    MOBILE RESPONSIVE PATCH – FINAL CLEANED VERSION
-   Keeps desktop design 100% intact – only mobile overrides
+   Keeps desktop design 100% intact
    ========================================================= */
 
 /* Core layout, padding, grids */
@@ -2615,15 +2688,14 @@ footer .footer-social img {
     gap: 1.2rem;
   }
 
-  /* Social icons visibility & tap fix */
+  /* Social icons visibility fix */
   .social-links,
   .footer-social {
     position: relative !important;
-    z-index: 10 !important;
+    z-index: 999 !important;
     opacity: 1 !important;
     transform: none !important;
     display: flex !important;
-    contain: paint !important; /* isolates repaint – strongest fix for "appear after zoom" */
   }
 
   .social-links a,
@@ -2634,15 +2706,6 @@ footer .footer-social img {
     min-height: 52px !important;
     font-size: 1.8rem !important;
     padding: 0.6rem !important;
-  }
-
-  .social-links i,
-  .social-links svg,
-  .social-links img,
-  .footer-social i,
-  .footer-social svg,
-  .footer-social img {
-    loading: eager !important; /* no lazy load delay */
   }
 }
 
@@ -2659,14 +2722,11 @@ footer .footer-social img {
   nav li a,
   .teaser-card,
   .social-links a,
-  .carousel-dot,
-  .carousel-item {
+  .remove-item {
     pointer-events: auto !important;
     touch-action: manipulation !important;
     cursor: pointer !important;
     -webkit-tap-highlight-color: rgba(244, 195, 0, 0.25) !important;
-    min-height: 48px !important;
-    min-width: 48px !important;
   }
 }
 
@@ -2682,15 +2742,16 @@ footer .footer-social img {
   .cta .book-now::after,
   .price-cta::before,
   .price-cta::after,
-  [class*="glow"]::before,
-  [class*="glow"]::after,
+  [class*="glow"],
+  [class*="::before"],
+  [class*="::after"],
   #booking::before,
   #booking::after,
   .contact-section::before,
   .contact-section::after,
-  #lookbook::before,
-  #services::before,
-  #pricing::before {
+  .lookbook::before,
+  .services::before,
+  .pricing::before {
     pointer-events: none !important;
   }
 }
@@ -2707,7 +2768,7 @@ footer .footer-social img {
   #booking button,
   #booking .booking-submit {
     pointer-events: auto !important;
-    touch-action: manipulation !important;
+    touch-action: auto !important;
     user-select: text !important;
     -webkit-user-select: text !important;
     position: relative !important;
@@ -2717,15 +2778,13 @@ footer .footer-social img {
   #booking input,
   #booking select,
   #booking textarea {
-    font-size: 16px !important; /* minimum readable size */
+    font-size: 16px !important;
     padding: 1.1rem 1.3rem !important;
     min-height: 52px !important;
   }
 
   #booking select {
-    /* Keep your custom arrow – menulist-button can break it in some browsers */
-    appearance: none !important;
-    -webkit-appearance: none !important;
+    appearance: menulist-button !important;
   }
 
   .booking-submit {
@@ -2735,7 +2794,7 @@ footer .footer-social img {
   }
 }
 
-/* Tap/active feedback – global but safe */
+/* Tap/active feedback */
 @media (max-width: 768px) {
   a:active,
   button:active,
@@ -2746,8 +2805,7 @@ footer .footer-social img {
   .footer-btn:active,
   .teaser-card:active,
   .carousel-item:active,
-  .social-links a:active,
-  .footer-social a:active {
+  .social-links a:active {
     transform: scale(0.96) !important;
     opacity: 0.92 !important;
     transition: transform 0.08s ease, opacity 0.08s ease;
@@ -2762,11 +2820,5 @@ footer .footer-social img {
 
   nav ul {
     gap: 0.8rem;
-  }
-
-  .footer-social a {
-    font-size: 2rem !important;
-    min-width: 56px !important;
-    min-height: 56px !important;
   }
 }

@@ -28,7 +28,8 @@ const $$ = (sel, ctx = document) => Array.from(ctx.querySelectorAll(sel));
 
 // ===================== REVEAL ON SCROLL =====================
 (() => {
-  const revealItems = $$('main section:not(#lookbook), .service-card, .price-box, .team-card, .teaser-card');
+  // Removed :not(#lookbook) — lookbook section no longer exists
+  const revealItems = $$('main section, .service-card, .price-box, .team-card, .teaser-card');
   if (!revealItems.length) return;
 
   const io = new IntersectionObserver(
@@ -106,7 +107,8 @@ const $$ = (sel, ctx = document) => Array.from(ctx.querySelectorAll(sel));
 
 // ===================== GALLERY LIGHTBOX =====================
 (() => {
-  const galleryImgs = $$('.gallery-item img, .gallery-grid img, .carousel-item img');
+  // Removed .carousel-item img selector — lookbook carousel no longer exists
+  const galleryImgs = $$('.gallery-item img, .gallery-grid img');
   if (!galleryImgs.length) return;
 
   let lightbox = null;
@@ -269,8 +271,3 @@ window.addEventListener('load', () => {
 
   document.body.classList.add('loaded');
 });
-
-// ===================== 3D FALLBACK FOR MOBILE/OLD BROWSERS =====================
-if (/Mobi|Android/i.test(navigator.userAgent) || !CSS.supports('transform-style', 'preserve-3d')) {
-  $('.scene')?.classList.add('no-3d-fallback');
-}
