@@ -637,6 +637,7 @@ p {
     -webkit-tap-highlight-color: transparent; /* cleaner tap feedback on Android */
   }
 }
+
 /* ===================== HEADER ===================== */
 header {
   position: sticky;
@@ -648,6 +649,7 @@ header {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
   transition: padding 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
   will-change: padding, background, box-shadow;
+  pointer-events: auto; /* ensure header is interactive */
 }
 
 /* Shrink effect when scrolling */
@@ -667,6 +669,8 @@ header.scrolled {
   margin: auto;
   padding: 0 1rem;
   min-height: 56px;
+  position: relative; /* ensures children stack correctly */
+  z-index: 1; /* keeps nav items above background blur */
 }
 
 /* Mobile header tweaks – better thumb reach */
@@ -708,6 +712,8 @@ header.scrolled {
   cursor: pointer;
   transition: transform 0.3s ease;
   will-change: transform;
+  -webkit-tap-highlight-color: transparent; /* remove mobile tap highlight */
+  pointer-events: auto; /* ensure brand stays clickable */
 }
 
 .brand:hover,
@@ -734,7 +740,7 @@ header.scrolled {
   background: var(--color-accent);
   transition: width 0.4s ease, opacity 0.3s ease;
   opacity: 0;
-  pointer-events: none;
+  pointer-events: none; /* underline never blocks clicks */
 }
 
 .brand h1:hover,
@@ -782,7 +788,6 @@ header.scrolled {
   filter: brightness(0.95);
   transition: transform 0.08s ease, filter 0.08s ease;
 }
-
 /* ===================== NAVIGATION ===================== */
 nav ul {
   list-style: none;
@@ -806,6 +811,8 @@ nav li a {
   position: relative;
   transition: color 0.3s ease, transform 0.2s ease, text-shadow 0.3s ease;
   will-change: transform, color, text-shadow;   /* smoother */
+  -webkit-tap-highlight-color: transparent; /* remove mobile tap highlight */
+  pointer-events: auto; /* ensure links remain clickable */
 }
 
 nav li a i {
@@ -862,6 +869,9 @@ nav li a.active {
   cursor: pointer;
   padding: 12px;
   margin-right: -12px;
+  -webkit-tap-highlight-color: transparent; /* remove mobile tap highlight */
+  pointer-events: auto; /* ensure button is clickable */
+  touch-action: manipulation; /* faster mobile tap response */
 }
 
 .hamburger .bar {
@@ -879,7 +889,6 @@ nav li a.active {
   }
 
   nav ul {
-    display: none;
     flex-direction: column;
     background: rgba(18,18,18,0.95);
     backdrop-filter: blur(8px);
@@ -892,14 +901,15 @@ nav li a.active {
     right: 0;
     box-shadow: 0 8px 20px rgba(0,0,0,0.5);
     opacity: 0;
+    visibility: hidden; /* smoother toggle */
     transform: translateY(-10px);
-    transition: opacity 0.3s ease, transform 0.3s ease;
-    z-index: 998;
+    transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease;
+    z-index: 1000; /* above header */
   }
 
   nav ul.active {
-    display: flex;
     opacity: 1;
+    visibility: visible;
     transform: translateY(0);
   }
 
@@ -909,9 +919,7 @@ nav li a.active {
     padding: 1.2rem 1.5rem;
     min-height: 54px;
   }
-}
-
-/* ===================== CTA BUTTONS ===================== */
+}/* ===================== CTA BUTTONS ===================== */
 .cta {
   display: flex;
   align-items: center;
@@ -980,6 +988,9 @@ nav li a.active {
   overflow: hidden;
   backdrop-filter: blur(6px);
   will-change: transform, box-shadow, background, color;
+  -webkit-tap-highlight-color: transparent; /* remove mobile tap highlight */
+  pointer-events: auto; /* ensure button is clickable */
+  touch-action: manipulation; /* faster mobile tap response */
 }
 
 .cta .book-now:hover,
@@ -1013,6 +1024,9 @@ nav li a.active {
   font-weight: 700;
   transition: all 0.3s ease;
   will-change: transform, box-shadow, background;
+  -webkit-tap-highlight-color: transparent; /* remove mobile tap highlight */
+  pointer-events: auto;
+  touch-action: manipulation;
 }
 
 .cta .call:hover,
@@ -1070,7 +1084,6 @@ nav li a:active,
   opacity: 0.92 !important;
   transition: transform 0.08s ease, opacity 0.08s ease;
 }
-
 /* ===================== HERO ===================== */
 .hero {
   display: flex;
@@ -1091,7 +1104,8 @@ nav li a:active,
   content: "";
   position: absolute;
   inset: 0;
-  pointer-events: none;
+  pointer-events: none; /* ensure overlay never blocks clicks */
+  z-index: 0; /* keep it behind content */
 }
 
 .hero-inner {
@@ -1139,7 +1153,7 @@ nav li a:active,
   flex-wrap: wrap;
   justify-content: center;
   gap: 0.75rem;
-  z-index: 2;
+  z-index: 2; /* ensure CTAs above overlay */
 }
 
 /* CTA buttons */
@@ -1149,8 +1163,11 @@ nav li a:active,
   font-weight: 700;
   transition: transform 0.3s ease, box-shadow 0.3s ease, border 0.3s ease;
   position: relative;
-  overflow: hidden;
+  overflow: hidden; /* contain ripple effect */
   will-change: transform, box-shadow, border;
+  -webkit-tap-highlight-color: transparent; /* remove mobile tap highlight */
+  pointer-events: auto; /* ensure links are clickable */
+  touch-action: manipulation; /* faster mobile tap response */
 }
 
 .hero-ctas a:focus-visible {
@@ -1247,9 +1264,7 @@ nav li a:active,
     max-width: 360px;
     margin: 0.5rem auto;
   }
-}
-
-/* ===================== SERVICES & PRICING ===================== */
+}/* ===================== SERVICES & PRICING ===================== */
 #services,
 #pricing {
   text-align: center;
@@ -1268,8 +1283,8 @@ nav li a:active,
   content: "";
   position: absolute;
   inset: 0;
-  pointer-events: none;
-  z-index: 0;
+  pointer-events: none; /* ensure overlay never blocks clicks */
+  z-index: 0; /* keep behind content */
 }
 
 /* Section Headings */
@@ -1313,6 +1328,7 @@ nav li a:active,
   transform: translateY(20px);
   animation: fadeUp 0.8s ease forwards;
   will-change: transform, box-shadow, border;   /* smoother hover */
+  pointer-events: auto; /* ensure cards remain clickable */
 }
 
 /* Disable pointer events on overlays/pseudo to prevent tap stealing */
@@ -1394,6 +1410,9 @@ nav li a:active,
   transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
   color: var(--color-bg);
   animation: pulseGlow 2.5s ease-in-out infinite;
+  -webkit-tap-highlight-color: transparent; /* remove mobile tap highlight */
+  pointer-events: auto; /* ensure button is clickable */
+  touch-action: manipulation; /* faster mobile tap response */
 }
 
 .price-cta:hover,
@@ -1483,6 +1502,7 @@ nav li a:active,
   opacity: 0;
   transform: translateY(20px);
   animation: fadeUp 0.8s ease forwards;
+  pointer-events: auto; /* ensure form is interactive */
 }
 
 #booking label {
@@ -1509,11 +1529,15 @@ nav li a:active,
   font-size: 1rem;
   transition: all 0.25s ease;
   will-change: border-color, box-shadow, background;
+  -webkit-tap-highlight-color: transparent; /* remove mobile tap highlight */
+  pointer-events: auto; /* ensure fields are clickable */
+  touch-action: manipulation; /* faster mobile tap response */
 }
 
 #booking select {
   padding-right: 2.5rem;
   appearance: none;
+  background-color: rgba(30, 30, 40, 0.45); /* ensure visible background */
   background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='10' viewBox='0 0 14 10'><path fill='%23f4c300' d='M7 10L0 0h14z'/></svg>");
   background-repeat: no-repeat;
   background-position: right 1rem center;
@@ -1584,6 +1608,9 @@ nav li a:active,
   box-shadow: 0 6px 20px rgba(244, 195, 0, 0.4);
   animation: pulseGlow 3s ease-in-out infinite;
   will-change: transform, box-shadow, background;
+  -webkit-tap-highlight-color: transparent; /* remove mobile tap highlight */
+  pointer-events: auto;
+  touch-action: manipulation;
 }
 
 .booking-submit:hover,
@@ -1613,6 +1640,7 @@ nav li a:active,
   min-height: 1.6rem;
   transition: all 0.3s ease;
   border: 1px solid transparent;
+  pointer-events: none; /* ensure feedback never blocks inputs */
 }
 
 #booking-feedback.error {
@@ -1683,7 +1711,6 @@ textarea.error {
     padding: 1.1rem 2rem;
   }
 }
-
 /* ===================== CONTACT SECTION ===================== */
 .contact-section {
   padding: 5rem 1.5rem 4rem;
@@ -1694,18 +1721,14 @@ textarea.error {
   color: var(--color-text);
   text-align: center;
   overflow: hidden;
-}
-
-/* Subtle background movement */
-.contact-section {
   animation: bgShift 12s ease-in-out infinite alternate;
 }
 
-/* Disable animation on mobile for performance */
+/* Disable animation + fixed background on mobile for performance */
 @media (max-width: 768px) {
   .contact-section {
-    background-attachment: scroll;
-    animation: none;
+    background-attachment: scroll !important;
+    animation: none !important;
   }
 }
 
@@ -1715,7 +1738,7 @@ textarea.error {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  z-index: 0;
+  z-index: 0; /* keep overlay behind */
 }
 
 /* Prevent overlays from blocking interaction */
@@ -1736,6 +1759,8 @@ textarea.error {
   pointer-events: auto !important;
   position: relative;
   z-index: 2 !important;
+  -webkit-tap-highlight-color: transparent; /* remove mobile tap highlight */
+  touch-action: manipulation; /* faster mobile taps */
 }
 
 /* Heading + Intro */
@@ -1809,6 +1834,7 @@ textarea.error {
   min-height: 320px;
   border: none;
   touch-action: pan-y pan-x pinch-zoom;
+  pointer-events: auto; /* ensure map remains interactive */
 }
 
 /* Mobile-first responsive adjustments */
@@ -1883,12 +1909,20 @@ textarea.error {
   overflow-x: auto;
   overflow-y: hidden;
   -webkit-overflow-scrolling: touch;
+  touch-action: pan-x;                 /* smooth horizontal swipes on mobile */
+  overscroll-behavior-x: contain;      /* prevent pull-to-refresh/jank while swiping */
+  scroll-snap-type: x proximity;       /* optional: gentle snap if items use scroll-snap-align */
+  pointer-events: auto;                /* ensure items remain clickable */
 }
 
 .gallery-grid::-webkit-scrollbar {
   display: none;
 }
 
+/* Optional: if gallery items should snap */
+.gallery-grid > * {
+  scroll-snap-align: start;
+}
 /* ===================== PERFORMANCE HINTS ===================== */
 .reveal-visible,
 .hero-inner,
@@ -1901,8 +1935,9 @@ textarea.error {
 .teaser-card,
 .cta-final .cta-primary,
 .footer-btn {
-  transform: translateZ(0);
-  will-change: transform, opacity, box-shadow;   /* expanded safely */
+  transform: translate3d(0,0,0); /* consistent GPU compositing */
+  will-change: transform, opacity, box-shadow; /* expanded safely */
+  pointer-events: auto; /* ensure elements remain interactive */
 }
 
 /* Add will-change only when needed (via JS class before animation) */
@@ -1927,6 +1962,7 @@ textarea.error {
     animation: none !important;
     transition: none !important;
     transform: none !important;
+    box-shadow: none !important; /* prevent subtle flicker */
   }
 }
 
@@ -1940,12 +1976,15 @@ textarea.error {
     background-attachment: scroll;
     background-size: cover;
     background-position: center;
+    background-repeat: no-repeat; /* ensure consistent mobile fallback */
   }
 }
 
+/* Reveal animations */
 .reveal {
   opacity: 0;
   transform: translateY(18px);
+  will-change: opacity, transform; /* performance hint */
 }
 .reveal-visible {
   opacity: 1;
@@ -1961,92 +2000,8 @@ textarea.error {
   }
 }
 
-.carousel-dots {
-  display: flex;
-  justify-content: center;
-  gap: 0.5rem;
-  margin-top: 1rem;
-}
-.carousel-dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  border: none;
-  background: #ccc;
-  cursor: pointer;
-}
-.carousel-dot.active {
-  background: #333;
-}
-.carousel-dot:focus-visible {
-  outline: 2px solid var(--color-accent, #f4c300);
-  outline-offset: 2px;
-}
 
-/* Mobile carousel dots – bigger tap area */
-@media (max-width: 768px) {
-  .carousel-dot {
-    width: 12px !important;
-    height: 12px !important;
-    min-width: 44px;
-    min-height: 44px;
-    margin: 0 0.4rem;
-  }
-}
-
-#service-cart {
-  position: fixed;
-  bottom: 1rem;
-  right: 1rem;
-  background: #fff;
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  padding: 1rem;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  transition: opacity 0.3s ease, transform 0.3s ease;
-  max-width: 320px;
-  max-height: 60vh;
-  overflow-y: auto;
-}
-
-/* Mobile cart – wider & easier to read */
-@media (max-width: 768px) {
-  #service-cart {
-    max-width: 90vw !important;
-    bottom: 1rem;
-    right: 1rem;
-    left: 1rem;
-    margin: 0 auto;
-    max-height: 50vh !important;
-  }
-}
-
-#service-cart.collapsed .items {
-  display: none;
-}
-#service-cart.visible {
-  opacity: 1;
-  transform: scale(1.02);
-}
-.cart-item {
-  display: flex;
-  justify-content: space-between;
-  gap: 8px;
-  padding: .3rem 0;
-  border-bottom: 1px dashed rgba(0,0,0,0.04);
-}
-.cart-price {
-  font-size: .85rem;
-  color: var(--color-muted, #666);
-}
-.remove-item {
-  border: none;
-  background: transparent;
-  cursor: pointer;
-  color: var(--color-muted, #666);
-  font-weight: 700;
-}
-
+/* Booking feedback */
 #booking-feedback {
   margin-top: 0.5rem;
   font-size: 0.9rem;
@@ -2058,6 +2013,7 @@ textarea.error {
   color: #28a745;
 }
 
+/* Lightbox */
 #lightbox {
   position: fixed;
   inset: 0;
@@ -2097,6 +2053,8 @@ textarea.error {
   font-size: 2rem;
   color: #fff;
   cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
 
 /* Prevent close button tap stealing */
@@ -2113,12 +2071,13 @@ textarea.error {
   justify-content: center;
   margin-top: 1rem;
 }
-
 .social-links a {
   color: var(--color-muted, #666);
   font-size: 1.6rem;
   padding: 0.3rem;
   transition: color 0.3s ease, transform 0.3s ease;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
 
 /* Mobile social icons – bigger tap area */
@@ -2139,12 +2098,11 @@ textarea.error {
   color: var(--color-accent, hsl(59, 100%, 50%));
   transform: scale(1.15);
 }
-
 .social-links i {
   pointer-events: none;
 }
 
-/* Main nav ul (seems duplicated – but kept as-is) */
+/* Main nav */
 .main-nav ul {
   display: flex;
   gap: 2rem;
@@ -2152,7 +2110,6 @@ textarea.error {
   padding: 0;
   margin: 0;
 }
-
 .main-nav a {
   display: flex;
   flex-direction: column;
@@ -2161,24 +2118,23 @@ textarea.error {
   color: #fff;
   font-size: 1rem;
   transition: color 0.3s ease, transform 0.3s ease;
+  pointer-events: auto; /* ensure links remain clickable */
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
-
 .main-nav a i {
   font-size: 1.6rem;
   margin-bottom: 0.3rem;
   color: #ffd700;
 }
-
 .main-nav a:hover,
 .main-nav a:focus {
   color: #ffcc00;
   transform: scale(1.05);
 }
-
 .main-nav a span {
   text-shadow: 0 1px 2px rgba(0,0,0,0.6);
 }
-
 /* ===================== TEASERS SECTION (on Home) ===================== */
 .teasers {
   padding: 4rem 1.5rem;
@@ -2218,6 +2174,9 @@ textarea.error {
   align-items: center;
   min-height: 220px;
   will-change: transform, box-shadow;
+  pointer-events: auto; /* ensure clickable */
+  -webkit-tap-highlight-color: transparent; /* clean mobile tap */
+  touch-action: manipulation; /* faster tap response */
 }
 
 .teaser-card:hover,
@@ -2289,6 +2248,8 @@ textarea.error {
   box-shadow: 0 8px 25px rgba(244, 195, 0, 0.4);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   will-change: transform, box-shadow;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
 
 .cta-final .cta-primary.large:hover,
@@ -2322,6 +2283,8 @@ textarea.error {
   width: 100%;
   max-width: 280px;
   margin: 0.5rem auto;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
 
 /* Tap feedback on footer buttons */
@@ -2330,7 +2293,6 @@ textarea.error {
   opacity: 0.92 !important;
   transition: transform 0.08s ease, opacity 0.08s ease;
 }
-
 /* ===================== FOOTER ===================== */
 footer {
   padding: 2rem 1rem;
@@ -2374,6 +2336,9 @@ footer {
   transition: all 0.4s ease;
   will-change: transform, box-shadow, background, color, border-color;
   text-align: center;
+  pointer-events: auto; /* ensure clickable */
+  -webkit-tap-highlight-color: transparent; /* clean mobile tap */
+  touch-action: manipulation; /* faster tap response */
 }
 
 /* Glow layer */
@@ -2406,7 +2371,7 @@ footer {
   background: linear-gradient(90deg, transparent, rgba(255,255,255,0.18), transparent);
   transform: translateX(-100%);
   transition: transform 0.8s ease;
-  pointer-events: none !important;   /* ← added */
+  pointer-events: none !important;
 }
 
 .footer-btn:hover::after {
@@ -2443,6 +2408,9 @@ footer .footer-social a {
   color: var(--color-accent);
   font-size: 1.2rem;
   transition: color 0.3s ease, transform 0.3s ease;
+  -webkit-tap-highlight-color: transparent; /* clean mobile tap */
+  touch-action: manipulation;
+  will-change: transform, color;
 }
 
 footer .footer-social a:hover,
@@ -2485,7 +2453,6 @@ footer .footer-social a:focus-visible {
   #contact { padding: 3rem 1rem; }
   footer { padding: 1.5rem 0.5rem; font-size: clamp(1rem, 3.5vw, 1.2rem); }
 }
-
 /* ===================== PRELOADER ===================== */
 #preloader {
   position: fixed;
@@ -2499,6 +2466,7 @@ footer .footer-social a:focus-visible {
   z-index: 9999;
   transition: opacity 0.6s ease, visibility 0.6s ease;
   will-change: opacity;
+  pointer-events: auto; /* ensure overlay blocks interaction while visible */
 }
 
 .loader-text {
@@ -2506,6 +2474,7 @@ footer .footer-social a:focus-visible {
   font-weight: 700;
   color: var(--color-accent);
   letter-spacing: 2px;
+  text-align: center;
 }
 
 /* Scissors Loader */
@@ -2513,6 +2482,7 @@ footer .footer-social a:focus-visible {
   position: relative;
   width: 60px;
   height: 60px;
+  transform: translateZ(0); /* GPU compositing for smoother animation */
 }
 
 .scissors-loader .blade {
@@ -2583,12 +2553,14 @@ footer .footer-social a:focus-visible {
   }
 }
 
+/* Hidden state */
 #preloader.hidden {
   opacity: 0;
   visibility: hidden;
+  pointer-events: none; /* prevent blocking clicks when hidden */
 }
 /* =========================================================
-   MOBILE RESPONSIVE PATCH – FINAL CLEANED VERSION
+   MOBILE RESPONSIVE PATCH – FINAL PRODUCTION VERSION
    Keeps desktop design 100% intact
    ========================================================= */
 
@@ -2596,6 +2568,7 @@ footer .footer-social a:focus-visible {
 @media (max-width: 768px) {
   body {
     background-attachment: scroll;
+    -webkit-tap-highlight-color: transparent; /* global tap highlight reset */
   }
 
   section,
@@ -2675,6 +2648,11 @@ footer .footer-social a:focus-visible {
     font-size: 1.8rem !important;
     padding: 0.6rem !important;
   }
+
+  /* Smooth scrolling */
+  html {
+    scroll-behavior: smooth;
+  }
 }
 
 /* Gentle global button/link protection – strengthened for reliability */
@@ -2750,7 +2728,7 @@ footer .footer-social a:focus-visible {
   #booking input,
   #booking select,
   #booking textarea {
-    font-size: 16px !important;
+    font-size: 16px !important; /* prevents iOS zoom */
     padding: 1.1rem 1.3rem !important;
     min-height: 52px !important;
   }
