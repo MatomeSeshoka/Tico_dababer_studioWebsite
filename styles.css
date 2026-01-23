@@ -635,6 +635,7 @@ header.scrolled {
   justify-content: center;
 }
 
+
 /* ===================== NAVIGATION ===================== */
 nav ul {
   list-style: none;
@@ -642,7 +643,6 @@ nav ul {
   gap: 2rem;
   margin: 0;
   padding: 0;
-  contain: paint; /* helps mobile repaint consistency after refresh – no visual change */
 }
 
 nav li a {
@@ -658,10 +658,7 @@ nav li a {
   border-radius: var(--radius-sm);
   position: relative;
   transition: color 0.3s ease, transform 0.2s ease, text-shadow 0.3s ease;
-  will-change: transform, color, text-shadow;
-  touch-action: manipulation; /* improves tap reliability on mobile */
-  min-height: 44px;           /* safe tap target */
-  min-width: 44px;
+  will-change: transform, color, text-shadow;   /* smoother */
 }
 
 nav li a i {
@@ -695,7 +692,7 @@ nav li a::after {
   height: 2px;
   background: var(--color-accent);
   transition: width 0.3s ease;
-  pointer-events: none;
+  pointer-events: none;   /* ← prevents tap stealing */
 }
 
 nav li a:hover::after,
@@ -718,9 +715,6 @@ nav li a.active {
   cursor: pointer;
   padding: 12px;
   margin-right: -12px;
-  touch-action: manipulation;
-  min-height: 48px;
-  min-width: 48px;
 }
 
 .hamburger .bar {
@@ -734,11 +728,12 @@ nav li a.active {
 @media (max-width: 768px) {
   .hamburger {
     display: flex;
-    padding: 16px;
+    padding: 16px;   /* larger tap target */
   }
 
   nav ul {
-     flex-direction: column;
+    display: none;
+    flex-direction: column;
     background: rgba(18,18,18,0.95);
     backdrop-filter: blur(8px);
     padding: 1.8rem 1.2rem;
@@ -749,22 +744,16 @@ nav li a.active {
     left: 0;
     right: 0;
     box-shadow: 0 8px 20px rgba(0,0,0,0.5);
-
     opacity: 0;
     transform: translateY(-10px);
     transition: opacity 0.3s ease, transform 0.3s ease;
-
-    visibility: hidden;
-    pointer-events: none;
-
-    z-index: 9999;
+    z-index: 998;
   }
 
   nav ul.active {
+    display: flex;
     opacity: 1;
     transform: translateY(0);
-    visibility: visible;
-    pointer-events: auto;
   }
 
   nav li a {
@@ -775,6 +764,7 @@ nav li a.active {
   }
 }
 
+
 /* ===================== CTA BUTTONS ===================== */
 .cta {
   display: flex;
@@ -783,7 +773,6 @@ nav li a.active {
   flex-wrap: wrap;
   justify-content: center;
   margin-top: var(--space-md);
-  contain: paint; /* improves repaint on mobile for buttons */
 }
 
 .book-now-wrapper {
@@ -795,7 +784,7 @@ nav li a.active {
 .book-now-glow::after,
 .cta .book-now::before,
 .cta .book-now::after {
-  pointer-events: none !important;
+  pointer-events: none !important;   /* prevents tap stealing */
 }
 
 .book-now-glow {
@@ -845,8 +834,6 @@ nav li a.active {
   overflow: hidden;
   backdrop-filter: blur(6px);
   will-change: transform, box-shadow, background, color;
-  touch-action: manipulation;
-  min-height: 48px;
 }
 
 .cta .book-now:hover,
@@ -880,8 +867,6 @@ nav li a.active {
   font-weight: 700;
   transition: all 0.3s ease;
   will-change: transform, box-shadow, background;
-  touch-action: manipulation;
-  min-height: 48px;
 }
 
 .cta .call:hover,
@@ -891,10 +876,10 @@ nav li a.active {
   box-shadow: 0 6px 20px rgba(244, 195, 0, 0.4);
 }
 
-/* Responsive CTA – unchanged except added touch helpers */
+/* Responsive CTA – medium size on mobile (not too big) */
 @media (max-width: 768px) {
   .cta {
-    gap: 1rem;
+    gap: 1rem;                    /* tighter spacing between stacked buttons */
     flex-direction: column;
     width: 100%;
   }
@@ -902,10 +887,10 @@ nav li a.active {
   .cta .book-now,
   .cta .call {
     width: 100%;
-    max-width: 320px;
-    padding: 1rem 1.8rem !important;
-    font-size: 1.15rem !important;
-    min-height: 52px !important;
+    max-width: 320px;             /* ← prevents stretching too wide */
+    padding: 1rem 1.8rem !important;   /* medium height + good width */
+    font-size: 1.15rem !important;     /* clear but not oversized */
+    min-height: 52px !important;       /* comfortable tap target */
     line-height: 1.4 !important;
     text-align: center;
     border-radius: 999px !important;
@@ -918,7 +903,7 @@ nav li a.active {
   }
 }
 
-/* Hamburger cross animation – unchanged */
+/* Hamburger cross animation */
 .hamburger.active .bar:nth-child(1) {
   transform: rotate(45deg) translate(8px, 8px);
 }
@@ -929,7 +914,7 @@ nav li a.active {
   transform: rotate(-45deg) translate(6px, -6px);
 }
 
-/* Tap feedback for nav + CTAs – unchanged */
+/* Tap feedback for nav + CTAs */
 nav li a:active,
 .cta a:active,
 .cta button:active,
@@ -939,6 +924,7 @@ nav li a:active,
   opacity: 0.92 !important;
   transition: transform 0.08s ease, opacity 0.08s ease;
 }
+
 
 /* ===================== HERO ===================== */
 .hero {
@@ -1348,108 +1334,54 @@ nav li a:active,
     max-width: 100%;
     padding: 1.5rem;
   }
-}
-/* ===================== LOOKBOOK ===================== */
-#lookbook {
-  padding: 5rem 1.5rem 6rem;
-  text-align: center;
-  background: inherit;
-  animation: inherit;
-  position: relative;
-  color: var(--color-text);
-  overflow: hidden;
-  z-index: 1;
-  contain: paint; /* helps mobile repaint & visibility of 3D scene */
-}
 
-/* Readability overlay – unchanged */
-#lookbook::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-}
-
-#lookbook h2,
-#lookbook p {
-  position: relative;
-  z-index: 1;
-}
-
-#lookbook h2 {
-  color: var(--color-accent);
-  margin-bottom: 1rem;
-  font-size: clamp(2.4rem, 6vw, 3.5rem);
-  text-shadow: 0 2px 8px rgba(0,0,0,0.4);
-  animation: fadeUp 1s ease forwards;
-}
-
-#lookbook p {
-  font-size: 1.1rem;
-  max-width: 680px;
-  margin: 0 auto 3rem;
-  color: var(--color-muted);
-}
-
-/* ===================== 3D Carousel Scene ===================== */
+  /* ===================== 2D Scroll-Snap Carousel ===================== */
 .scene {
   width: 100%;
   height: 45vh;
   min-height: 340px;
   max-height: 500px;
-  perspective: 1000px;
   margin: 0 auto 4rem;
+  overflow: hidden;
   position: relative;
   z-index: 1;
-  contain: layout paint; /* isolates 3D compositing – big help for mobile render issues */
 }
 
 .carousel-container {
   width: 100%;
   height: 100%;
-  position: relative;
-  transform-style: preserve-3d;
-  contain: paint;
 }
 
 .carousel {
-  width: 100%;
+  display: flex;
   height: 100%;
-  position: absolute;
-  transform-style: preserve-3d;
-  animation: rotateCarousel var(--carousel-speed, 25s) linear infinite;
-  backface-visibility: hidden; /* prevents some flicker on mobile */
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;           /* smooth iOS momentum scrolling */
+  gap: 1.5rem;
+  padding: 0 20vw;                             /* creates peek of next/prev items */
+  scroll-padding: 20vw;                        /* snap considers the padding so center works */
+  scrollbar-width: none;                       /* hide scrollbar in Firefox */
+  -ms-overflow-style: none;                    /* hide in Edge/IE */
 }
 
-/* Continuous rotation – unchanged */
-.carousel-container:hover .carousel {
-  animation-play-state: running;
+.carousel::-webkit-scrollbar {
+  display: none;                               /* hide in Chrome/Safari */
 }
 
-/* ===================== Items ===================== */
 .carousel-item {
-  position: absolute;
-  width: 85%;
+  flex: 0 0 60%;                               /* 60% width → good peek of sides on desktop */
   height: 85%;
-  top: 7.5%;
-  left: 7.5%;
-  backface-visibility: hidden; /* was visible – hidden often better for perf/3D */
+  max-height: 100%;
+  scroll-snap-align: center;
   border-radius: 16px;
   overflow: hidden;
   background: rgba(255,255,255,0.05);
   border: 1px solid rgba(244,195,0,0.2);
   box-shadow: 0 0 25px rgba(244, 195, 0, 0.25);
   transition: box-shadow 0.6s ease, transform 0.6s ease, border 0.3s ease;
-  opacity: 0.95;
-  will-change: transform, box-shadow, opacity; /* removed border from will-change to reduce overhead */
-}
-
-/* Disable pointer events on pseudo/img – unchanged */
-.carousel-item::before,
-.carousel-item::after,
-.carousel-item img {
-  pointer-events: none !important;
+  opacity: 0.92;
+  will-change: transform, box-shadow, opacity;
 }
 
 .carousel-item img {
@@ -1460,10 +1392,10 @@ nav li a:active,
   display: block;
   border-radius: 12px;
   background: rgba(0,0,0,0.3);
-  loading: eager; /* force load for immediate visibility on mobile */
+  pointer-events: none;
 }
 
-/* Hover effects – unchanged */
+/* Hover/active feedback (kept your gold theme) */
 .carousel-item:hover {
   box-shadow: 0 0 90px rgba(244, 195, 0, 0.65);
   transform: scale(1.03);
@@ -1471,7 +1403,6 @@ nav li a:active,
   opacity: 1;
 }
 
-/* Tap/active feedback on mobile – unchanged */
 .carousel-item:active {
   transform: scale(1.02) !important;
   box-shadow: 0 0 40px rgba(244, 195, 0, 0.5) !important;
@@ -1479,83 +1410,31 @@ nav li a:active,
   opacity: 0.95 !important;
 }
 
-/* ===================== 3D positioning for 6 items – unchanged ===================== */
-:root { --carousel-depth: 200px; }
-
-.carousel-item:nth-child(1) { transform: rotateY(0deg)   translateZ(var(--carousel-depth)); }
-.carousel-item:nth-child(2) { transform: rotateY(60deg)  translateZ(var(--carousel-depth)); }
-.carousel-item:nth-child(3) { transform: rotateY(120deg) translateZ(var(--carousel-depth)); }
-.carousel-item:nth-child(4) { transform: rotateY(180deg) translateZ(var(--carousel-depth)); }
-.carousel-item:nth-child(5) { transform: rotateY(240deg) translateZ(var(--carousel-depth)); }
-.carousel-item:nth-child(6) { transform: rotateY(300deg) translateZ(var(--carousel-depth)); }
-
-@keyframes rotateCarousel {
-  from { transform: rotateY(0deg); }
-  to   { transform: rotateY(360deg); }
-}
-
-/* ===================== Responsive ===================== */
+/* Responsive tweaks */
 @media (max-width: 992px) {
   .scene { height: 40vh; min-height: 300px; }
-  :root { --carousel-depth: 160px; }
+  .carousel { padding: 0 15vw; scroll-padding: 15vw; }
+  .carousel-item { flex: 0 0 70%; }
 }
 
 @media (max-width: 576px) {
   #lookbook { padding: 4rem 1rem 5rem; }
-  .scene { height: 35vh; min-height: 240px; }
-  :root { --carousel-depth: 130px; }
-  .carousel-item { width: 95%; height: 95%; top: 2.5%; left: 2.5%; }
+  .scene { height: 35vh; min-height: 240px; margin: 0 auto 3rem; }
+  .carousel { 
+    gap: 1rem; 
+    padding: 0 10vw; 
+    scroll-padding: 10vw; 
+  }
+  .carousel-item { flex: 0 0 85%; }  /* more visible on small screens */
 }
 
-/* Very small screens: horizontal scroll fallback – unchanged, already excellent */
-@media (max-width: 480px) {
-  .scene {
-    perspective: none;
-    height: auto;
-    min-height: auto;
-    margin: 0 auto 3rem;
-  }
-
-  .carousel {
-    animation: none;
-    display: flex;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    gap: 1.2rem;
-    padding: 0 1rem;
-    -webkit-overflow-scrolling: touch;
-  }
-
-  .carousel-item {
-    flex: 0 0 85%;
-    scroll-snap-align: center;
-    transform: none !important;
-    width: 85vw;
-    height: 55vh;
-    margin: 0.5rem 0;
-  }
-}
-
-/* Respect reduced motion – unchanged */
+/* Respect prefers-reduced-motion */
 @media (prefers-reduced-motion: reduce) {
-  .carousel {
-    animation: none !important;
-  }
-
   .carousel-item {
     transition: none !important;
     transform: none !important;
   }
-}.scene.no-3d-fallback {
-  perspective: none;
 }
-.no-3d-fallback .carousel {
-  animation: none;
-  display: flex;
-  overflow-x: auto;
-  /* etc., copy your small-screen fallback */
-}
-
 /* ===================== BOOKING ===================== */
 #booking {
   text-align: center;

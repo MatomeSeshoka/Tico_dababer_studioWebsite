@@ -23,7 +23,7 @@ const $$ = (sel, ctx = document) => Array.from(ctx.querySelectorAll(sel));
   };
 
   window.addEventListener('scroll', handleScroll, { passive: true });
-  onScroll(); // Initial check
+  onScroll(); // initial check
 })();
 
 // ===================== REVEAL ON SCROLL =====================
@@ -43,10 +43,11 @@ const $$ = (sel, ctx = document) => Array.from(ctx.querySelectorAll(sel));
     { threshold: 0.12 }
   );
 
-  revealItems.forEach((el) => io.observe(el));
+  revealItems.forEach(el => io.observe(el));
 
+  // Respect reduced motion preference
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    revealItems.forEach((el) => el.classList.add('reveal-visible'));
+    revealItems.forEach(el => el.classList.add('reveal-visible'));
     io.disconnect();
   }
 })();
@@ -82,10 +83,7 @@ const $$ = (sel, ctx = document) => Array.from(ctx.querySelectorAll(sel));
 
   const parallax = () => {
     const rect = heroImg.getBoundingClientRect();
-    const visible = Math.max(
-      0,
-      Math.min(1, (window.innerHeight - rect.top) / (window.innerHeight + rect.height))
-    );
+    const visible = Math.max(0, Math.min(1, (window.innerHeight - rect.top) / (window.innerHeight + rect.height)));
     heroImg.style.transform = `translateY(${(visible - 0.5) * -intensity}%) scale(1.02)`;
     ticking = false;
   };
@@ -122,7 +120,7 @@ const $$ = (sel, ctx = document) => Array.from(ctx.querySelectorAll(sel));
     lightbox.setAttribute('aria-modal', 'true');
     lightbox.innerHTML = `
       <div class="lightbox-content">
-        <button class="close" aria-label="Close image">&times;</button>
+        <button class="close" aria-label="Close enlarged image">&times;</button>
         <img src="" alt="">
         <div class="caption"></div>
       </div>
@@ -131,10 +129,10 @@ const $$ = (sel, ctx = document) => Array.from(ctx.querySelectorAll(sel));
 
     const closeBtn = lightbox.querySelector('.close');
     closeBtn.addEventListener('click', closeLightbox);
-    lightbox.addEventListener('click', (e) => {
+    lightbox.addEventListener('click', e => {
       if (e.target === lightbox) closeLightbox();
     });
-    document.addEventListener('keydown', (e) => {
+    document.addEventListener('keydown', e => {
       if (e.key === 'Escape') closeLightbox();
     });
 
@@ -142,23 +140,23 @@ const $$ = (sel, ctx = document) => Array.from(ctx.querySelectorAll(sel));
   };
 
   const openLightbox = (img) => {
-    lightbox = createLightbox();
-    const lightboxImg = lightbox.querySelector('img');
-    const caption = lightbox.querySelector('.caption');
+    const lb = createLightbox();
+    const lbImg = lb.querySelector('img');
+    const caption = lb.querySelector('.caption');
 
-    lightboxImg.src = img.currentSrc || img.src;
-    lightboxImg.alt = img.alt || 'Enlarged image';
+    lbImg.src = img.currentSrc || img.src;
+    lbImg.alt = img.alt || 'Enlarged image';
     caption.textContent = img.closest('figure')?.querySelector('figcaption')?.textContent || img.alt || '';
 
-    lightbox.classList.add('visible');
-    lightbox.querySelector('.close').focus();
+    lb.classList.add('visible');
+    lb.querySelector('.close').focus();
   };
 
   const closeLightbox = () => {
     if (lightbox) lightbox.classList.remove('visible');
   };
 
-  galleryImgs.forEach((img) => {
+  galleryImgs.forEach(img => {
     img.style.cursor = 'zoom-in';
     img.addEventListener('click', () => openLightbox(img));
   });
@@ -167,9 +165,7 @@ const $$ = (sel, ctx = document) => Array.from(ctx.querySelectorAll(sel));
 // ===================== CTA PULSE ANIMATION =====================
 (() => {
   const ctas = $$('.cta-primary, .book-now');
-  if (!ctas.length) return;
-
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if (!ctas.length || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
   const pulse = (el) => {
     el.animate(
@@ -182,9 +178,7 @@ const $$ = (sel, ctx = document) => Array.from(ctx.querySelectorAll(sel));
     );
   };
 
-  ctas.forEach((el) => {
-    setInterval(() => pulse(el), 6000);
-  });
+  ctas.forEach(el => setInterval(() => pulse(el), 6000));
 })();
 
 // ===================== HERO SCROLL EFFECTS =====================
@@ -199,7 +193,7 @@ const $$ = (sel, ctx = document) => Array.from(ctx.querySelectorAll(sel));
 
   const applyEffects = () => {
     const scrollY = window.scrollY;
-    if (hero) hero.style.backgroundPositionY = `${scrollY * bgSpeed}px`;
+    if (hero)      hero.style.backgroundPositionY      = `${scrollY * bgSpeed}px`;
     if (heroInner) heroInner.style.transform = `translateY(${scrollY * innerSpeed}px)`;
     ticking = false;
   };
@@ -212,7 +206,7 @@ const $$ = (sel, ctx = document) => Array.from(ctx.querySelectorAll(sel));
   };
 
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    if (hero) hero.style.backgroundPositionY = 'center';
+    if (hero)      hero.style.backgroundPositionY = 'center';
     if (heroInner) heroInner.style.transform = 'none';
     return;
   }
@@ -221,49 +215,62 @@ const $$ = (sel, ctx = document) => Array.from(ctx.querySelectorAll(sel));
   applyEffects();
 })();
 
-// ===================== NAVIGATION TOGGLE =====================
+// ===================== NAVIGATION TOGGLE (MOBILE MENU) =====================
 (() => {
-  const hamburger = document.querySelector('.hamburger');
-  const navMenu = document.querySelector('nav ul');
+  const hamburger = $('.hamburger');
+  const navMenu   = $('nav ul');
 
   if (!hamburger || !navMenu) return;
 
-  hamburger.addEventListener('click', () => {
-    navMenu.classList.toggle('active');
-    hamburger.classList.toggle('active');
-    hamburger.setAttribute('aria-expanded', navMenu.classList.contains('active'));
-  });
+  const toggleMenu = () => {
+    const willBeOpen = !navMenu.classList.contains('active');
 
-  navMenu.querySelectorAll('a').forEach(link => {
+    navMenu.classList.toggle('active', willBeOpen);
+    hamburger.classList.toggle('active', willBeOpen);
+    hamburger.setAttribute('aria-expanded', willBeOpen);
+    document.body.classList.toggle('menu-open', willBeOpen);
+  };
+
+  hamburger.addEventListener('click', toggleMenu);
+
+  // Close when clicking links (unless they have data-no-close)
+  navMenu.querySelectorAll('a:not([data-no-close])').forEach(link => {
     link.addEventListener('click', () => {
       navMenu.classList.remove('active');
       hamburger.classList.remove('active');
       hamburger.setAttribute('aria-expanded', 'false');
+      document.body.classList.remove('menu-open');
     });
   });
 
-  document.addEventListener('click', (e) => {
-    if (!navMenu.contains(e.target) && !hamburger.contains(e.target)) {
+  // Close when clicking outside
+  document.addEventListener('click', e => {
+    if (
+      !navMenu.contains(e.target) &&
+      !hamburger.contains(e.target) &&
+      !e.target.closest('.hamburger') &&
+      navMenu.classList.contains('active')
+    ) {
       navMenu.classList.remove('active');
       hamburger.classList.remove('active');
       hamburger.setAttribute('aria-expanded', 'false');
+      document.body.classList.remove('menu-open');
     }
   });
 })();
 
+// ===================== LOAD EVENTS & TOUCH OPTIMIZATIONS =====================
 window.addEventListener('load', () => {
-  document.querySelectorAll('button, a[href], .book-now, .call, .price-cta, .booking-submit, .footer-btn, nav li a').forEach(el => {
+  // Ensure interactive elements are touch-friendly
+  $$('button, a[href], .book-now, .call, .price-cta, .booking-submit, .footer-btn, nav li a').forEach(el => {
     el.style.pointerEvents = 'auto';
-    el.style.touchAction = 'manipulation';
+    el.style.touchAction   = 'manipulation';
   });
+
+  document.body.classList.add('loaded');
 });
 
-window.addEventListener("load", () => {
-  document.body.classList.add("loaded");
-});
-
-// Add class to body or .scene if 3D likely to fail
+// ===================== 3D FALLBACK FOR MOBILE/OLD BROWSERS =====================
 if (/Mobi|Android/i.test(navigator.userAgent) || !CSS.supports('transform-style', 'preserve-3d')) {
-  document.querySelector('.scene')?.classList.add('no-3d-fallback');
-  // Or set style: document.querySelector('.scene').style.perspective = 'none';
+  $('.scene')?.classList.add('no-3d-fallback');
 }
