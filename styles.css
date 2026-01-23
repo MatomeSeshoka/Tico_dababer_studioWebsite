@@ -634,6 +634,7 @@ header.scrolled {
   align-items: center;
   justify-content: center;
 }
+
 /* ===================== NAVIGATION ===================== */
 nav ul {
   list-style: none;
@@ -737,8 +738,7 @@ nav li a.active {
   }
 
   nav ul {
-    display: none;
-    flex-direction: column;
+     flex-direction: column;
     background: rgba(18,18,18,0.95);
     backdrop-filter: blur(8px);
     padding: 1.8rem 1.2rem;
@@ -749,16 +749,22 @@ nav li a.active {
     left: 0;
     right: 0;
     box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+
     opacity: 0;
     transform: translateY(-10px);
     transition: opacity 0.3s ease, transform 0.3s ease;
-    z-index: 998;
+
+    visibility: hidden;
+    pointer-events: none;
+
+    z-index: 9999;
   }
 
   nav ul.active {
-    display: flex;
     opacity: 1;
     transform: translateY(0);
+    visibility: visible;
+    pointer-events: auto;
   }
 
   nav li a {
