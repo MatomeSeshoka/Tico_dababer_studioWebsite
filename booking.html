@@ -152,7 +152,7 @@
   <footer>
     <div class="footer-inner">
       <p>© <span id="year"></span> DaBarber Studios</p>
-      <p><strong>Contact:</strong> Pretoria | <a href="tel:+27721554536">072 155 4536</a> | 
+      <p><strong>Contact:</strong> 489 Madiba Street, Nedbank Plaza | <a href="tel:+27721554536">072 155 4536</a> | 
          <a href="mailto:thatosebatana386@gmail.com">thatosebatana386@gmail.com</a></p>
 
       <div class="footer-ctas">
@@ -170,6 +170,9 @@
   </footer>
 
   <!-- Scripts -->
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
   <script>
     // Copyright year
     document.getElementById("year").textContent = new Date().getFullYear();
@@ -221,7 +224,7 @@
       const serviceMap = {
         "kids-fade":                "Kids fade – R100",
         "kids-cut-dye":             "Kids cut and dye – R150",
-        "kids-brush-cheezkop":      "Kids brush & cheezkop – R150",
+        "kids-brush-cheezkop":      "Kids brush & cheezkop – R70",
         "adult-cut":                "Adult cut – R150",
         "adult-cut-dye":            "Adults cut & dye – R250",
         "cheezekop-clipper":        "Cheezekop (Clipper) – R100",
@@ -286,5 +289,64 @@
       });
     });
   </script>
+    <script>
+gsap.registerPlugin(ScrollTrigger);
+
+// Animate all sections
+gsap.utils.toArray('section').forEach(section => {
+  gsap.fromTo(section,
+    { y: 50, opacity: 0 },
+    {
+      y: 0,
+      opacity: 1,
+      scrollTrigger: {
+        trigger: section,
+        start: 'top 85%',
+        toggleActions: 'play none none none'
+      },
+      duration: 1,
+      ease: 'power3.out'
+    }
+  );
+});
+
+// Animate headings (hero, teasers, footer)
+gsap.utils.toArray('h2, h3, h4').forEach(heading => {
+  gsap.fromTo(heading,
+    { y: 20, opacity: 0 },
+    {
+      y: 0,
+      opacity: 1,
+      scrollTrigger: {
+        trigger: heading,
+        start: 'top 90%',
+        toggleActions: 'play none none none'
+      },
+      duration: 0.6,
+      ease: 'power2.out'
+    }
+  );
+});
+
+// Animate cards and teaser elements with stagger
+gsap.utils.toArray('.teaser-card, .price-box, .cta, .footer-btn').forEach(group => {
+  gsap.fromTo(group,
+    { y: 40, opacity: 0 },
+    {
+      y: 0,
+      opacity: 1,
+      stagger: 0.2,
+      scrollTrigger: {
+        trigger: group,
+        start: 'top 85%',
+        toggleActions: 'play none none none'
+      },
+      duration: 0.8,
+      ease: 'power3.out'
+    }
+  );
+});
+</script>
+
 </body>
 </html>

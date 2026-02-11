@@ -64,7 +64,7 @@ html {
 body {
   font-family: var(--font-body);
   background: linear-gradient(rgba(30, 30, 30, 0.75), rgba(30, 30, 30, 0.75)),
-              url('assets/Team 2.jpg') center center / cover no-repeat;
+              url('assets/Hero.jpeg') center center / cover no-repeat;
   color: var(--color-text);
   line-height: 1.7;
   -webkit-font-smoothing: antialiased;
