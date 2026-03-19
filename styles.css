@@ -1,0 +1,2782 @@
+:root {
+  /* Core colors */
+  --color-bg: #1e1e1e;
+  --color-text: #f5f5f5;
+  --color-accent: #f4c300;
+  --color-muted: #bdbdbd;
+
+  /* Extended palette */
+  --color-bg-light: #2a2a2a;
+  --color-bg-dark: #121212;
+  --color-accent-hover: #ffd633;
+  --color-error: #e63946;
+  --color-success: #4caf50;
+
+  /* Typography */
+  --font-heading: 'Bebas Neue', sans-serif;
+  --font-body: 'Inter', sans-serif;
+
+  /* Font sizes (responsive scaling) */
+  --fs-base: 1rem;        /* scales with root */
+  --fs-small: 0.9375rem;  /* ~15px */
+  --fs-large: 1.25rem;    /* ~20px */
+  --fs-xlarge: 2rem;      /* ~32px */
+
+  /* Line height & spacing */
+  --lh-base: 1.5;
+  --ls-tight: -0.015em;
+  --ls-normal: 0;
+  --ls-wide: 0.025em;
+
+  /* Spacing system */
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 2rem;
+
+  /* Shadows & borders */
+  --shadow-soft: 0 2px 6px rgba(0,0,0,0.2);
+  --shadow-strong: 0 4px 12px rgba(0,0,0,0.4);
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+}
+
+html {
+  /* Smooth scaling across all devices */
+  font-size: clamp(15px, 1.1vw, 17px);
+  scroll-behavior: smooth;
+}
+
+/* ===================== GLOBAL RESET & BASE ===================== */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  /* Smooth scaling across all devices */
+  font-size: clamp(16px, 1.1vw, 18px);
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  background: linear-gradient(rgba(30, 30, 30, 0.75), rgba(30, 30, 30, 0.75)),
+              url('assets/Hero.jpeg') center center / cover no-repeat;
+  color: var(--color-text);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  /* === Fade-in on page load === */
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+
+body.loaded {
+  opacity: 1;
+}
+
+/* ===================== TYPOGRAPHY ===================== */
+h1, h2, h3, h4 {
+  font-family: var(--font-heading);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0 0 var(--space-md) 0;
+  color: var(--color-accent);
+  font-weight: 700; /* ensure consistent boldness */
+}
+
+/* Headings with fluid scaling */
+h1 {
+  font-size: clamp(1.8rem, 5vw, 3rem);
+  line-height: 1.1;
+}
+h2 {
+  font-size: clamp(1.5rem, 4.5vw, 2.5rem);
+  line-height: 1.15;
+}
+h3 {
+  font-size: clamp(1.3rem, 3.5vw, 2rem);
+  line-height: 1.2;
+}
+h4 {
+  font-size: clamp(1.1rem, 3vw, 1.5rem);
+  line-height: 1.3;
+}
+
+/* Body text */
+p {
+  font-size: clamp(1rem, 2.4vw, 1.15rem); /* min 16px */
+  font-family: var(--font-body);
+  color: var(--color-text);
+  margin: 0 0 var(--space-md) 0;
+  line-height: 1.6; /* fixed ratio for consistency */
+}
+
+/* Muted text */
+.text-muted {
+  color: var(--color-muted);
+  font-size: var(--fs-small);
+}
+
+/* Mobile overrides */
+@media (max-width: 768px) {
+  .text-muted {
+    font-size: 1rem; /* simpler, readable */
+  }
+  h1, h2, h3, h4 {
+    letter-spacing: 0.03em;
+  }
+}
+
+/* Highlight text */
+.text-highlight {
+  color: var(--color-accent);
+  font-weight: 600;
+}
+/* ===================== LINKS ===================== */
+a {
+  color: inherit;
+  text-decoration: none;
+  position: relative;               /* kept – only removed if it causes proven issues later */
+  transition: color 0.3s ease, transform 0.2s ease;
+  font-weight: 500;
+}
+
+/* Hover/focus states */
+a:hover,
+a:focus-visible {
+  color: var(--color-accent);
+  transform: translateY(-2px);
+}
+
+/* Underline accent effect – kept exactly as is (visuals unchanged) */
+a::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -0.15em;
+  width: 0;
+  height: 2px;
+  background: var(--color-accent);
+  opacity: 0;
+  transition: width 0.3s ease, opacity 0.3s ease;
+  pointer-events: none;             /* already good – prevents ::after from stealing clicks */
+}
+
+/* Expand underline smoothly */
+a:hover::after,
+a:focus-visible::after {
+  width: 100%;
+  opacity: 1;
+}
+
+/* Accessibility: keyboard focus – unchanged */
+a:focus-visible {
+  outline: 3px solid var(--color-accent);
+  outline-offset: 4px;
+}
+
+/* ────────────────────────────────────────────── */
+/*      MOBILE TOUCH & TAP RELIABILITY FIXES      */
+/*      (visual appearance stays identical)       */
+/* ────────────────────────────────────────────── */
+
+@media (max-width: 768px) {
+
+  /* Extend reliable tap behavior to ALL <a> elements on mobile – not just .nav-link / .cta-link */
+  a {
+    min-height: 44px;                        /* safe minimum tap target size – Apple & Google recommendation */
+    min-width: 44px;
+    -webkit-tap-highlight-color: transparent; /* removes the annoying Android tap overlay/ripple */
+    touch-action: manipulation;               /* removes ~300ms delay on most touch interactions */
+  }
+
+  /* Make tap feedback feel more confident (very small tweak to timing) */
+  a:active {
+    transform: scale(0.96);
+    filter: brightness(0.95);
+    transition: transform 0.10s ease, filter 0.10s ease;  /* 0.08 → 0.10s = slightly smoother on touch */
+  }
+}
+
+/* Optional safeguard: prevent hover lift from interfering during actual touch */
+/* (only applies on real touch devices – desktop hover stays exactly the same) */
+@media (hover: none) and (pointer: coarse) {
+  a:active {
+    transform: scale(0.96);                  /* keep the scale feedback */
+  }
+  a:hover {
+    transform: translateY(0);                /* neutralize lift only during touch interaction */
+  }
+}
+/* ===================== HEADINGS ===================== */
+h1, h2, h3, h4 {
+  font-family: var(--font-heading);
+  margin: 0 0 var(--space-sm) 0;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  font-weight: 700; /* ensure consistent boldness */
+  line-height: 1.1;                    /* added – small safety for better readability & less accidental overlap */
+}
+
+/* Animation only when .animate class is present */
+.animate h1,
+.animate h2,
+.animate h3,
+.animate h4 {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeUp 0.8s forwards;
+  will-change: opacity, transform;
+}
+
+/* Fluid scaling */
+h1 {
+  font-size: clamp(2rem, 6vw, 3rem);
+  text-shadow: 0 0 6px rgba(244,195,0,0.5);
+}
+h2 {
+  font-size: clamp(1.6rem, 5vw, 2.5rem);
+  text-shadow: 0 0 6px rgba(244,195,0,0.5);
+}
+h3 {
+  font-size: clamp(1.3rem, 4vw, 2rem);
+}
+h4 {
+  font-size: clamp(1.1rem, 3vw, 1.5rem);
+}
+
+/* Staggered delays */
+.animate h1 { animation-delay: 0.1s; }
+.animate h2 { animation-delay: 0.2s; }
+.animate h3 { animation-delay: 0.3s; }
+.animate h4 { animation-delay: 0.4s; }
+
+/* Animation keyframes – unchanged */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Mobile tweaks */
+@media (max-width: 768px) {
+  .animate h1, .animate h2, .animate h3, .animate h4 {
+    transform: translateY(15px);
+    animation: fadeUp 0.7s forwards;
+  }
+  h1 { font-size: clamp(2.2rem, 7.5vw, 3.4rem); }
+  h2 { font-size: clamp(1.9rem, 6.5vw, 3rem); }
+  h3 { font-size: clamp(1.6rem, 5.5vw, 2.4rem); }
+  h4 { font-size: clamp(1.35rem, 4.5vw, 2rem); }
+
+  /* Very small addition: helps prevent large headings from creating accidental large tap-blocking areas */
+  h1, h2, h3, h4 {
+    pointer-events: none;               /* headings themselves usually shouldn't receive clicks */
+  }
+}
+
+/* Respect reduced motion – unchanged */
+@media (prefers-reduced-motion: reduce) {
+  .animate h1, .animate h2, .animate h3, .animate h4 {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+/* ────────────────────────────────────────────── */
+/*         TINY MOBILE INTERACTION SAFEGUARD      */
+/*         (zero visual change)                   */
+/* ────────────────────────────────────────────── */
+
+@media (max-width: 768px) {
+  /* If any interactive element is *inside* a heading (rare but happens), make sure clicks go through */
+  h1 a,
+  h2 a,
+  h3 a,
+  h4 a {
+    pointer-events: auto;
+    position: relative;                 /* restores stacking context only where needed */
+    z-index: 1;
+  }
+}
+/* ===================== PARAGRAPHS ===================== */
+p {
+  font-size: clamp(1rem, 2.4vw, 1.15rem); /* min 16px – already good */
+  margin: 0 0 var(--space-md) 0;
+  color: var(--color-text);
+  line-height: 1.7;
+  max-width: 65ch; /* prevents overly long lines – good practice */
+  -webkit-user-select: text;           /* added – ensures text can be selected on iOS without fighting nearby taps */
+  user-select: text;
+}
+
+/* Muted text utility – unchanged */
+.text-muted {
+  color: var(--color-muted);
+  font-size: var(--fs-small);
+}
+
+/* ===================== SPACING UTILITIES ===================== */
+/* Margin utilities */
+.m-0  { margin: 0 !important; }
+.m-1  { margin: var(--space-sm) !important; }
+.m-2  { margin: var(--space-md) !important; }
+.m-3  { margin: var(--space-lg) !important; }
+
+.mt-1 { margin-top: var(--space-sm) !important; }
+.mt-2 { margin-top: var(--space-md) !important; }
+.mt-3 { margin-top: var(--space-lg) !important; }
+
+.mb-1 { margin-bottom: var(--space-sm) !important; }
+.mb-2 { margin-bottom: var(--space-md) !important; }
+.mb-3 { margin-bottom: var(--space-lg) !important; }
+
+/* Horizontal & vertical variants */
+.mx-1 { margin-left: var(--space-sm) !important; margin-right: var(--space-sm) !important; }
+.mx-2 { margin-left: var(--space-md) !important; margin-right: var(--space-md) !important; }
+.mx-3 { margin-left: var(--space-lg) !important; margin-right: var(--space-lg) !important; }
+
+.my-1 { margin-top: var(--space-sm) !important; margin-bottom: var(--space-sm) !important; }
+.my-2 { margin-top: var(--space-md) !important; margin-bottom: var(--space-md) !important; }
+.my-3 { margin-top: var(--space-lg) !important; margin-bottom: var(--space-lg) !important; }
+
+/* Padding utilities */
+.p-0  { padding: 0 !important; }
+.p-1  { padding: var(--space-sm) !important; }
+.p-2  { padding: var(--space-md) !important; }
+.p-3  { padding: var(--space-lg) !important; }
+
+.px-1 { padding-left: var(--space-sm) !important; padding-right: var(--space-sm) !important; }
+.px-2 { padding-left: var(--space-md) !important; padding-right: var(--space-md) !important; }
+.px-3 { padding-left: var(--space-lg) !important; padding-right: var(--space-lg) !important; }
+
+.py-1 { padding-top: var(--space-sm) !important; padding-bottom: var(--space-sm) !important; }
+.py-2 { padding-top: var(--space-md) !important; padding-bottom: var(--space-md) !important; }
+.py-3 { padding-top: var(--space-lg) !important; padding-bottom: var(--space-lg) !important; }
+
+/* Responsive spacing – unchanged */
+@media (min-width: 768px) {
+  .md-m-1 { margin: var(--space-sm) !important; }
+  .md-m-2 { margin: var(--space-md) !important; }
+  .md-m-3 { margin: var(--space-lg) !important; }
+
+  .md-p-1 { padding: var(--space-sm) !important; }
+  .md-p-2 { padding: var(--space-md) !important; }
+  .md-p-3 { padding: var(--space-lg) !important; }
+}
+
+/* ────────────────────────────────────────────── */
+/*      TINY MOBILE INTERACTION SAFEGUARDS        */
+/*      (zero visual / spacing change)            */
+/* ────────────────────────────────────────────── */
+
+@media (max-width: 768px) {
+  /* Prevents long paragraphs from accidentally creating huge invisible tap-blocking zones */
+  p, .text-muted {
+    pointer-events: none;                    /* text itself doesn't need to receive pointer events */
+  }
+
+  /* But allow links, buttons, inputs inside paragraphs to remain fully clickable */
+  p a,
+  p button,
+  p input,
+  p select,
+  p label,
+  .text-muted a,
+  .text-muted button,
+  .text-muted input,
+  .text-muted select,
+  .text-muted label {
+    pointer-events: auto;
+    position: relative;
+    z-index: 1;                              /* small lift so interactive children aren't blocked */
+  }
+
+  /* Very small touch target helper for inline interactive elements */
+  p a,
+  p button {
+    min-height: 44px;                        /* helps with fat-finger taps on inline links/buttons */
+    min-width: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
+/* ===================== ANIMATIONS ===================== */
+
+/* Fade Up */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Fade In */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* Pulse Glow (desktop only for performance) */
+@keyframes pulseGlow {
+  0%   { transform: scale(1);    box-shadow: 0 6px 18px rgba(244,195,0,0.3); }
+  50%  { transform: scale(1.05); box-shadow: 0 10px 28px rgba(244,195,0,0.45); }
+  100% { transform: scale(1);    box-shadow: 0 6px 18px rgba(244,195,0,0.3); }
+}
+
+/* Float Up (hover effect) */
+@keyframes floatUp {
+  from { transform: translateY(0); }
+  to   { transform: translateY(-8px); }
+}
+
+/* Reveal from Top */
+@keyframes revealTop {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ===================== ANIMATION UTILITIES ===================== */
+.animate-fadeUp {
+  animation: fadeUp 0.8s ease forwards;
+  will-change: opacity, transform;
+}
+.animate-fadeIn {
+  animation: fadeIn 0.6s ease forwards;
+  will-change: opacity;
+}
+.animate-revealTop {
+  animation: revealTop 1s ease forwards;
+  will-change: opacity, transform;
+}
+
+/* Desktop-only looping animations – unchanged */
+@media (min-width: 769px) {
+  .animate-pulse   { animation: pulseGlow 2s ease-in-out infinite; will-change: transform, box-shadow; }
+  .animate-floatUp { animation: floatUp 1.5s ease-in-out infinite alternate; will-change: transform; }
+}
+
+/* Mobile animation tweak – snappier on phones – unchanged */
+@media (max-width: 768px) {
+  .animate-fadeUp { animation-duration: 0.7s !important; }
+  .animate-revealTop { animation-duration: 0.9s !important; }
+}
+
+/* Respect reduced motion preference (accessibility) – unchanged */
+@media (prefers-reduced-motion: reduce) {
+  .animate-fadeUp,
+  .animate-fadeIn,
+  .animate-revealTop,
+  .animate-pulse,
+  .animate-floatUp {
+    animation: none !important;
+    transition: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+/* ────────────────────────────────────────────── */
+/*      TINY MOBILE TAP-RELIABILITY SAFEGUARDS    */
+/*      (zero change to visual appearance or timing) */
+/* ────────────────────────────────────────────── */
+
+@media (max-width: 768px) and (hover: none) and (pointer: coarse) {
+
+  /* Prevent ongoing translate/scale animations from moving element under finger during tap */
+  .animate-floatUp,
+  .animate-pulse {
+    animation-play-state: paused !important;          /* stops loop only while finger is down */
+  }
+
+  /* Very small addition: make sure animated elements don't steal taps if they overlap interactive children */
+  [class*="animate-"] {
+    pointer-events: none;                             /* animated containers usually shouldn't receive events */
+  }
+
+  /* Restore pointer events for anything interactive inside animated elements */
+  [class*="animate-"] a,
+  [class*="animate-"] button,
+  [class*="animate-"] input,
+  [class*="animate-"] select,
+  [class*="animate-"] label,
+  [class*="animate-"] [role="button"],
+  [class*="animate-"] [tabindex="0"] {
+    pointer-events: auto;
+    position: relative;
+    z-index: 2;                                       /* small lift so children stay above animated parent */
+  }
+}/* ===================== RESPONSIVE TYPOGRAPHY (SCOPED) ===================== */
+.type-fluid h1,
+.type-fluid h2,
+.type-fluid h3,
+.type-fluid h4,
+.type-fluid p {
+  margin: 0;                           /* added – tiny safety to prevent default margins from creating unexpected gaps/overlaps */
+}
+
+/* Individual heading & paragraph styles – unchanged */
+.type-fluid h1 {
+  font-size: var(--fs-h1);
+  line-height: 1.2;
+  font-weight: 700;
+}
+.type-fluid h2 {
+  font-size: var(--fs-h2);
+  line-height: 1.3;
+  font-weight: 600;
+}
+.type-fluid h3 {
+  font-size: var(--fs-h3);
+  line-height: 1.35;
+  font-weight: 600;
+}
+.type-fluid h4 {
+  font-size: var(--fs-h4);
+  line-height: 1.4;
+  font-weight: 500;
+}
+.type-fluid p {
+  font-size: var(--fs-body);
+  line-height: 1.6;
+}
+
+/* ===================== TYPOGRAPHY TOKENS ===================== */
+:root {
+  --fs-h1: clamp(1.9rem, 5vw, 2.6rem);
+  --fs-h2: clamp(1.5rem, 4vw, 2.2rem);
+  --fs-h3: clamp(1.2rem, 3.5vw, 1.8rem);
+  --fs-h4: clamp(1rem, 3vw, 1.4rem);
+  --fs-body: clamp(1rem, 2.4vw, 1.15rem);
+}
+
+/* Mobile text size increases – unchanged */
+@media (max-width: 768px) {
+  :root {
+    --fs-h1: clamp(2.3rem, 8vw, 3.4rem);
+    --fs-h2: clamp(2rem, 7vw, 3rem);
+    --fs-h3: clamp(1.6rem, 5.8vw, 2.4rem);
+    --fs-h4: clamp(1.35rem, 4.8vw, 2rem);
+    --fs-body: clamp(1.1rem, 3.6vw, 1.35rem);
+  }
+
+  nav li a { font-size: 1.2rem; }
+  .hero h2 { font-size: clamp(2.4rem, 9vw, 3.6rem); }
+  .hero p { font-size: clamp(1.15rem, 4vw, 1.4rem); }
+  footer { font-size: clamp(1rem, 3.4vw, 1.2rem); }
+
+  /* Small mobile safeguard: prevent very large text blocks from blocking nearby taps */
+  .type-fluid h1,
+  .type-fluid h2,
+  .type-fluid h3,
+  .type-fluid h4,
+  .type-fluid p,
+  .hero h2,
+  .hero p,
+  footer p,
+  nav li a {
+    pointer-events: none;                  /* text usually shouldn't receive pointer events */
+  }
+}
+
+/* Extra small screens – unchanged + same safeguard */
+@media (max-width: 480px) {
+  :root {
+    --fs-h1: clamp(2.4rem, 9vw, 3.5rem);
+    --fs-h2: clamp(2.1rem, 8vw, 3.1rem);
+    --fs-h3: clamp(1.65rem, 6.5vw, 2.5rem);
+    --fs-h4: clamp(1.4rem, 5.2vw, 2.1rem);
+    --fs-body: clamp(1.15rem, 4vw, 1.4rem);
+  }
+
+  nav li a { font-size: 1.28rem; }
+  .hero h2 { font-size: clamp(2.5rem, 10vw, 3.8rem); }
+
+  /* Repeat safeguard for xs screens */
+  .type-fluid h1,
+  .type-fluid h2,
+  .type-fluid h3,
+  .type-fluid h4,
+  .type-fluid p,
+  .hero h2,
+  .hero p,
+  footer p,
+  nav li a {
+    pointer-events: none;
+  }
+}
+
+/* ────────────────────────────────────────────── */
+/*      PROTECT INTERACTIVE ELEMENTS INSIDE TEXT  */
+/*      (zero visual change)                      */
+/* ────────────────────────────────────────────── */
+
+@media (max-width: 768px) {
+  /* Make sure links/buttons inside large text remain tappable */
+  .type-fluid a,
+  .hero a,
+  nav li a,
+  footer a,
+  .type-fluid button,
+  .hero button,
+  footer button {
+    pointer-events: auto;
+    position: relative;
+    z-index: 1;                            /* tiny lift so they stay above parent text */
+    display: inline-flex;                  /* helps with tap target consistency */
+    min-height: 44px;                      /* minimum comfortable tap size */
+    min-width: 44px;
+    align-items: center;
+    justify-content: center;
+    -webkit-tap-highlight-color: transparent; /* cleaner tap feedback on Android */
+  }
+}
+
+/* ===================== HEADER ===================== */
+header {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-header, 999);
+  padding: 0.75rem 0;
+  background: rgba(18, 18, 18, 0.65);
+  backdrop-filter: blur(6px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+  transition: padding 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+  will-change: padding, background, box-shadow;
+  pointer-events: auto; /* ensure header is interactive */
+}
+
+/* Shrink effect when scrolling */
+header.shrink,
+header.scrolled {
+  padding: 0.5rem 0;
+  background: rgba(18, 18, 18, 0.9);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+}
+
+/* Inner wrapper */
+.nav-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: auto;
+  padding: 0 1rem;
+  min-height: 56px;
+  position: relative; /* ensures children stack correctly */
+  z-index: 1; /* keeps nav items above background blur */
+}
+
+/* Mobile header tweaks – better thumb reach */
+@media (max-width: 768px) {
+  header {
+    padding: 0.9rem 0;
+    backdrop-filter: blur(4px);
+  }
+
+  header.shrink,
+  header.scrolled {
+    padding: 0.6rem 0;
+  }
+
+  .nav-inner {
+    min-height: 60px;
+  }
+
+  @supports not (backdrop-filter: blur(4px)) {
+    header {
+      background: rgba(18, 18, 18, 0.85);
+    }
+  }
+}
+
+/* Keyboard focus in nav (accessibility) */
+.nav-inner a:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 4px;
+  border-radius: 4px;
+  transition: none; /* instant focus feedback */
+}
+
+/* ===================== BRAND ===================== */
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  will-change: transform;
+  -webkit-tap-highlight-color: transparent; /* remove mobile tap highlight */
+  pointer-events: auto; /* ensure brand stays clickable */
+}
+
+.brand:hover,
+.brand:focus-visible {
+  transform: scale(1.03);
+}
+
+.brand h1 {
+  font-size: clamp(1.6rem, 4vw, 2.2rem);
+  color: var(--color-accent);
+  text-shadow: 0 0 6px rgba(244,195,0,0.5);
+  position: relative;
+  font-weight: 700;
+  transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+
+.brand h1::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -0.25em; /* relative to font size */
+  width: 0;
+  height: 2px;
+  background: var(--color-accent);
+  transition: width 0.4s ease, opacity 0.3s ease;
+  opacity: 0;
+  pointer-events: none; /* underline never blocks clicks */
+}
+
+.brand h1:hover,
+.brand h1:focus-visible {
+  color: var(--color-text);
+  text-shadow: 0 0 10px rgba(244,195,0,0.8);
+}
+
+.brand h1:hover::after,
+.brand h1:focus-visible::after {
+  width: 100%;
+  opacity: 1;
+}
+
+.brand .tagline {
+  font-size: clamp(0.85rem, 2.5vw, 0.95rem);
+  color: var(--color-muted);
+  letter-spacing: 0.06em;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.brand:hover .tagline,
+.brand:focus-visible .tagline {
+  color: var(--color-accent);
+}
+
+.brand:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .brand { gap: 0.5rem; }
+  .brand h1 { font-size: clamp(1.5rem, 5.5vw, 2rem); }
+  .brand .tagline { font-size: clamp(0.9rem, 3vw, 1.05rem); line-height: 1.4; }
+}
+
+/* Tap feedback on mobile */
+.brand:active,
+.brand:focus:active {
+  transform: scale(0.97);
+  filter: brightness(0.95);
+  transition: transform 0.08s ease, filter 0.08s ease;
+}
+/* ===================== NAVIGATION ===================== */
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 2rem;
+  margin: 0;
+  padding: 0;
+}
+
+nav li a {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 1rem;
+  text-transform: uppercase;
+  color: var(--color-text);
+  padding: 0.5rem 0.75rem;
+  border-radius: var(--radius-sm);
+  position: relative;
+  transition: color 0.3s ease, transform 0.2s ease, text-shadow 0.3s ease;
+  will-change: transform, color, text-shadow;   /* smoother */
+  -webkit-tap-highlight-color: transparent; /* remove mobile tap highlight */
+  pointer-events: auto; /* ensure links remain clickable */
+}
+
+nav li a i {
+  font-size: 1.25rem;
+  width: 28px;
+  height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+nav li a:hover,
+nav li a:focus {
+  color: var(--color-accent);
+  transform: translateY(-2px);
+  text-shadow: 0 0 6px rgba(244,195,0,0.6);
+}
+
+nav li a:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 4px;
+  background: rgba(244,195,0,0.15);
+}
+
+nav li a::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 0;
+  height: 2px;
+  background: var(--color-accent);
+  transition: width 0.3s ease;
+  pointer-events: none;   /* ← prevents tap stealing */
+}
+
+nav li a:hover::after,
+nav li a:focus::after {
+  width: 100%;
+}
+
+nav li a.active {
+  color: var(--color-accent);
+  text-shadow: 0 0 8px rgba(244,195,0,0.8);
+}
+
+/* ===================== RESPONSIVE (TOP DROPDOWN MENU) ===================== */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 6px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 12px;
+  margin-right: -12px;
+  -webkit-tap-highlight-color: transparent; /* remove mobile tap highlight */
+  pointer-events: auto; /* ensure button is clickable */
+  touch-action: manipulation; /* faster mobile tap response */
+}
+
+.hamburger .bar {
+  width: 28px;
+  height: 3px;
+  background: var(--color-text);
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+
+@media (max-width: 768px) {
+  .hamburger {
+    display: flex;
+    padding: 16px;   /* larger tap target */
+  }
+
+  nav ul {
+    flex-direction: column;
+    background: rgba(18,18,18,0.95);
+    backdrop-filter: blur(8px);
+    padding: 1.8rem 1.2rem;
+    margin: 0;
+    gap: 1.4rem;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+    opacity: 0;
+    visibility: hidden; /* smoother toggle */
+    transform: translateY(-10px);
+    transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease;
+    z-index: 1000; /* above header */
+  }
+
+  nav ul.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  nav li a {
+    justify-content: center;
+    font-size: 1.25rem;
+    padding: 1.2rem 1.5rem;
+    min-height: 54px;
+  }
+}/* ===================== CTA BUTTONS ===================== */
+.cta {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: var(--space-md);
+}
+
+.book-now-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.book-now-glow,
+.book-now-glow::after,
+.cta .book-now::before,
+.cta .book-now::after {
+  pointer-events: none !important;   /* prevents tap stealing */
+}
+
+.book-now-glow {
+  position: absolute;
+  inset: -20px;
+  filter: blur(28px);
+  opacity: 0.65;
+  border-radius: 999px;
+  z-index: -1;
+}
+
+.book-now-glow::after {
+  content: '';
+  position: absolute;
+  inset: -60%;
+  background: conic-gradient(
+    from 60deg at 50% 50%,
+    transparent 0deg,
+    var(--color-accent) 20deg,
+    transparent 140deg,
+    #ffcc33 220deg,
+    transparent 320deg,
+    transparent 360deg
+  );
+  animation: spin-glow 4s linear infinite;
+  border-radius: 50%;
+}
+
+@keyframes spin-glow {
+  to { transform: rotate(360deg); }
+}
+
+.cta .book-now {
+  position: relative;
+  z-index: 1;
+  padding: 0.9rem 2.2rem;
+  border-radius: 50px;
+  background: transparent;
+  color: var(--color-text);
+  font-weight: 700;
+  font-family: var(--font-body);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border: 2px solid var(--color-accent);
+  box-shadow: 0 6px 20px rgba(244, 195, 0, 0.35);
+  transition: all 0.4s ease;
+  overflow: hidden;
+  backdrop-filter: blur(6px);
+  will-change: transform, box-shadow, background, color;
+  -webkit-tap-highlight-color: transparent; /* remove mobile tap highlight */
+  pointer-events: auto; /* ensure button is clickable */
+  touch-action: manipulation; /* faster mobile tap response */
+}
+
+.cta .book-now:hover,
+.cta .book-now:focus-visible {
+  transform: translateY(-4px) scale(1.05);
+  box-shadow: 0 12px 40px rgba(244, 195, 0, 0.85);
+  background: linear-gradient(45deg, var(--color-accent), #ffcc33);
+  color: #000;
+  border-color: #ffcc33;
+}
+
+.cta .book-now::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.18), transparent);
+  transform: translateX(-100%);
+  transition: transform 0.8s ease;
+}
+
+.cta .book-now:hover::before {
+  transform: translateX(100%);
+}
+
+.cta .call {
+  padding: 0.9rem 1.8rem;
+  border-radius: 50px;
+  border: 2px solid var(--color-accent);
+  color: var(--color-accent);
+  background: transparent;
+  font-weight: 700;
+  transition: all 0.3s ease;
+  will-change: transform, box-shadow, background;
+  -webkit-tap-highlight-color: transparent; /* remove mobile tap highlight */
+  pointer-events: auto;
+  touch-action: manipulation;
+}
+
+.cta .call:hover,
+.cta .call:focus-visible {
+  background: rgba(244, 195, 0, 0.12);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(244, 195, 0, 0.4);
+}
+
+/* Responsive CTA – medium size on mobile (not too big) */
+@media (max-width: 768px) {
+  .cta {
+    gap: 1rem;                    /* tighter spacing between stacked buttons */
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .cta .book-now,
+  .cta .call {
+    width: 100%;
+    max-width: 320px;             /* ← prevents stretching too wide */
+    padding: 1rem 1.8rem !important;   /* medium height + good width */
+    font-size: 1.15rem !important;     /* clear but not oversized */
+    min-height: 52px !important;       /* comfortable tap target */
+    line-height: 1.4 !important;
+    text-align: center;
+    border-radius: 999px !important;
+  }
+
+  .book-now-glow {
+    inset: -18px;
+    filter: blur(22px);
+    opacity: 0.6;
+  }
+}
+
+/* Hamburger cross animation */
+.hamburger.active .bar:nth-child(1) {
+  transform: rotate(45deg) translate(8px, 8px);
+}
+.hamburger.active .bar:nth-child(2) {
+  opacity: 0;
+}
+.hamburger.active .bar:nth-child(3) {
+  transform: rotate(-45deg) translate(6px, -6px);
+}
+
+/* Tap feedback for nav + CTAs */
+nav li a:active,
+.cta a:active,
+.cta button:active,
+.book-now:active,
+.call:active {
+  transform: scale(0.96) !important;
+  opacity: 0.92 !important;
+  transition: transform 0.08s ease, opacity 0.08s ease;
+}
+/* ===================== HERO ===================== */
+.hero {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 1rem;
+  gap: 2rem;
+  background: none;
+  text-align: center;
+  color: var(--color-text);
+  position: relative;
+  overflow: hidden;
+  perspective: 1000px;
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none; /* ensure overlay never blocks clicks */
+  z-index: 0; /* keep it behind content */
+}
+
+.hero-inner {
+  position: relative;
+  z-index: 1;
+  max-width: 800px;
+  opacity: 0;
+  transform: translateY(30px);
+  animation: revealTop 1s ease forwards;
+  will-change: opacity, transform;   /* smoother animation */
+}
+
+.hero-inner.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Headline */
+.hero h2 {
+  font-size: clamp(2rem, 6vw, 3rem);
+  margin-bottom: 1rem;
+  color: var(--color-accent);
+  text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+  animation: fadeUp 1.2s ease forwards;
+  will-change: opacity, transform;
+}
+
+.hero h2.glow {
+  animation: pulseGlow 3s ease-in-out infinite alternate;
+}
+
+/* Subtext */
+.hero p {
+  font-size: 1.125rem;
+  color: var(--color-text);
+  margin-bottom: 2rem;
+  animation: fadeIn 1.5s ease forwards;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.25);
+  will-change: opacity;
+}
+
+/* CTA container */
+.hero-ctas {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+  z-index: 2; /* ensure CTAs above overlay */
+}
+
+/* CTA buttons */
+.hero-ctas a {
+  padding: 0.75rem 1.75rem;
+  border-radius: var(--radius-md);
+  font-weight: 700;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border 0.3s ease;
+  position: relative;
+  overflow: hidden; /* contain ripple effect */
+  will-change: transform, box-shadow, border;
+  -webkit-tap-highlight-color: transparent; /* remove mobile tap highlight */
+  pointer-events: auto; /* ensure links are clickable */
+  touch-action: manipulation; /* faster mobile tap response */
+}
+
+.hero-ctas a:focus-visible {
+  outline: 3px solid var(--color-accent);
+  outline-offset: 4px;
+  border-radius: 8px;
+}
+
+/* Primary CTA */
+.hero-ctas .cta-primary {
+  background: linear-gradient(45deg, var(--color-accent), #ffcc33);
+  color: var(--color-bg);
+  box-shadow: 0 6px 18px rgba(244,195,0,0.3);
+  transition: background 0.4s ease, box-shadow 0.4s ease;
+}
+
+/* Secondary CTA */
+.hero-ctas .cta-secondary {
+  border: 2px solid var(--color-accent);
+  color: var(--color-accent);
+  background: transparent;
+}
+
+.hero-ctas .cta-secondary::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, var(--color-accent), #ffcc33, var(--color-accent));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.5s ease;
+  z-index: -1;
+  pointer-events: none;   /* ← prevents tap stealing */
+}
+
+.hero-ctas .cta-secondary:hover::after {
+  transform: scaleX(1);
+}
+
+.hero-ctas a:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 0 20px var(--color-accent), 0 6px 16px rgba(244,195,0,0.35);
+}
+
+/* Ripple effect */
+.hero-ctas a:active::after {
+  animation: ripple 0.6s ease;
+}
+
+@keyframes ripple {
+  from { transform: scale(0); opacity: 0.6; }
+  to   { transform: scale(2); opacity: 0; }
+}
+
+/* Tap feedback */
+.hero-ctas a:active {
+  transform: scale(0.96) !important;
+  opacity: 0.92 !important;
+  transition: transform 0.08s ease, opacity 0.08s ease;
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .hero h2, .hero p, .hero-ctas .cta-primary {
+    animation: none;
+  }
+}
+
+/* Responsive adjustments – bigger CTAs on mobile */
+@media (max-width: 768px) {
+  .hero {
+    padding: 3rem 1rem;
+  }
+
+  .hero h2 {
+    font-size: clamp(2.4rem, 9vw, 3.6rem);
+  }
+
+  .hero p {
+    font-size: clamp(1.15rem, 4vw, 1.4rem);
+  }
+
+  .hero-ctas {
+    gap: 1rem;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .hero-ctas a {
+    padding: 1.1rem 2rem !important;
+    font-size: 1.2rem !important;
+    min-height: 54px !important;
+    width: 100%;
+    max-width: 360px;
+    margin: 0.5rem auto;
+  }
+}/* ===================== SERVICES & PRICING ===================== */
+#services,
+#pricing {
+  text-align: center;
+  padding: 4rem 1rem;
+  color: var(--color-text);
+  background: inherit;
+  position: relative;
+  z-index: 1;
+  border-top: 1px solid rgba(244,195,0,0.2);
+  border-bottom: 1px solid rgba(244,195,0,0.2);
+}
+
+/* Overlay for readability */
+#services::before,
+#pricing::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none; /* ensure overlay never blocks clicks */
+  z-index: 0; /* keep behind content */
+}
+
+/* Section Headings */
+#services h2,
+#pricing h2 {
+  color: var(--color-accent);
+  margin-bottom: 1rem;
+  position: relative;
+  z-index: 1;
+  font-size: clamp(2rem, 5vw, 2.5rem);
+  text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+  animation: fadeUp 1s ease forwards;
+}
+
+/* ===================== GRID LAYOUTS ===================== */
+.service-grid,
+.pricing-columns {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 2rem;
+  justify-items: center;
+  margin-top: 2rem;
+  position: relative;
+  z-index: 1;
+}
+
+/* ===================== CARD BASE ===================== */
+.service-card,
+.price-box {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  overflow: hidden;
+  width: 100%;
+  max-width: 300px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border 0.3s ease;
+  position: relative;
+  z-index: 1;
+  border: 1px solid rgba(244,195,0,0.15);
+  backdrop-filter: blur(8px);
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeUp 0.8s ease forwards;
+  will-change: transform, box-shadow, border;   /* smoother hover */
+  pointer-events: auto; /* ensure cards remain clickable */
+}
+
+/* Disable pointer events on overlays/pseudo to prevent tap stealing */
+.service-card::before,
+.price-box::before,
+.service-card::after,
+.price-box::after {
+  pointer-events: none !important;
+}
+
+/* Hover effect */
+.service-card:hover,
+.price-box:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 0 25px rgba(244,195,0,0.4), 0 8px 20px rgba(0,0,0,0.5);
+  border: 2px solid var(--color-accent);
+}
+
+/* Featured Pricing Plan */
+.price-box.featured {
+  background: linear-gradient(135deg, rgba(244,195,0,0.15), rgba(255,204,51,0.1));
+  border: 2px solid var(--color-accent);
+  transform: scale(1.05);
+  box-shadow: 0 0 30px rgba(244,195,0,0.4);
+}
+
+/* ===================== CARD CONTENT ===================== */
+.service-card img {
+  width: 100%;
+  display: block;
+}
+
+.card-body {
+  padding: 1rem;
+  z-index: 1;
+  position: relative;
+}
+
+.card-title,
+.price-box h3 {
+  color: var(--color-accent);
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  font-size: 1.25rem;
+  letter-spacing: 0.5px;
+}
+
+.card-desc {
+  font-size: 0.95rem;
+  margin-bottom: 0.5rem;
+  color: var(--color-muted);
+  line-height: 1.6;
+}
+
+.price,
+.price-value,
+.big-price {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--color-accent);
+  margin-bottom: 1rem;
+  text-shadow: 0 2px 10px rgba(244,195,0,0.4);
+}
+
+.note {
+  font-size: 0.85rem;
+  color: var(--color-muted);
+  margin-top: 1rem;
+}
+
+/* ===================== CTA BUTTONS ===================== */
+.price-cta {
+  background: var(--color-accent);
+  border: none;
+  padding: 0.6rem 1.2rem;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+  color: var(--color-bg);
+  animation: pulseGlow 2.5s ease-in-out infinite;
+  -webkit-tap-highlight-color: transparent; /* remove mobile tap highlight */
+  pointer-events: auto; /* ensure button is clickable */
+  touch-action: manipulation; /* faster mobile tap response */
+}
+
+.price-cta:hover,
+.price-cta:focus-visible {
+  transform: scale(1.08);
+  box-shadow: 0 0 15px var(--color-accent);
+  background: linear-gradient(45deg, var(--color-accent), #ffcc33);
+  color: #000;
+  outline: 3px solid var(--color-accent);
+  outline-offset: 4px;
+}
+
+/* Tap feedback on mobile */
+.price-cta:active {
+  transform: scale(0.96) !important;
+  opacity: 0.92 !important;
+  transition: transform 0.08s ease, opacity 0.08s ease;
+}
+
+/* ===================== RESPONSIVE TWEAKS ===================== */
+@media (max-width: 992px) {
+  .service-grid,
+  .pricing-columns {
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .price-cta {
+    padding: 1rem 1.8rem !important;
+    font-size: 1.18rem !important;
+    min-height: 52px !important;
+    min-width: 140px !important;
+  }
+
+  .service-card,
+  .price-box {
+    max-width: 100%;
+    padding: 1.8rem !important;
+    margin: 0 auto 2rem;
+  }
+}
+
+@media (max-width: 600px) {
+  #services,
+  #pricing {
+    background-attachment: scroll;
+    padding: 3rem 1rem;
+  }
+
+  .card-title,
+  .price-box h3 {
+    font-size: 1.4rem;   /* slightly larger for mobile */
+  }
+
+  .card-desc {
+    font-size: clamp(1.05rem, 3.3vw, 1.25rem);
+  }
+
+  .price,
+  .price-value,
+  .big-price {
+    font-size: clamp(1.6rem, 5.5vw, 2rem);
+  }
+
+  .service-card,
+  .price-box {
+    width: 100%;
+    max-width: 100%;
+    padding: 1.5rem;
+  }
+}
+
+/* ===================== BOOKING ===================== */
+#booking {
+  text-align: center;
+  padding: 4rem 1rem;
+  color: var(--color-text);
+}
+
+#booking form {
+  max-width: 500px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeUp 0.8s ease forwards;
+  pointer-events: auto; /* ensure form is interactive */
+}
+
+#booking label {
+  display: block;
+  margin-bottom: 0.4rem;
+  font-weight: 600;
+  text-align: left;
+  color: var(--color-accent);
+  font-size: 0.95rem;
+  letter-spacing: 0.4px;
+}
+
+#booking input,
+#booking select,
+#booking textarea {
+  width: 100%;
+  padding: 0.9rem 1rem;
+  border-radius: 8px;
+  border: 1px solid rgba(189, 189, 189, 0.3);
+  outline: none;
+  box-sizing: border-box;
+  background: rgba(30, 30, 40, 0.45);
+  color: var(--color-text);
+  font-size: 1rem;
+  transition: all 0.25s ease;
+  will-change: border-color, box-shadow, background;
+  -webkit-tap-highlight-color: transparent; /* remove mobile tap highlight */
+  pointer-events: auto; /* ensure fields are clickable */
+  touch-action: manipulation; /* faster mobile tap response */
+}
+
+#booking select {
+  padding-right: 2.5rem;
+  appearance: none;
+  background-color: rgba(30, 30, 40, 0.45); /* ensure visible background */
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='10' viewBox='0 0 14 10'><path fill='%23f4c300' d='M7 10L0 0h14z'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 14px;
+  cursor: pointer;
+}
+
+#booking select option {
+  background: #1e1e2e;
+  color: #f5f5f5;
+  padding: 0.7rem 1rem;
+}
+
+#booking select option:hover {
+  background: rgba(244, 195, 0, 0.22);
+  color: white;
+}
+
+/* Premium highlighting */
+#service optgroup[label="Premium"] option,
+#service option.premium {
+  background: rgba(244, 195, 0, 0.15);
+  font-weight: 700;
+  color: #ffeb3b;
+}
+
+#service option:checked {
+  background: rgba(244, 195, 0, 0.3) !important;
+}
+
+#booking input:focus,
+#booking select:focus,
+#booking textarea:focus {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px rgba(244, 195, 0, 0.22);
+  background: rgba(30, 30, 40, 0.7);
+}
+
+#booking textarea {
+  resize: vertical;
+  min-height: 110px;
+}
+
+/* Two-column row */
+.form-row-two {
+  display: flex;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.form-row-two > div {
+  flex: 1 1 220px;
+  min-width: 0;
+}
+
+/* Submit Button */
+.booking-submit {
+  background: var(--color-accent);
+  color: #0f0f0f;
+  border: none;
+  padding: 1rem 1.8rem;
+  font-weight: 700;
+  font-size: 1.05rem;
+  letter-spacing: 0.8px;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.35s ease;
+  box-shadow: 0 6px 20px rgba(244, 195, 0, 0.4);
+  animation: pulseGlow 3s ease-in-out infinite;
+  will-change: transform, box-shadow, background;
+  -webkit-tap-highlight-color: transparent; /* remove mobile tap highlight */
+  pointer-events: auto;
+  touch-action: manipulation;
+}
+
+.booking-submit:hover,
+.booking-submit:focus-visible {
+  transform: translateY(-3px) scale(1.04);
+  box-shadow: 0 12px 35px rgba(244, 195, 0, 0.7);
+  background: linear-gradient(135deg, #f4c300, #ffcc33);
+  outline: 3px solid var(--color-accent);
+  outline-offset: 4px;
+}
+
+/* Tap feedback */
+.booking-submit:active {
+  transform: scale(0.96) !important;
+  opacity: 0.92 !important;
+  transition: transform 0.08s ease, opacity 0.08s ease;
+}
+
+/* Feedback messages */
+#booking-feedback {
+  margin-top: 1rem;
+  padding: 1rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-align: center;
+  min-height: 1.6rem;
+  transition: all 0.3s ease;
+  border: 1px solid transparent;
+  pointer-events: none; /* ensure feedback never blocks inputs */
+}
+
+#booking-feedback.error {
+  background: rgba(220, 53, 69, 0.15);
+  color: #ff6b6b;
+  border-color: rgba(220, 53, 69, 0.4);
+}
+
+#booking-feedback.success {
+  background: rgba(40, 167, 69, 0.15);
+  color: #4ade80;
+  border-color: rgba(40, 167, 69, 0.4);
+}
+
+/* Error highlighting */
+input.error,
+select.error,
+textarea.error {
+  border-color: #ff6b6b;
+  box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.25);
+  background: rgba(40, 30, 30, 0.6);
+}
+
+/* Responsive – bigger fields on mobile */
+@media (max-width: 768px) {
+  #booking {
+    padding: 3rem 1.2rem;
+  }
+
+  #booking input,
+  #booking select,
+  #booking textarea {
+    padding: 1.2rem 1.4rem !important;
+    font-size: 1.18rem !important;
+    min-height: 54px !important;
+    border-radius: 12px !important;
+  }
+
+  #booking label {
+    font-size: 1.08rem !important;
+  }
+
+  .booking-submit {
+    padding: 1.3rem 2.2rem !important;
+    font-size: 1.28rem !important;
+    min-height: 60px !important;
+  }
+
+  .form-row-two {
+    gap: 1.5rem !important;
+  }
+}
+
+@media (max-width: 600px) {
+  .form-row-two {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  #booking input,
+  #booking select,
+  #booking textarea {
+    padding: 1.1rem 1.2rem;
+    font-size: 1.1rem;
+  }
+
+  .booking-submit {
+    padding: 1.1rem 2rem;
+  }
+}
+/* ===================== CONTACT SECTION ===================== */
+.contact-section {
+  padding: 5rem 1.5rem 4rem;
+  background: inherit;
+  background-size: cover;
+  background-attachment: fixed;
+  position: relative;
+  color: var(--color-text);
+  text-align: center;
+  overflow: hidden;
+  animation: bgShift 12s ease-in-out infinite alternate;
+}
+
+/* Disable animation + fixed background on mobile for performance */
+@media (max-width: 768px) {
+  .contact-section {
+    background-attachment: scroll !important;
+    animation: none !important;
+  }
+}
+
+/* Overlay */
+.contact-section::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0; /* keep overlay behind */
+}
+
+/* Prevent overlays from blocking interaction */
+.contact-section::after,
+.contact-section::before,
+.contact-card::before,
+.contact-card::after,
+.map-card::before,
+.map-card::after {
+  pointer-events: none !important;
+}
+
+.contact-card,
+.map-card,
+.contact-card a,
+.contact-card p,
+.contact-card h3 {
+  pointer-events: auto !important;
+  position: relative;
+  z-index: 2 !important;
+  -webkit-tap-highlight-color: transparent; /* remove mobile tap highlight */
+  touch-action: manipulation; /* faster mobile taps */
+}
+
+/* Heading + Intro */
+.contact-section h2 {
+  color: var(--color-accent);
+  margin-bottom: 1rem;
+  font-size: clamp(2rem, 5vw, 2.6rem);
+  text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+  position: relative;
+  z-index: 1;
+}
+
+.contact-section .intro {
+  max-width: 700px;
+  margin: 0 auto 2.5rem;
+  font-size: clamp(1rem, 2.5vw, 1.1rem);
+  line-height: 1.6;
+  color: var(--color-muted);
+  position: relative;
+  z-index: 1;
+}
+
+/* Container for cards & map */
+.contact-container {
+  position: relative;
+  z-index: 1;
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2.5rem;
+  align-items: stretch;
+}
+
+/* Contact Info Card */
+.contact-card {
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(244, 195, 0, 0.18);
+  border-radius: 14px;
+  padding: 2.5rem 2rem;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.45);
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+  text-align: left;
+  will-change: transform, box-shadow;
+}
+
+.contact-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 16px 50px rgba(244, 195, 0, 0.25);
+}
+
+.contact-card a:focus-visible {
+  outline: 3px solid var(--color-accent);
+  outline-offset: 4px;
+  border-radius: 6px;
+}
+
+/* Google Map Card */
+.map-card {
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.45);
+  background: rgba(255, 255, 255, 0.05);
+  aspect-ratio: 4 / 3;
+}
+
+.map-card iframe {
+  width: 100%;
+  height: 100%;
+  min-height: 320px;
+  border: none;
+  touch-action: pan-y pan-x pinch-zoom;
+  pointer-events: auto; /* ensure map remains interactive */
+}
+
+/* Mobile-first responsive adjustments */
+@media (max-width: 992px) {
+  .contact-container {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .contact-card {
+    padding: 2rem 1.8rem;
+  }
+
+  .map-card iframe {
+    min-height: 280px;
+  }
+}
+
+@media (max-width: 768px) {
+  .contact-card {
+    padding: 2.2rem 1.6rem !important;
+  }
+
+  .contact-card h3 {
+    font-size: clamp(1.7rem, 5.5vw, 2.1rem) !important;
+  }
+
+  .contact-card p,
+  .contact-card a {
+    font-size: clamp(1.05rem, 3.5vw, 1.25rem) !important;
+    line-height: 1.65 !important;
+  }
+
+  .contact-card a {
+    padding: 0.4rem 0.8rem !important;
+    display: inline-flex;
+    min-height: 44px;
+    align-items: center;
+  }
+
+  .map-card {
+    aspect-ratio: 4 / 3.5 !important;
+  }
+
+  .map-card iframe {
+    min-height: 300px !important;
+  }
+}
+
+@media (max-width: 576px) {
+  .contact-section {
+    padding: 4rem 1rem 3rem;
+  }
+
+  .contact-card h3 {
+    font-size: 1.6rem;
+  }
+
+  .contact-card p {
+    font-size: clamp(1.05rem, 3.3vw, 1.25rem);
+  }
+
+  .map-card iframe {
+    min-height: 240px;
+  }
+}
+
+/* ===================== SCROLLBAR HIDE FOR GALLERY ===================== */
+.gallery-grid {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-x;                 /* smooth horizontal swipes on mobile */
+  overscroll-behavior-x: contain;      /* prevent pull-to-refresh/jank while swiping */
+  scroll-snap-type: x proximity;       /* optional: gentle snap if items use scroll-snap-align */
+  pointer-events: auto;                /* ensure items remain clickable */
+}
+
+.gallery-grid::-webkit-scrollbar {
+  display: none;
+}
+
+/* Optional: if gallery items should snap */
+.gallery-grid > * {
+  scroll-snap-align: start;
+}
+/* ===================== PERFORMANCE HINTS ===================== */
+.reveal-visible,
+.hero-inner,
+.cta-primary,
+.book-now,
+.service-card,
+.price-box,
+.gallery-item,
+.team-card,
+.teaser-card,
+.cta-final .cta-primary,
+.footer-btn {
+  transform: translate3d(0,0,0); /* consistent GPU compositing */
+  will-change: transform, opacity, box-shadow; /* expanded safely */
+  pointer-events: auto; /* ensure elements remain interactive */
+}
+
+/* Add will-change only when needed (via JS class before animation) */
+.will-animate {
+  will-change: transform, opacity;
+}
+
+/* ===================== REDUCED MOTION ACCESSIBILITY ===================== */
+@media (prefers-reduced-motion: reduce) {
+  .hero h2,
+  .hero p,
+  .cta-primary,
+  .service-card,
+  .price-box,
+  .gallery-item,
+  .team-card,
+  .brand h1,
+  .nav-inner a,
+  .teaser-card,
+  .cta-final .cta-primary,
+  .footer-btn {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
+    box-shadow: none !important; /* prevent subtle flicker */
+  }
+}
+
+/* ===================== MOBILE FIXED BACKGROUND FALLBACK ===================== */
+@media (max-width: 768px) {
+  .hero,
+  #services,
+  #pricing,
+  #contact,
+  #booking {
+    background-attachment: scroll;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat; /* ensure consistent mobile fallback */
+  }
+}
+
+/* Reveal animations */
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  will-change: opacity, transform; /* performance hint */
+}
+.reveal-visible {
+  opacity: 1;
+  transform: none;
+  transition: opacity 560ms ease, transform 560ms ease;
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal,
+  .reveal-visible {
+    transition: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+  }
+}
+
+
+/* Booking feedback */
+#booking-feedback {
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+}
+#booking-feedback.error {
+  color: #d9534f;
+}
+#booking-feedback.success {
+  color: #28a745;
+}
+
+/* Lightbox */
+#lightbox {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.8);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+  cursor: zoom-out;
+  padding: 1rem;   /* added padding for mobile */
+}
+#lightbox.visible {
+  display: flex;
+}
+.lightbox-content {
+  position: relative;
+  max-width: 90%;
+  max-height: 90%;
+}
+.lightbox-content img {
+  max-width: 100%;
+  max-height: 100%;
+  border-radius: 4px;
+}
+.lightbox-content .caption {
+  margin-top: 0.5rem;
+  text-align: center;
+  color: #fff;
+  font-size: 0.9rem;
+}
+.lightbox-content .close {
+  position: absolute;
+  top: -2rem;
+  right: 0;
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: #fff;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+/* Prevent close button tap stealing */
+.lightbox-content .close,
+.lightbox-content .close::before,
+.lightbox-content .close::after {
+  pointer-events: auto !important;
+}
+
+/* Social links */
+.social-links {
+  display: flex;
+  gap: 1.2rem;
+  justify-content: center;
+  margin-top: 1rem;
+}
+.social-links a {
+  color: var(--color-muted, #666);
+  font-size: 1.6rem;
+  padding: 0.3rem;
+  transition: color 0.3s ease, transform 0.3s ease;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+/* Mobile social icons – bigger tap area */
+@media (max-width: 768px) {
+  .social-links a {
+    font-size: 1.8rem !important;
+    padding: 0.5rem !important;
+    min-width: 48px;
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.social-links a:hover,
+.social-links a:focus {
+  color: var(--color-accent, hsl(59, 100%, 50%));
+  transform: scale(1.15);
+}
+.social-links i {
+  pointer-events: none;
+}
+
+/* Main nav */
+.main-nav ul {
+  display: flex;
+  gap: 2rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.main-nav a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  color: #fff;
+  font-size: 1rem;
+  transition: color 0.3s ease, transform 0.3s ease;
+  pointer-events: auto; /* ensure links remain clickable */
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+.main-nav a i {
+  font-size: 1.6rem;
+  margin-bottom: 0.3rem;
+  color: #ffd700;
+}
+.main-nav a:hover,
+.main-nav a:focus {
+  color: #ffcc00;
+  transform: scale(1.05);
+}
+.main-nav a span {
+  text-shadow: 0 1px 2px rgba(0,0,0,0.6);
+}
+/* ===================== TEASERS SECTION (on Home) ===================== */
+.teasers {
+  padding: 4rem 1.5rem;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+
+.teasers h3 {
+  color: var(--color-accent);
+  font-size: clamp(1.8rem, 5vw, 2.8rem);
+  margin-bottom: 2.5rem;
+  text-shadow: 0 3px 12px rgba(0,0,0,0.5);
+}
+
+.teaser-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.teaser-card {
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(244, 195, 0, 0.2);
+  border-radius: 16px;
+  padding: 2.5rem 2rem;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.45);
+  transition: transform 0.4s ease, box-shadow 0.4s ease, border 0.4s ease;
+  text-decoration: none;
+  color: var(--color-text);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 220px;
+  will-change: transform, box-shadow;
+  pointer-events: auto; /* ensure clickable */
+  -webkit-tap-highlight-color: transparent; /* clean mobile tap */
+  touch-action: manipulation; /* faster tap response */
+}
+
+.teaser-card:hover,
+.teaser-card:focus-visible {
+  transform: translateY(-10px);
+  box-shadow: 0 0 25px rgba(244, 195, 0, 0.4), 0 8px 20px rgba(0,0,0,0.5);
+  border-color: var(--color-accent);
+}
+
+.teaser-card h4 {
+  color: var(--color-accent);
+  font-size: 1.6rem;
+  margin-bottom: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.teaser-card p {
+  font-size: 1.05rem;
+  color: var(--color-muted);
+  margin: 0;
+  text-align: center;
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .teasers {
+    padding: 3rem 1rem;
+  }
+
+  .teaser-grid {
+    gap: 1.5rem;
+  }
+
+  .teaser-card {
+    padding: 2rem 1.5rem;
+    min-height: 180px;
+  }
+
+  .teaser-card h4 {
+    font-size: 1.4rem;
+  }
+}
+
+/* Tap feedback on teasers */
+.teaser-card:active {
+  transform: scale(0.96) !important;
+  opacity: 0.92 !important;
+  transition: transform 0.08s ease, opacity 0.08s ease;
+}
+
+/* Divider between Services and Pricing */
+.section-divider {
+  border: 0;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--color-accent), transparent);
+  margin: 4rem 0;
+}
+
+/* Final CTA at bottom */
+.cta-final {
+  text-align: center;
+  margin: 5rem 0 3rem;
+}
+
+.cta-final .cta-primary.large {
+  padding: 1.2rem 3rem;
+  font-size: 1.3rem;
+  box-shadow: 0 8px 25px rgba(244, 195, 0, 0.4);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  will-change: transform, box-shadow;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.cta-final .cta-primary.large:hover,
+.cta-final .cta-primary.large:focus-visible {
+  transform: translateY(-5px) scale(1.06);
+  box-shadow: 0 12px 40px rgba(244, 195, 0, 0.7);
+}
+
+.cta-final .cta-primary.large:focus-visible {
+  outline: 3px solid var(--color-accent);
+  outline-offset: 4px;
+  border-radius: 999px;
+}
+
+/* Tap feedback on final CTA */
+.cta-final .cta-primary:active {
+  transform: scale(0.96) !important;
+  opacity: 0.92 !important;
+  transition: transform 0.08s ease, opacity 0.08s ease;
+}
+
+/* Highlight premium box */
+.price-box.premium {
+  border: 2px solid var(--color-accent);
+  background: rgba(244, 195, 0, 0.08);
+  transform: scale(1.05);
+}
+
+/* Footer button */
+.footer-btn {
+  width: 100%;
+  max-width: 280px;
+  margin: 0.5rem auto;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+/* Tap feedback on footer buttons */
+.footer-btn:active {
+  transform: scale(0.96) !important;
+  opacity: 0.92 !important;
+  transition: transform 0.08s ease, opacity 0.08s ease;
+}
+/* ===================== FOOTER ===================== */
+footer {
+  padding: 2rem 1rem;
+  text-align: center;
+  color: var(--color-text);
+  font-size: 0.95rem;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeUp 1s ease forwards 0.3s;
+}
+
+.footer-inner {
+  max-width: 1200px;
+  margin: auto;
+}
+
+/* ===================== FOOTER CTA BUTTONS ===================== */
+.footer-ctas {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+}
+
+.footer-btn {
+  display: inline-block;
+  position: relative;
+  padding: 0.9rem 2rem;
+  border-radius: 50px;
+  border: 2px solid var(--color-accent);
+  color: var(--color-accent);
+  font-weight: 700;
+  font-family: var(--font-body);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-decoration: none;
+  backdrop-filter: blur(6px);
+  box-shadow: 0 6px 20px rgba(244,195,0,0.35);
+  overflow: hidden;
+  transition: all 0.4s ease;
+  will-change: transform, box-shadow, background, color, border-color;
+  text-align: center;
+  pointer-events: auto; /* ensure clickable */
+  -webkit-tap-highlight-color: transparent; /* clean mobile tap */
+  touch-action: manipulation; /* faster tap response */
+}
+
+/* Glow layer */
+.footer-btn::before {
+  content: '';
+  position: absolute;
+  inset: -60%;
+  background: conic-gradient(
+    from 60deg at 50% 50%,
+    transparent 0deg,
+    var(--color-accent) 20deg,
+    transparent 140deg,
+    #ffcc33 220deg,
+    transparent 320deg,
+    transparent 360deg
+  );
+  border-radius: 50%;
+  filter: blur(30px);
+  opacity: 0.6;
+  z-index: -1;
+  animation: spin-glow 6s linear infinite;
+  pointer-events: none !important;   /* ← prevents tap stealing */
+}
+
+/* Shine effect */
+.footer-btn::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.18), transparent);
+  transform: translateX(-100%);
+  transition: transform 0.8s ease;
+  pointer-events: none !important;
+}
+
+.footer-btn:hover::after {
+  transform: translateX(100%);
+}
+
+/* Hover + focus */
+.footer-btn:hover,
+.footer-btn:focus-visible {
+  transform: translateY(-3px) scale(1.05);
+  background: linear-gradient(45deg, var(--color-accent), #ffcc33);
+  color: #000;
+  border-color: #ffcc33;
+  box-shadow: 0 12px 40px rgba(244,195,0,0.85);
+  outline: none;
+}
+
+/* Tap feedback */
+.footer-btn:active {
+  transform: scale(0.96) !important;
+  opacity: 0.92 !important;
+  transition: transform 0.08s ease, opacity 0.08s ease;
+}
+
+/* ===================== FOOTER SOCIAL ICONS ===================== */
+footer .footer-social {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+footer .footer-social a {
+  color: var(--color-accent);
+  font-size: 1.2rem;
+  transition: color 0.3s ease, transform 0.3s ease;
+  -webkit-tap-highlight-color: transparent; /* clean mobile tap */
+  touch-action: manipulation;
+  will-change: transform, color;
+}
+
+footer .footer-social a:hover,
+footer .footer-social a:focus-visible {
+  color: var(--color-text);
+  transform: scale(1.2);
+  outline: 3px solid var(--color-accent);
+  outline-offset: 4px;
+  border-radius: 50%;
+}
+
+/* ===================== RESPONSIVE ===================== */
+@media (max-width: 768px) {
+  .footer-ctas {
+    flex-direction: column;
+    align-items: center;
+    gap: 1.2rem !important;
+  }
+
+  .footer-btn {
+    width: 100% !important;
+    max-width: none !important;
+    padding: 1.2rem 2rem !important;
+    font-size: 1.18rem !important;
+    min-height: 58px !important;
+  }
+
+  .footer-social a {
+    font-size: 1.6rem !important;
+    padding: 0.6rem !important;
+    min-width: 48px;
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 600px) {
+  #contact { padding: 3rem 1rem; }
+  footer { padding: 1.5rem 0.5rem; font-size: clamp(1rem, 3.5vw, 1.2rem); }
+}
+/* ===================== PRELOADER ===================== */
+#preloader {
+  position: fixed;
+  inset: 0;
+  background: var(--color-bg);
+  background-color: #1e1e1e;           /* ← solid fallback */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  transition: opacity 0.6s ease, visibility 0.6s ease;
+  will-change: opacity;
+  pointer-events: auto; /* ensure overlay blocks interaction while visible */
+}
+
+.loader-text {
+  margin-top: 1rem;
+  font-weight: 700;
+  color: var(--color-accent);
+  letter-spacing: 2px;
+  text-align: center;
+}
+
+/* Scissors Loader */
+.scissors-loader {
+  position: relative;
+  width: 60px;
+  height: 60px;
+  transform: translateZ(0); /* GPU compositing for smoother animation */
+}
+
+.scissors-loader .blade {
+  position: absolute;
+  width: 30px;
+  height: 6px;
+  background: var(--color-accent);
+  top: 50%;
+  transform-origin: left center;
+  border-radius: 3px;
+  will-change: transform;
+}
+
+.scissors-loader .blade.left {
+  left: 0;
+  transform: rotate(30deg);
+  animation: cutLeft 1s ease-in-out infinite alternate;
+}
+
+.scissors-loader .blade.right {
+  right: 0;
+  transform: rotate(-30deg);
+  animation: cutRight 1s ease-in-out infinite alternate;
+}
+
+@keyframes cutLeft {
+  from { transform: rotate(30deg); }
+  to   { transform: rotate(0deg); }
+}
+
+@keyframes cutRight {
+  from { transform: rotate(-30deg); }
+  to   { transform: rotate(0deg); }
+}
+
+/* Mobile – larger & clearer */
+@media (max-width: 768px) {
+  .scissors-loader {
+    width: 80px;
+    height: 80px;
+  }
+
+  .scissors-loader .blade {
+    width: 40px;
+    height: 8px;
+  }
+
+  .loader-text {
+    font-size: clamp(1.2rem, 5vw, 1.5rem);
+    letter-spacing: 3px;
+  }
+
+  #preloader {
+    padding: 1rem;
+  }
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .scissors-loader .blade.left,
+  .scissors-loader .blade.right {
+    animation: none !important;
+    transform: rotate(0deg) !important;
+  }
+
+  #preloader {
+    transition: none !important;
+  }
+}
+
+/* Hidden state */
+#preloader.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none; /* prevent blocking clicks when hidden */
+}
+/* =========================================================
+   MOBILE RESPONSIVE PATCH – FINAL PRODUCTION VERSION
+   Keeps desktop design 100% intact
+   ========================================================= */
+
+/* Core layout, padding, grids */
+@media (max-width: 768px) {
+  body {
+    background-attachment: scroll;
+    -webkit-tap-highlight-color: transparent; /* global tap highlight reset */
+  }
+
+  section,
+  .hero,
+  #services,
+  #pricing,
+  #contact,
+  #booking {
+    padding: 3rem 1.2rem;
+  }
+
+  header {
+    backdrop-filter: blur(6px);
+  }
+
+  nav ul {
+    gap: 1.2rem;
+  }
+
+  .hero {
+    min-height: 85vh;
+    background-position: center;
+  }
+
+  .hero-inner,
+  .hero-content {
+    padding: 0 0.5rem;
+  }
+
+  .hero-ctas,
+  .cta-group,
+  .cta,
+  .footer-ctas {
+    flex-direction: column;
+    gap: 1.2rem;
+    width: 100%;
+    align-items: center;
+  }
+
+  .grid,
+  .service-grid,
+  .pricing-columns,
+  .teaser-grid,
+  .contact-container {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .service-card,
+  .price-box,
+  .teaser-card {
+    max-width: 100%;
+    margin: 0 auto 2rem;
+  }
+
+  form,
+  #booking form {
+    gap: 1.2rem;
+  }
+
+  /* Social icons visibility fix */
+  .social-links,
+  .footer-social {
+    position: relative !important;
+    z-index: 999 !important;
+    opacity: 1 !important;
+    transform: none !important;
+    display: flex !important;
+  }
+
+  .social-links a,
+  .footer-social a {
+    opacity: 1 !important;
+    visibility: visible !important;
+    min-width: 52px !important;
+    min-height: 52px !important;
+    font-size: 1.8rem !important;
+    padding: 0.6rem !important;
+  }
+
+  /* Smooth scrolling */
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* Gentle global button/link protection – strengthened for reliability */
+@media (max-width: 768px) {
+  button,
+  a[href],
+  [role="button"],
+  .book-now,
+  .call,
+  .price-cta,
+  .booking-submit,
+  .footer-btn,
+  nav li a,
+  .teaser-card,
+  .social-links a,
+  .remove-item,
+  .cta a,
+  .cta button {
+    pointer-events: auto !important;
+    touch-action: manipulation !important;
+    cursor: pointer !important;
+    -webkit-tap-highlight-color: rgba(244, 195, 0, 0.25) !important;
+    position: relative !important;
+    z-index: 10 !important; /* higher priority on mobile */
+  }
+}
+
+/* Prevent glow/shine/overlay stealing clicks – comprehensive list */
+@media (max-width: 768px) {
+  .book-now-glow,
+  .book-now-glow::after,
+  .book-now::before,
+  .book-now::after,
+  .footer-btn::before,
+  .footer-btn::after,
+  .cta .book-now::before,
+  .cta .book-now::after,
+  .price-cta::before,
+  .price-cta::after,
+  [class*="glow"],
+  [class*="::before"],
+  [class*="::after"],
+  #booking::before,
+  #booking::after,
+  .contact-section::before,
+  .contact-section::after,
+  .hero::after,
+  #services::before,
+  #pricing::before {
+    pointer-events: none !important;
+  }
+}
+
+/* Form protection – fix input focus & typing redirect */
+@media (max-width: 768px) {
+  #booking,
+  #booking form,
+  #booking .form-row,
+  #booking label,
+  #booking input,
+  #booking select,
+  #booking textarea,
+  #booking button,
+  #booking .booking-submit {
+    pointer-events: auto !important;
+    touch-action: auto !important;
+    user-select: text !important;
+    -webkit-user-select: text !important;
+    position: relative !important;
+    z-index: 15 !important; /* highest priority to beat any overlap */
+  }
+
+  #booking input,
+  #booking select,
+  #booking textarea {
+    font-size: 16px !important; /* prevents iOS zoom */
+    padding: 1.1rem 1.3rem !important;
+    min-height: 52px !important;
+  }
+
+  #booking select {
+    appearance: menulist-button !important;
+  }
+
+  .booking-submit {
+    min-height: 56px !important;
+    font-size: 1.2rem !important;
+    padding: 1.1rem 1.8rem !important;
+  }
+}
+
+/* Tap/active feedback – consistent visual confirmation */
+@media (max-width: 768px) {
+  a:active,
+  button:active,
+  .book-now:active,
+  .call:active,
+  .price-cta:active,
+  .booking-submit:active,
+  .footer-btn:active,
+  .teaser-card:active,
+  .social-links a:active,
+  nav li a:active {
+    transform: scale(0.96) !important;
+    opacity: 0.92 !important;
+    transition: transform 0.08s ease, opacity 0.08s ease;
+  }
+}
+
+/* Google Maps iframe fix – prevent tap propagation */
+.map-card iframe {
+  pointer-events: auto !important;
+  touch-action: pan-x pan-y pinch-zoom !important;
+  position: relative;
+  z-index: 2 !important;
+}
+
+/* Very small screens (480px and below) */
+@media (max-width: 480px) {
+  .brand h1 {
+    font-size: clamp(1.5rem, 6vw, 1.9rem);
+  }
+
+  nav ul {
+    gap: 0.8rem;
+  }
+}
