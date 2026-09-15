@@ -3,216 +3,101 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Contact - Tico DABARBER</title>
-  <meta name="description" content="Contact Tico DABARBER in Pretoria for appointments, inquiries, or grooming services.">
-
-  <!-- Favicon -->
-  <link rel="icon" href="assets/favicon.png" type="image/png">
-
-  <!-- Styles & Fonts -->
-  <link rel="stylesheet" href="styles.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;600;700;800&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+  <title>Contact - Tico DABARBER | 489 Madiba St, Pretoria</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    body{font-family:'Inter',sans-serif;background:#0a0a0a;color:white}
+   .bebas{font-family:'Bebas Neue',sans-serif}
+   .gold-btn{background:#FFD700;color:#000}
+  </style>
 </head>
-<body class="bg-image">
+<body>
 
-  <!-- Preloader -->
-  <div id="preloader">
-    <div class="scissors-loader">
-      <div class="blade left"></div>
-      <div class="blade right"></div>
-    </div>
-    <p class="loader-text">DaBarber Studios</p>
+<header class="sticky top-0 z-50 bg-black/90 backdrop-blur border-b border-white/10">
+  <div class="max-w-7xl mx-auto px-5 py-4 flex justify-between items-center">
+    <div class="flex items-center gap-3"><div class="w-10 h-10 rounded-full bg-[#FFD700] flex items-center justify-center text-black font-black">T</div><div><h1 class="bebas text-2xl leading-none">TICO DABARBER</h1><p class="text-[10px] tracking-[3px] text-[#FFD700] -mt-1">👑 KINGS CRAFT 💈</p></div></div>
+    <nav class="hidden md:flex gap-8 text-sm font-semibold"><a href="index.html">HOME</a><a href="services.html">SERVICES</a><a href="contact.html" class="text-[#FFD700]">CONTACT</a></nav>
+    <a href="booking.html" class="hidden md:block gold-btn px-6 py-2.5 rounded-full text-sm font-black">BOOK NOW</a>
+    <button id="ham" class="md:hidden text-2xl"><i class="fas fa-bars"></i></button>
   </div>
+  <div id="mobileMenu" class="hidden md:hidden border-t border-white/10 px-5 py-6 space-y-4 bg-black">
+    <a href="index.html" class="block">HOME</a><a href="services.html" class="block">SERVICES</a><a href="contact.html" class="block text-[#FFD700] font-bold">CONTACT</a>
+    <a href="booking.html" class="gold-btn block text-center py-4 rounded-full font-black mt-4">BOOK YOUR SLOT</a>
+  </div>
+</header>
 
-  <!-- Header -->
-  <header role="banner">
-    <div class="nav-inner container">
-      <!-- Brand -->
-      <div class="brand">
-        <div class="brand-text">
-          <h1>TICO DABARBER</h1>
-          <p class="tagline">👑KINGS CRAFT💈</p>
-        </div>
+<section class="max-w-7xl mx-auto px-5 py-12 md:py-20">
+  <div class="grid md:grid-cols-2 gap-10 items-start">
+
+    <!-- LEFT: CONTACT INFO + FORM -->
+    <div>
+      <p class="text-[#FFD700] text-xs tracking-[4px] font-bold">GET IN TOUCH</p>
+      <h2 class="bebas text-6xl leading-none mt-3">VISIT THE<br><span class="text-[#FFD700]">STUDIO</span></h2>
+      <p class="text-white/50 mt-4">Real cuts, real kings. We reply fast on WhatsApp. Mon-Sat 08:00-20:00, Sun Closed.</p>
+
+      <div class="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div class="bg-zinc-900 border border-white/10 rounded-2xl p-5"><p class="text-xs font-black tracking-widest text-white/40">LOCATION</p><p class="font-bold mt-2">489 Madiba Street<br>Nedbank Plaza, Arcadia<br>Pretoria, 0007</p><a href="https://maps.google.com/?q=489+Madiba+St+Arcadia+Pretoria" target="_blank" class="mt-3 inline-block text-xs border border-white/20 px-4 py-2 rounded-full">Open in Maps</a></div>
+        <div class="bg-zinc-900 border border-white/10 rounded-2xl p-5"><p class="text-xs font-black tracking-widest text-white/40">CONTACT</p><p class="font-bold mt-2"><a href="tel:+27721554536">072 155 4536</a><br><a href="mailto:thatosebatana386@gmail.com" class="text-sm text-white/60">thatosebatana386@gmail.com</a></p><a href="https://wa.me/27721554536" target="_blank" class="mt-3 inline-block text-xs bg-[#25D366] px-4 py-2 rounded-full font-bold">WhatsApp Us</a></div>
       </div>
 
-      <!-- Hamburger toggle (visible only on mobile) -->
-      <button class="hamburger" aria-label="Toggle navigation menu" aria-expanded="false">
-        <span class="bar"></span>
-        <span class="bar"></span>
-        <span class="bar"></span>
-      </button>
+      <div class="mt-4 bg-[#FFD700] text-black rounded-2xl p-5 flex justify-between items-center">
+        <div><p class="font-black text-sm">HOURS</p><p class="text-sm mt-1 font-semibold">Mon - Sat: 08:00 - 20:00<br>Sunday: Closed</p></div>
+        <div class="text-4xl">🕒</div>
+      </div>
 
-      <!-- Navigation -->
-      <nav class="main-nav" aria-label="Main Navigation">
-        <ul>
-          <li><a href="index.html"><i class="fas fa-home fa-lg" aria-hidden="true"></i><span>Home</span></a></li>
-          <li><a href="services.html"><i class="fas fa-scissors fa-lg" aria-hidden="true"></i><span>Services</span></a></li>
-          <li><a href="contact.html" class="active"><i class="fas fa-phone-alt fa-lg" aria-hidden="true"></i><span>Contact</span></a></li>
-        </ul>
-      </nav>
+      <div class="mt-6 flex gap-3">
+        <a href="https://www.facebook.com/share/1STg2X7eLg/" target="_blank" class="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center hover:bg-[#FFD700] hover:text-black transition"><i class="fab fa-facebook-f"></i></a>
+        <a href="https://www.instagram.com/dabarber_studios" target="_blank" class="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center hover:bg-[#FFD700] hover:text-black transition"><i class="fab fa-instagram"></i></a>
+        <a href="https://www.tiktok.com/@ticodabarber" target="_blank" class="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center hover:bg-[#FFD700] hover:text-black transition"><i class="fab fa-tiktok"></i></a>
+        <a href="https://wa.me/27721554536" target="_blank" class="w-12 h-12 rounded-full bg-[#25D366] flex items-center justify-center"><i class="fab fa-whatsapp text-white"></i></a>
+      </div>
 
-      <!-- CTAs -->
-      <div class="cta">
-        <div class="book-now-wrapper">
-          <div class="book-now-glow"></div>
-          <a href="booking.html" class="book-now">Book Now</a>
-        </div>
-        <a href="tel:+27721554536" class="call">Call 072 155 4536</a>
+      <!-- QUICK MESSAGE FORM -->
+      <div class="mt-10 bg-white text-black rounded-[24px] p-6">
+        <h3 class="font-black text-sm tracking-widest">SEND US A MESSAGE</h3>
+        <form id="contactForm" class="mt-4 space-y-3">
+          <input id="cName" required placeholder="Your name" class="w-full border border-black/10 rounded-full px-5 py-3 text-sm">
+          <input id="cPhone" required placeholder="Phone / WhatsApp" class="w-full border border-black/10 rounded-full px-5 py-3 text-sm">
+          <textarea id="cMsg" required rows="3" placeholder="Your message..." class="w-full border border-black/10 rounded-2xl px-5 py-3 text-sm"></textarea>
+          <button class="gold-btn w-full py-3 rounded-full font-black">SEND ON WHATSAPP <i class="fab fa-whatsapp ml-2"></i></button>
+        </form>
       </div>
     </div>
-  </header>
 
-  <!-- Main Content -->
-  <main id="main" role="main" class="container">
-    <!-- Contact Section -->
-    <section id="contact" class="contact-section" aria-labelledby="contact-heading">
-      <h2 id="contact-heading">Get in Touch</h2>
-      <p class="intro">Reach out for bookings, questions, or grooming services. We're here to help!</p>
-
-      <div class="contact-container">
-        <!-- Contact Info Card -->
-        <div class="contact-card">
-          <h3>Studio Details</h3>
-          <p><strong>Studio:</strong> Tico DABARBER / DaBarber Studios</p>
-          <p><strong>Location:</strong> Pretoria, 489 Madiba Street, Nedbank Plaza</p>
-          <p><strong>Phone:</strong> <a href="tel:+27721554536">072 155 4536</a></p>
-          <p><strong>WhatsApp:</strong> <a href="https://wa.me/27721554536" target="_blank" rel="noopener noreferrer">072 155 4536</a></p>
-          <p><strong>Email:</strong> <a href="mailto:thatosebatana386@gmail.com">thatosebatana386@gmail.com</a></p>
-          <p><strong>Working Hours:</strong> Mon–Sat 9:00 AM – 7:00 PM</p>
-        </div>
-
-        <!-- Google Map -->
-        <div class="map-card">
-         <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3593.8059846198603!2d28.200538537638003!3d-25.743928877457225!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1e95621d18c03643%3A0xdccdd220612843d8!2s489%20Madiba%20St%2C%20Arcadia%2C%20Pretoria%2C%200007!5e0!3m2!1sen!2sza!4v1770802571355!5m2!1sen!2sza" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-        </div>
+    <!-- RIGHT: MAP -->
+    <div class="bg-zinc-900 rounded-[28px] overflow-hidden border border-white/10">
+      <div class="p-2"><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3593.8059846198603!2d28.200538537638003!3d-25.743928877457225!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1e95621d18c03643%3A0xdccdd220612843d8!2s489%20Madiba%20St%2C%20Arcadia%2C%20Pretoria%2C%200007!5e0!3m2!1sen!2sza!4v1770802571355!5m2!1sen!2sza" width="100%" height="450" style="border:0;border-radius:20px" allowfullscreen="" loading="lazy"></iframe></div>
+      <div class="p-6 flex flex-wrap gap-3">
+        <a href="https://maps.google.com/?q=489+Madiba+St+Arcadia+Pretoria" target="_blank" class="gold-btn px-6 py-3 rounded-full font-black text-sm">GET DIRECTIONS</a>
+        <a href="booking.html" class="border border-white/20 px-6 py-3 rounded-full font-bold text-sm text-white">BOOK NOW</a>
+        <a href="tel:+27721554536" class="border border-white/20 px-6 py-3 rounded-full font-bold text-sm text-white"><i class="fas fa-phone mr-2"></i>Call 072 155 4536</a>
       </div>
-    </section>
-  </main>
-
-  <!-- Footer -->
-  <footer>
-    <div class="footer-inner">
-      <p>© <span id="year"></span> DaBarber Studios</p>
-      <p><strong>Contact:</strong> 489 Madiba Street, Nedbank Plaza | <a href="tel:+27721554536">072 155 4536</a> | 
-         <a href="mailto:thatosebatana386@gmail.com">thatosebatana386@gmail.com</a></p>
-
-      <div class="footer-ctas">
-        <a href="booking.html" class="footer-btn" role="button">Book Now</a>
-        <a href="contact.html" class="footer-btn" role="button">Get in Touch</a>
+      <div class="px-6 pb-6">
+        <p class="text-xs text-white/40">Parking available at Nedbank Plaza. Walk-ins welcome but booking recommended. Yoco & Cash accepted.</p>
       </div>
-
-      <nav class="footer-social" aria-label="Social media links">
-        <a href="https://www.facebook.com/share/1STg2X7eLg/" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-        <a href="https://www.instagram.com/dabarber_studios" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-        <a href="https://www.tiktok.com/@ticodabarber" target="_blank" rel="noopener noreferrer" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
-        <a href="https://wa.me/27721554536" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
-      </nav>
     </div>
-  </footer>
 
-  <!-- Scripts -->
-     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  </div>
+</section>
 
-  <script>
-    // Update copyright year
-    document.getElementById("year").textContent = new Date().getFullYear();
-  </script>
+<footer class="border-t border-white/10 py-8 text-center text-xs text-white/30">© <span id="year"></span> DaBarber Studios · Kings Craft · 489 Madiba St, Pretoria</footer>
+<a href="https://wa.me/27721554536" class="fixed bottom-5 right-5 bg-[#25D366] w-14 h-14 rounded-full flex items-center justify-center text-3xl shadow-2xl z-50"><i class="fab fa-whatsapp text-white"></i></a>
 
-  <script src="scripts.js" defer></script>
+<script>
+document.getElementById('year').textContent=new Date().getFullYear();
+const ham=document.getElementById('ham'); const menu=document.getElementById('mobileMenu');
+ham.addEventListener('click',()=>{menu.classList.toggle('hidden'); ham.innerHTML=menu.classList.contains('hidden')?'<i class="fas fa-bars"></i>':'<i class="fas fa-times"></i>'});
 
-  <!-- Preloader fade-out -->
-  <script>
-    window.addEventListener("load", () => {
-      document.body.classList.add("loaded");
-      document.getElementById("preloader").classList.add("hidden");
-    });
-  </script>
-
-  <!-- Hamburger menu toggle (only for mobile) -->
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const hamburger = document.querySelector('.hamburger');
-      const navUl = document.querySelector('.main-nav ul');
-
-      if (hamburger && navUl) {
-        hamburger.addEventListener('click', () => {
-          navUl.classList.toggle('active');
-          const expanded = navUl.classList.contains('active');
-          hamburger.setAttribute('aria-expanded', expanded);
-        });
-
-        // Close menu when tapping any link (better mobile experience)
-        navUl.querySelectorAll('a').forEach(link => {
-          link.addEventListener('click', () => {
-            navUl.classList.remove('active');
-            hamburger.setAttribute('aria-expanded', 'false');
-          });
-        });
-      }
-    });
-  </script>
-    <script>
-gsap.registerPlugin(ScrollTrigger);
-
-// Animate all sections
-gsap.utils.toArray('section').forEach(section => {
-  gsap.fromTo(section,
-    { y: 50, opacity: 0 },
-    {
-      y: 0,
-      opacity: 1,
-      scrollTrigger: {
-        trigger: section,
-        start: 'top 85%',
-        toggleActions: 'play none none none'
-      },
-      duration: 1,
-      ease: 'power3.out'
-    }
-  );
-});
-
-// Animate headings (hero, teasers, footer)
-gsap.utils.toArray('h2, h3, h4').forEach(heading => {
-  gsap.fromTo(heading,
-    { y: 20, opacity: 0 },
-    {
-      y: 0,
-      opacity: 1,
-      scrollTrigger: {
-        trigger: heading,
-        start: 'top 90%',
-        toggleActions: 'play none none none'
-      },
-      duration: 0.6,
-      ease: 'power2.out'
-    }
-  );
-});
-
-// Animate cards and teaser elements with stagger
-gsap.utils.toArray('.teaser-card, .price-box, .cta, .footer-btn').forEach(group => {
-  gsap.fromTo(group,
-    { y: 40, opacity: 0 },
-    {
-      y: 0,
-      opacity: 1,
-      stagger: 0.2,
-      scrollTrigger: {
-        trigger: group,
-        start: 'top 85%',
-        toggleActions: 'play none none none'
-      },
-      duration: 0.8,
-      ease: 'power3.out'
-    }
-  );
+document.getElementById('contactForm').addEventListener('submit',e=>{
+  e.preventDefault();
+  const name=document.getElementById('cName').value.trim();
+  const phone=document.getElementById('cPhone').value.trim();
+  const msg=document.getElementById('cMsg').value.trim();
+  const text=`*New Inquiry - DaBarber Studios* 💈\n\nName: ${name}\nPhone: ${phone}\n\nMessage:\n${msg}`;
+  window.open(`https://wa.me/27721554536?text=${encodeURIComponent(text)}`,'_blank');
 });
 </script>
-
 </body>
 </html>

@@ -1,297 +1,151 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Services & Pricing - Tico DABARBER</title>
-  <meta name="description" content="Discover grooming services and pricing at Tico DABARBER in Pretoria – fades, cuts, dye, kids, and premium packages.">
-
-  <!-- Favicon -->
-  <link rel="icon" href="assets/favicon.png" type="image/png">
-
-  <!-- Styles & Fonts -->
-  <link rel="stylesheet" href="styles.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;600;700;800&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+  <title>Services & Pricing - Tico DABARBER | Fades R150, Kids R70, Premium R450</title>
+  <meta name="description" content="Full price list at Tico DaBarber Pretoria. Kids fade R70, Adult cut R150, Cut & Dye R250, Premium R450. Book instantly.">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    body{font-family:'Inter',sans-serif;background:#0a0a0a;color:white}
+   .bebas{font-family:'Bebas Neue',sans-serif;letter-spacing:1px}
+   .gold-btn{background:#FFD700;color:#000;transition:.3s}
+   .gold-btn:hover{background:#E6C200;transform:translateY(-2px);box-shadow:0 10px 30px rgba(255,215,0,.3)}
+   .card{transition:.3s}.card:hover{transform:translateY(-6px);border-color:rgba(255,215,0,.5)}
+  </style>
 </head>
-<body class="bg-image">
+<body>
 
-  <!-- Preloader -->
-  <div id="preloader">
-    <div class="scissors-loader">
-      <div class="blade left"></div>
-      <div class="blade right"></div>
+<!-- HEADER (same as index) -->
+<header class="sticky top-0 z-50 bg-black/90 backdrop-blur border-b border-white/10">
+  <div class="max-w-7xl mx-auto px-5 py-4 flex justify-between items-center">
+    <div class="flex items-center gap-3">
+      <div class="w-10 h-10 rounded-full bg-[#FFD700] flex items-center justify-center text-black font-black">T</div>
+      <div><h1 class="bebas text-2xl leading-none">TICO DABARBER</h1><p class="text-[10px] tracking-[3px] text-[#FFD700] -mt-1">👑 KINGS CRAFT 💈</p></div>
     </div>
-    <p class="loader-text">DaBarber Studios</p>
+    <nav class="hidden md:flex gap-8 text-sm font-semibold"><a href="index.html" class="hover:text-[#FFD700]">HOME</a><a href="services.html" class="text-[#FFD700]">SERVICES</a><a href="contact.html" class="hover:text-[#FFD700]">CONTACT</a></nav>
+    <div class="hidden md:flex gap-3"><a href="tel:+27721554536" class="border border-white/20 px-5 py-2.5 rounded-full text-sm">072 155 4536</a><a href="booking.html" class="gold-btn px-6 py-2.5 rounded-full text-sm font-black">BOOK NOW</a></div>
+    <button id="ham" class="md:hidden text-2xl"><i class="fas fa-bars"></i></button>
   </div>
+  <div id="mobileMenu" class="hidden md:hidden border-t border-white/10 px-5 py-6 space-y-4 bg-black">
+    <a href="index.html" class="block">HOME</a><a href="services.html" class="block text-[#FFD700] font-bold">SERVICES & PRICING</a><a href="contact.html" class="block">CONTACT</a>
+    <a href="booking.html" class="gold-btn block text-center py-4 rounded-full font-black mt-4">BOOK YOUR SLOT</a>
+  </div>
+</header>
 
-  
-  <!-- Header -->
-  <header role="banner">
-    <div class="nav-inner container">
-      <!-- Brand -->
-      <div class="brand">
-        <div class="brand-text">
-          <h1>TICO DABARBER</h1>
-          <p class="tagline">👑KINGS CRAFT💈</p>
-        </div>
-      </div>
+<!-- HERO -->
+<section class="max-w-7xl mx-auto px-5 py-16 text-center">
+  <p class="text-[#FFD700] text-xs tracking-[4px] font-bold">489 MADIBA STREET · PRETORIA</p>
+  <h2 class="bebas text-6xl md:text-7xl mt-3">SERVICES & <span class="text-[#FFD700]">PRICING</span></h2>
+  <p class="text-white/50 max-w-2xl mx-auto mt-4">No hidden fees. All prices fixed. Premium package includes full experience. Ages 5-15 kids rates.</p>
+</section>
 
-      <!-- Hamburger toggle (visible only on mobile) -->
-      <button class="hamburger" aria-label="Toggle navigation menu" aria-expanded="false">
-        <span class="bar"></span>
-        <span class="bar"></span>
-        <span class="bar"></span>
-      </button>
-
-      <!-- Navigation -->
-      <nav class="main-nav" aria-label="Main Navigation">
-        <ul>
-          <li><a href="index.html"><i class="fas fa-home fa-lg" aria-hidden="true"></i><span>Home</span></a></li>
-          <li><a href="services.html" class="active"><i class="fas fa-scissors fa-lg" aria-hidden="true"></i><span>Services</span></a></li>
-          <li><a href="contact.html"><i class="fas fa-phone-alt fa-lg" aria-hidden="true"></i><span>Contact</span></a></li>
-        </ul>
-      </nav>
-
-      <!-- CTAs -->
-      <div class="cta">
-        <div class="book-now-wrapper">
-          <div class="book-now-glow"></div>
-          <a href="booking.html" class="book-now">Book Now</a>
-        </div>
-        <a href="tel:+27721554536" class="call">Call 072 155 4536</a>
+<!-- SERVICE CARDS -->
+<section class="max-w-7xl mx-auto px-5 pb-10">
+  <div class="grid md:grid-cols-3 gap-6">
+    <!-- Card 1 -->
+    <div class="card bg-zinc-900 rounded-[24px] overflow-hidden border border-white/10">
+      <img src="assets/New1.jpeg" class="h-56 w-full object-cover"><div class="p-6">
+        <div class="flex justify-between"><h3 class="font-bold text-lg">Fades & Tapers</h3><span class="text-[#FFD700] font-black">R100</span></div>
+        <p class="text-sm text-white/50 mt-2">High taper, low fade, waves, creative designs & line-ups.</p>
+        <a href="booking.html?service=adult-cut" class="mt-5 block text-center border border-white/20 py-3 rounded-full text-sm font-bold hover:bg-white hover:text-black transition">Book This Cut →</a>
       </div>
     </div>
-  </header>
-
-  <!-- Main Content -->
-  <main id="main" role="main" class="container">
-    <!-- Services Section -->
-    <section id="services" aria-labelledby="services-heading">
-      <h2 id="services-heading">Our Services</h2>
-      <p class="intro">Precision cuts, creative designs, premium grooming, and more. Prices listed below.</p>
-
-      <div class="service-grid">
-        <article class="service-card">
-          <div class="card-media">
-            <img src="assets/firstLady.jpeg" alt="Ladies cut style" loading="lazy" decoding="async">
-          </div>
-          <div class="card-body">
-            <h4 class="card-title">Ladies Cut</h4>
-            <p class="card-desc">Precision styling, wash and finish.</p>
-            <p class="price">from <strong>R150</strong></p>
-          </div>
-        </article>
-
-        <article class="service-card">
-          <div class="card-media">
-            <img src="assets/new2.jpeg" alt="Cut and dye example" loading="lazy" decoding="async">
-          </div>
-          <div class="card-body">
-            <h4 class="card-title">Cut & Dye</h4>
-            <p class="card-desc">Colour, cut, and style to match your look.</p>
-            <p class="price">from <strong>R250</strong></p>
-          </div>
-        </article>
-
-        <article class="service-card">
-          <div class="card-media">
-            <img src="assets/New1.jpeg" alt="Fades and tapers styles" loading="lazy" decoding="async">
-          </div>
-          <div class="card-body">
-            <h4 class="card-title">Fades and Tapers</h4>
-            <p class="card-desc">High taper fade, low fade & waves, and creative designs.</p>
-            <p class="price">from <strong>R150</strong></p>
-          </div>
-        </article>
-
-        <article class="service-card">
-          <div class="card-media">
-            <img src="assets/Kids fade.jpg" alt="Kids fade hairstyle" loading="lazy" decoding="async">
-          </div>
-          <div class="card-body">
-            <h4 class="card-title">Kids Fade</h4>
-            <p class="card-desc">Child-friendly cuts with attention to comfort.</p>
-            <p class="price">from <strong>R100</strong></p>
-          </div>
-        </article>
+    <!-- Card 2 -->
+    <div class="card bg-zinc-900 rounded-[24px] overflow-hidden border border-white/10">
+      <img src="assets/Kids fade.jpg" class="h-56 w-full object-cover"><div class="p-6">
+        <div class="flex justify-between"><h3 class="font-bold text-lg">Kids Fade</h3><span class="text-[#FFD700] font-black">R70</span></div>
+        <p class="text-sm text-white/50 mt-2">Ages 5-15. Clean, comfortable, child-friendly finish.</p>
+        <a href="booking.html?service=kids-fade" class="mt-5 block text-center border border-white/20 py-3 rounded-full text-sm font-bold hover:bg-white hover:text-black transition">Book Kids →</a>
       </div>
-    </section>
-
-    <!-- Divider -->
-    <hr class="section-divider">
-<!-- Pricing Section -->
-<section id="pricing" aria-labelledby="pricing-heading">
-  <h2 id="pricing-heading">Pricing Packages</h2>
-  <p class="intro">Transparent rates for all our services. Premium package includes everything for the ultimate experience.</p>
-
-  <div class="pricing-columns">
-    <article class="price-box">
-      <h3>Kids</h3>
-      <ul role="list">
-        <li>Kids fade – <strong>R100</strong></li>
-        <li>Kids cut and dye – <strong>R150</strong></li>
-        <li>Kids brush & cheezkop – <strong>R70</strong></li>
-      </ul>
-      <p class="note"><strong>Age range:</strong> 5 years to 15 years.</p>
-    </article>
-
-    <article class="price-box featured">
-      <h3>Ultimate Premium Package</h3>
-      <p class="big-price">R450</p>
-      <ul role="list">
-        <li>Haircut & hair dye</li>
-        <li>Full facial care (scrub, mask, steaming, serum)</li>
-        <li>Beard grooming & oil treatment</li>
-        <li>Hot towel & head massage</li>
-        <li>Complimentary drinks</li>
-      </ul>
-    </article>
-
-    <article class="price-box">
-      <h3>Adult</h3>
-      <ul role="list">
-        <li>Adult cut – <strong>R150</strong></li>
-        <li>Adults cut & dye – <strong>R250</strong></li>
-        <li>Cheezekop (Clipper) – <strong>R100</strong></li>
-        <li>Cheezekop (Razor or powder) – <strong>R150</strong></li>
-        <li>Cut & bleach – <strong>R150</strong></li>
-      </ul>
-      <p class="note">Bleach per application R100.</p>
-    </article>
+    </div>
+    <!-- Card 3 -->
+    <div class="card bg-zinc-900 rounded-[24px] overflow-hidden border border-white/10">
+      <img src="assets/new2.jpeg" class="h-56 w-full object-cover"><div class="p-6">
+        <div class="flex justify-between"><h3 class="font-bold text-lg">Cut & Dye</h3><span class="text-[#FFD700] font-black">R250</span></div>
+        <p class="text-sm text-white/50 mt-2">Adult colour, cut & style to match your look.</p>
+        <a href="booking.html?service=adult-cut-dye" class="mt-5 block text-center border border-white/20 py-3 rounded-full text-sm font-bold hover:bg-white hover:text-black transition">Book Colour →</a>
+      </div>
+    </div>
+    <!-- Card 4 -->
+    <div class="card bg-zinc-900 rounded-[24px] overflow-hidden border border-white/10">
+      <img src="assets/firstLady.jpeg" class="h-56 w-full object-cover"><div class="p-6">
+        <div class="flex justify-between"><h3 class="font-bold text-lg">Ladies Cut</h3><span class="text-[#FFD700] font-black">R100</span></div>
+        <p class="text-sm text-white/50 mt-2">Precision styling, wash & finish.</p>
+        <a href="booking.html?service=ladies-cut" class="mt-5 block text-center border border-white/20 py-3 rounded-full text-sm font-bold hover:bg-white hover:text-black transition">Book Ladies →</a>
+      </div>
+    </div>
+    <!-- Card 5 -->
+    <div class="card bg-zinc-900 rounded-[24px] overflow-hidden border border-white/10">
+      <div class="h-56 bg-zinc-800 flex items-center justify-center text-5xl">💈</div><div class="p-6">
+        <div class="flex justify-between"><h3 class="font-bold text-lg">Cheezekop</h3><span class="text-[#FFD700] font-black">R100</span></div>
+        <p class="text-sm text-white/50 mt-2">Clipper R100 · Razor/Powder R150</p>
+        <a href="booking.html?service=cheezekop-clipper" class="mt-5 block text-center border border-white/20 py-3 rounded-full text-sm font-bold hover:bg-white hover:text-black transition">Book Cheezekop →</a>
+      </div>
+    </div>
+    <!-- Card 6 PREMIUM -->
+    <div class="card bg-[#FFD700] rounded-[24px] overflow-hidden text-black">
+      <div class="p-6 h-full flex flex-col">
+        <span class="bg-black text-[#FFD700] text-[10px] px-3 py-1 rounded-full font-black w-fit">BEST VALUE</span>
+        <h3 class="bebas text-3xl mt-4 leading-none">ULTIMATE<br>PREMIUM</h3>
+        <p class="text-5xl font-black mt-2">R450</p>
+        <ul class="text-xs font-bold mt-4 space-y-1 opacity-80"><li>✓ Haircut & dye</li><li>✓ Full facial (scrub, mask, steaming, serum)</li><li>✓ Beard grooming & oil</li><li>✓ Hot towel & head massage</li><li>✓ Complimentary drinks</li></ul>
+        <a href="booking.html?service=ultimate-premium" class="mt-auto bg-black text-white text-center py-3 rounded-full font-black">BOOK PREMIUM →</a>
+      </div>
+    </div>
   </div>
 </section>
 
-    <!-- Final CTA -->
-    <section class="cta-final" aria-labelledby="cta-heading">
-      <h2 id="cta-heading" class="sr-only">Booking CTA</h2>
-      <a href="booking.html" class="cta-primary large">Book Your Slot Now</a>
-    </section>
-  </main>
-
-  <!-- Footer -->
-  <footer>
-    <div class="footer-inner">
-      <p>© <span id="year"></span> DaBarber Studios</p>
-      <p><strong>Contact:</strong> 489 Madiba Street, Nedbank Plaza | <a href="tel:+27721554536">072 155 4536</a> | 
-         <a href="mailto:thatosebatana386@gmail.com">thatosebatana386@gmail.com</a></p>
-
-      <div class="footer-ctas">
-        <a href="booking.html" class="footer-btn" role="button">Book Now</a>
-        <a href="contact.html" class="footer-btn" role="button">Get in Touch</a>
-      </div>
-
-      <nav class="footer-social" aria-label="Social media links">
-        <a href="https://www.facebook.com/share/1STg2X7eLg/" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-        <a href="https://www.instagram.com/dabarber_studios" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-        <a href="https://www.tiktok.com/@ticodabarber" target="_blank" rel="noopener noreferrer" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
-        <a href="https://wa.me/27721554536" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
-      </nav>
+<!-- PRICING TABLES -->
+<section class="max-w-7xl mx-auto px-5 py-16">
+  <h3 class="bebas text-4xl text-center mb-10">FULL PRICE LIST</h3>
+  <div class="grid md:grid-cols-3 gap-6">
+    <!-- Kids -->
+    <div class="bg-white text-black rounded-[24px] p-8">
+      <h4 class="bebas text-3xl">KIDS <span class="text-black/40 text-lg">(5-15y)</span></h4>
+      <ul class="mt-6 space-y-3 text-sm font-semibold">
+        <li class="flex justify-between border-b pb-2"><span>Kids fade</span><strong>R70</strong></li>
+        <li class="flex justify-between border-b pb-2"><span>Kids cut & dye</span><strong>R150</strong></li>
+        <li class="flex justify-between border-b pb-2"><span>Kids brush & cheezkop</span><strong>R100</strong></li>
+        <li class="flex justify-between"><span>Ladies cut (kids)</span><strong>R100</strong></li>
+      </ul>
+      <p class="text-xs text-black/50 mt-6">Ages 5 to 15 years only.</p>
     </div>
-  </footer>
+    <!-- Adult -->
+    <div class="bg-zinc-900 rounded-[24px] p-8 border border-white/10">
+      <h4 class="bebas text-3xl text-[#FFD700]">ADULT</h4>
+      <ul class="mt-6 space-y-3 text-sm">
+        <li class="flex justify-between border-b border-white/10 pb-2"><span>Adult cut</span><strong class="text-[#FFD700]">R150</strong></li>
+        <li class="flex justify-between border-b border-white/10 pb-2"><span>Adult cut & dye</span><strong class="text-[#FFD700]">R250</strong></li>
+        <li class="flex justify-between border-b border-white/10 pb-2"><span>Cheezekop (Clipper)</span><strong class="text-[#FFD700]">R100</strong></li>
+        <li class="flex justify-between border-b border-white/10 pb-2"><span>Cheezekop (Razor/powder)</span><strong class="text-[#FFD700]">R150</strong></li>
+        <li class="flex justify-between"><span>Cut & bleach</span><strong class="text-[#FFD700]">R150</strong></li>
+      </ul>
+      <p class="text-xs text-white/40 mt-6">Bleach per application extra R100.</p>
+    </div>
+    <!-- Premium -->
+    <div class="bg-[#FFD700] text-black rounded-[24px] p-8 ring-4 ring-[#FFD700]/30">
+      <h4 class="bebas text-3xl">PREMIUM PACKAGE</h4>
+      <p class="text-5xl font-black mt-2">R450</p>
+      <p class="text-sm font-bold mt-4">Everything included — the ultimate Kings Craft experience.</p>
+      <a href="booking.html?service=ultimate-premium" class="mt-6 block bg-black text-white text-center py-3 rounded-full font-black">BOOK PREMIUM NOW</a>
+    </div>
+  </div>
+  <div class="text-center mt-12">
+    <a href="booking.html" class="gold-btn px-12 py-4 rounded-full font-black text-lg inline-block">BOOK YOUR SLOT NOW <i class="fas fa-arrow-right ml-2"></i></a>
+    <p class="text-xs text-white/30 mt-4">Deposit R50 to secure slot · Pay balance at studio · Yoco & Cash accepted</p>
+  </div>
+</section>
 
-  <!-- Scripts -->
-     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<footer class="border-t border-white/10 py-8 text-center text-xs text-white/30">© <span id="year"></span> DaBarber Studios · 489 Madiba St, Nedbank Plaza, Pretoria · 072 155 4536</footer>
+<a href="https://wa.me/27721554536" class="fixed bottom-5 right-5 bg-[#25D366] w-14 h-14 rounded-full flex items-center justify-center text-3xl shadow-2xl z-50"><i class="fab fa-whatsapp text-white"></i></a>
 
-  <script>
-    // Update copyright year
-    document.getElementById("year").textContent = new Date().getFullYear();
-  </script>
-
-  <script src="scripts.js" defer></script>
-
-  <!-- Preloader fade-out -->
-  <script>
-    window.addEventListener("load", () => {
-      document.body.classList.add("loaded");
-      document.getElementById("preloader").classList.add("hidden");
-    });
-  </script>
-
-  <!-- Hamburger menu toggle (only for mobile) -->
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const hamburger = document.querySelector('.hamburger');
-      const navUl = document.querySelector('.main-nav ul');
-
-      if (hamburger && navUl) {
-        hamburger.addEventListener('click', () => {
-          navUl.classList.toggle('active');
-          const expanded = navUl.classList.contains('active');
-          hamburger.setAttribute('aria-expanded', expanded);
-        });
-
-        // Close menu when clicking a link (better mobile UX)
-        navUl.querySelectorAll('a').forEach(link => {
-          link.addEventListener('click', () => {
-            navUl.classList.remove('active');
-            hamburger.setAttribute('aria-expanded', 'false');
-          });
-        });
-      }
-    });
-  </script>
-    <script>
-gsap.registerPlugin(ScrollTrigger);
-
-// Animate all sections
-gsap.utils.toArray('section').forEach(section => {
-  gsap.fromTo(section,
-    { y: 50, opacity: 0 },
-    {
-      y: 0,
-      opacity: 1,
-      scrollTrigger: {
-        trigger: section,
-        start: 'top 85%',
-        toggleActions: 'play none none none'
-      },
-      duration: 1,
-      ease: 'power3.out'
-    }
-  );
-});
-
-// Animate headings (hero, teasers, footer)
-gsap.utils.toArray('h2, h3, h4').forEach(heading => {
-  gsap.fromTo(heading,
-    { y: 20, opacity: 0 },
-    {
-      y: 0,
-      opacity: 1,
-      scrollTrigger: {
-        trigger: heading,
-        start: 'top 90%',
-        toggleActions: 'play none none none'
-      },
-      duration: 0.6,
-      ease: 'power2.out'
-    }
-  );
-});
-
-// Animate cards and teaser elements with stagger
-gsap.utils.toArray('.teaser-card, .price-box, .cta, .footer-btn').forEach(group => {
-  gsap.fromTo(group,
-    { y: 40, opacity: 0 },
-    {
-      y: 0,
-      opacity: 1,
-      stagger: 0.2,
-      scrollTrigger: {
-        trigger: group,
-        start: 'top 85%',
-        toggleActions: 'play none none none'
-      },
-      duration: 0.8,
-      ease: 'power3.out'
-    }
-  );
-});
+<script>
+document.getElementById('year').textContent=new Date().getFullYear();
+const ham=document.getElementById('ham'); const menu=document.getElementById('mobileMenu');
+ham.addEventListener('click',()=>{menu.classList.toggle('hidden'); ham.innerHTML=menu.classList.contains('hidden')?'<i class="fas fa-bars"></i>':'<i class="fas fa-times"></i>'});
 </script>
-
 </body>
 </html>
